@@ -1,0 +1,1 @@
+A fully functioning Bomberman Plugin for Minecraft Spigot Servers with a lot of features. Throw TNT around and try to kill your enemies with your explosions! This is a project from 2018.
