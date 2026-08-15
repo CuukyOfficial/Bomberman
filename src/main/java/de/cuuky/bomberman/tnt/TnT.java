@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman.tnt;
+package de.cuuky.bomberman.tnt;
 
 import de.cuuky.bomberman.Bomberman;
 import de.cuuky.bomberman.base.Game;

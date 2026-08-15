@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman.listener;
+package de.cuuky.bomberman.listener;
 
 import de.cuuky.bomberman.config.Message;
 import org.bukkit.Bukkit;

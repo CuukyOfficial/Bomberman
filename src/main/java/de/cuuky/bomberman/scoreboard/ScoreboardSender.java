@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman.scoreboard;
+package de.cuuky.bomberman.scoreboard;
 
 import de.cuuky.bomberman.base.Game;
 import de.cuuky.bomberman.enums.PowerUp;

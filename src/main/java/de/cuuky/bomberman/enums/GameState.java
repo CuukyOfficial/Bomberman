@@ -1,3 +1,3 @@
-﻿package de.cuuky.bomberman.enums;
+package de.cuuky.bomberman.enums;
 
 public enum GameState {START, RUNNING, END;}

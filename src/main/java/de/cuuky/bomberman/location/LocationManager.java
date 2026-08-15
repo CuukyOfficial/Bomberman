@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman.location;
+package de.cuuky.bomberman.location;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;

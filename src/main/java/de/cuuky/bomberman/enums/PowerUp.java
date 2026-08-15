@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman.enums;
+package de.cuuky.bomberman.enums;
 
 import de.cuuky.bomberman.Bomberman;
 import de.cuuky.bomberman.config.Message;

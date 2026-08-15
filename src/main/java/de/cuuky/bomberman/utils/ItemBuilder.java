@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman.utils;
+package de.cuuky.bomberman.utils;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

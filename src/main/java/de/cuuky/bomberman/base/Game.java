@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman.base;
+package de.cuuky.bomberman.base;
 
 import de.cuuky.bomberman.Bomberman;
 import de.cuuky.bomberman.config.ConfigEntry;

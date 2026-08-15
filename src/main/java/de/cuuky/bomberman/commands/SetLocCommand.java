@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman.commands;
+package de.cuuky.bomberman.commands;
 
 import de.cuuky.bomberman.Bomberman;
 import org.bukkit.Location;

@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman.config;
+package de.cuuky.bomberman.config;
 
 import de.cuuky.bomberman.Bomberman;
 import org.bukkit.configuration.file.YamlConfiguration;

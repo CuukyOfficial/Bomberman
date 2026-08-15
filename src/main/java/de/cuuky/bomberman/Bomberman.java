@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman;
+package de.cuuky.bomberman;
 
 import de.cuuky.bomberman.base.Game;
 import de.cuuky.bomberman.block.BlockManager;

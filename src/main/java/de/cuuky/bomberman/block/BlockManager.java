@@ -1,4 +1,4 @@
-﻿package de.cuuky.bomberman.block;
+package de.cuuky.bomberman.block;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
