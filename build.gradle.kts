@@ -29,7 +29,7 @@ dependencies {
 
     implementation(libs.jaskl)
     implementation(libs.slams)
-    implementation(libs.cfw)
+    //implementation(libs.cfw)
     
     testImplementation(platform("org.junit:junit-bom:6.0.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
