@@ -1,7 +1,7 @@
 name: Bomberman
 author: Cuuky
 version: 1.0
-main: de.cuuky.bomberman.Bomberman
+main: de.varoplugin.bomberman.Bomberman
 
 commands:
     build:

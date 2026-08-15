@@ -9,6 +9,7 @@ import de.cuuky.bomberman.enums.GameState;
 import de.cuuky.bomberman.listener.*;
 import de.cuuky.bomberman.location.LocationManager;
 import de.cuuky.bomberman.scoreboard.LobbySched;
+import de.varoplugin.bomberman.game.NoSurvivalListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
@@ -89,7 +90,7 @@ public class Bomberman extends JavaPlugin {
 
     public void registerListener() {
         Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(), this);
-        Bukkit.getPluginManager().registerEvents(new CancelListener(), this);
+        Bukkit.getPluginManager().registerEvents(new NoSurvivalListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityExplodeListener(), this);

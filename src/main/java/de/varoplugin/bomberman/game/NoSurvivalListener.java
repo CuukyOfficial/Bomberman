@@ -1,23 +1,16 @@
-package de.cuuky.bomberman.listener;
+package de.varoplugin.bomberman.game;
 
-import de.cuuky.bomberman.commands.BuildCommand;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-public class CancelListener implements Listener {
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
-        if (!BuildCommand.buildMode.contains(event.getPlayer().getName())) event.setCancelled(true);
-    }
+public class NoSurvivalListener implements Listener {
 
     @EventHandler
     public void onWeather(WeatherChangeEvent e) {
@@ -37,7 +30,7 @@ public class CancelListener implements Listener {
     }
 
     @EventHandler
-    public void onPickup(PlayerPickupItemEvent e) {
+    public void onPickup(EntityPickupItemEvent e) {
         e.setCancelled(true);
     }
 
@@ -49,10 +42,5 @@ public class CancelListener implements Listener {
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent e) {
         if (e.getEntity() instanceof LivingEntity) e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onInvClick(InventoryClickEvent event) {
-        if (!BuildCommand.buildMode.contains(event.getWhoClicked().getName())) event.setCancelled(true);
     }
 }
