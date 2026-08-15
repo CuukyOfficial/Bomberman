@@ -13,6 +13,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -62,7 +63,9 @@ public class BombermanConfig {
             ObjectMapper<Location> locationMapper = new ObjectMapper<Location>() {
                 @Override
                 public @NonNull Location createInstance(@Unmodifiable @NotNull Map<@NotNull String, @NotNull Object> values) throws InvalidTypeException, ValidationException {
-                    return new Location(Bukkit.getWorld((String) values.get("world")), (double) values.get("x"), (double) values.get("y"), (double) values.get("z"), (float) values.get("yaw"), (float) values.get("pitch"));
+                    return new Location(Bukkit.getWorld((String) values.get("world")), ((BigDecimal) values.get("x")).doubleValue(),
+                            ((BigDecimal) values.get("y")).doubleValue(), ((BigDecimal) values.get("z")).doubleValue(),
+                            ((BigDecimal) values.get("yaw")).floatValue(), ((BigDecimal) values.get("pitch")).floatValue());
                 }
 
                 @Override
@@ -79,11 +82,11 @@ public class BombermanConfig {
                 public @NotNull Property<?> @NotNull [] getProperties() {
                     return new Property[] {
                             Property.of("world", Type.STRING),
-                            Property.of("x", Type.DOUBLE),
-                            Property.of("y", Type.DOUBLE),
-                            Property.of("z", Type.DOUBLE),
-                            Property.of("yaw", Type.FLOAT),
-                            Property.of("pitch", Type.FLOAT)
+                            Property.of("x", Type.BIG_DECIMAL),
+                            Property.of("y", Type.BIG_DECIMAL),
+                            Property.of("z", Type.BIG_DECIMAL),
+                            Property.of("yaw", Type.BIG_DECIMAL),
+                            Property.of("pitch", Type.BIG_DECIMAL)
                     };
                 }
             };
