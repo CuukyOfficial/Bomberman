@@ -1,6 +1,6 @@
 [libraries]
 paper = { group = "io.papermc.paper", name = "paper-api", version = "26.2.build.+" }
-jaskl = { group = "io.github.almighty-satan.jaskl", name = "jaskl-yaml", version = "1.10.0" }
+jaskl = { group = "io.github.almighty-satan.jaskl", name = "jaskl-yaml", version = "1.10.1" }
 slams-standalone = { group = "io.github.almighty-satan.slams", name = "slams-standalone", version = "2.0.1" }
 slams-jaskl = { group = "io.github.almighty-satan.slams", name = "slams-parser-jaskl", version = "2.0.1" }
 slams-bukkit = { group = "io.github.almighty-satan.slams", name = "slams-bukkit", version = "2.0.1" }
