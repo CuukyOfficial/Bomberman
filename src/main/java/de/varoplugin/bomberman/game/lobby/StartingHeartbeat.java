@@ -40,9 +40,4 @@ public class StartingHeartbeat implements StateHeartbeat {
         }
         this.countdown--;
     }
-
-    @Override
-    public boolean isAvailable() {
-        return true;
-    }
 }

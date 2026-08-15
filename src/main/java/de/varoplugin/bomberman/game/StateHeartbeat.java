@@ -12,6 +12,4 @@ public interface StateHeartbeat {
 
     void run();
 
-    boolean isAvailable();
-
 }

@@ -36,9 +36,4 @@ public class LobbyHeartbeat implements StateHeartbeat {
             this.count++;
         }
     }
-
-    @Override
-    public boolean isAvailable() {
-        return true; // Check if setup is done, if not, return false to prevent the game from starting
-    }
 }

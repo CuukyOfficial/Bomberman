@@ -38,9 +38,4 @@ public class RunningHeartbeat implements StateHeartbeat {
     public void run() {
 
     }
-
-    @Override
-    public boolean isAvailable() {
-        return true;
-    }
 }

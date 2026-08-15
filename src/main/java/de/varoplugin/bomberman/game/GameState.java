@@ -9,7 +9,8 @@ import java.util.function.Function;
 
 public enum GameState {
 
-    LOBBY(LobbyHeartbeat::new), STARTING(StartingHeartbeat::new),
+    LOBBY(LobbyHeartbeat::new),
+    STARTING(StartingHeartbeat::new),
     RUNNING(RunningHeartbeat::new);
 
     private final Function<Bomberman, StateHeartbeat> taskFunction;
