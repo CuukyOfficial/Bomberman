@@ -32,7 +32,7 @@ public class Game {
         Bukkit.broadcastMessage(Bomberman.getPrefix() + "§7Der Server startet jetzt neu! §aVielen Dank für's Spielen!");
         if (!ConfigEntry.RELOAD_ON_END.getValueAsBoolean()) Bukkit.getServer().shutdown();
         else {
-            Bukkit.getScheduler().cancelAllTasks();
+            Bukkit.getServer().getScheduler().cancelTasks(Bomberman.getInstance());
             Bukkit.getServer().reload();
         }
     }

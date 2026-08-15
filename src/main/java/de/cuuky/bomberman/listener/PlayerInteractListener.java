@@ -60,16 +60,13 @@ public class PlayerInteractListener implements Listener {
                     }
                 } else
                     ent.setVelocity(ent.getLocation().toVector().subtract(player.getLocation().toVector()).normalize().multiply(5).setY(0.5));
-            player.getPlayer().getWorld().playEffect(player.getLocation(), Effect.STEP_SOUND, 10);
+            player.getPlayer().getWorld().playEffect(player.getLocation(), Effect.DESTROY_BLOCK, 10);
             player.sendMessage(Bomberman.getPrefix() + "§7Du hast alle Spieler in deiner Umgebung §eweggeboxt§7!");
-            sched.put(player, Bukkit.getScheduler().runTaskLater(Bomberman.getInstance(), new Runnable() {
-                @Override
-                public void run() {
-                    if (player.isOnline() && PowerUp.getPowerUp(player) == PowerUp.SHOCKWAVE && player.getGameMode() == GameMode.SURVIVAL)
-                        player.sendMessage(Bomberman.getPrefix() + "§7Deine §eSchockwelle §7ist nun aufgeladen!");
-                    sched.get(player).cancel();
-                    sched.remove(player);
-                }
+            sched.put(player, Bukkit.getScheduler().runTaskLater(Bomberman.getInstance(), () -> {
+                if (player.isOnline() && PowerUp.getPowerUp(player) == PowerUp.SHOCKWAVE && player.getGameMode() == GameMode.SURVIVAL)
+                    player.sendMessage(Bomberman.getPrefix() + "§7Deine §eSchockwelle §7ist nun aufgeladen!");
+                sched.get(player).cancel();
+                sched.remove(player);
             }, 140));
         }
     }
