@@ -31,7 +31,7 @@ public class StartingHeartbeat implements StateHeartbeat {
     public void run() {
         if (this.countdown == 0) {
             Bukkit.broadcastMessage("Das Spiel startet jetzt!");
-            this.plugin.switchState(GameState.LOBBY);
+            this.plugin.switchState(GameState.RUNNING);
             return;
         }
 
