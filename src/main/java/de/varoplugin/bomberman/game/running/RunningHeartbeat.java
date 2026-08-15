@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.game.running;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.NoSurvivalListener;
 import de.varoplugin.bomberman.game.StateHeartbeat;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -20,7 +21,7 @@ public class RunningHeartbeat implements StateHeartbeat {
 
     @Override
     public Stream<Listener> createListeners() {
-        return Stream.of(new BombListener());
+        return Stream.of(new BombListener(), new NoSurvivalListener());
     }
 
     @Override
