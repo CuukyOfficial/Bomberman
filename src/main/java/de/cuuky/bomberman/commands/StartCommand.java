@@ -1,32 +1,27 @@
-package de.cuuky.bomberman.commands;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+ï»¿package de.cuuky.bomberman.commands;
 
 import de.cuuky.bomberman.Bomberman;
 import de.cuuky.bomberman.base.Game;
 import de.cuuky.bomberman.config.ConfigEntry;
 import de.cuuky.bomberman.enums.GameState;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 
 public class StartCommand implements CommandExecutor {
-
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (Bomberman.getState() != GameState.START || Game.startCountdown < 7) {
-			sender.sendMessage(Bomberman.getPrefix() + "§7Das Spiel wurde bereits gestartet!");
-			return false;
-		}
-		
-		if (Bukkit.getOnlinePlayers().size() < ConfigEntry.MIN_PLAYERS.getValueAsInt()) {
-			sender.sendMessage(Bomberman.getPrefix() + "§7Es sind nicht genug §eSpieler §7online!");
-			return false;
-		}
-		
-		Game.startCountdown = 6;
-		sender.sendMessage(Bomberman.getPrefix() + "§7Das Spiel wurde §egestartet§7!");
-		return false;
-	}
-
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (Bomberman.getState() != GameState.START || Game.startCountdown < 7) {
+            sender.sendMessage(Bomberman.getPrefix() + "Â§7Das Spiel wurde bereits gestartet!");
+            return false;
+        }
+        if (Bukkit.getOnlinePlayers().size() < ConfigEntry.MIN_PLAYERS.getValueAsInt()) {
+            sender.sendMessage(Bomberman.getPrefix() + "Â§7Es sind nicht genug Â§eSpieler Â§7online!");
+            return false;
+        }
+        Game.startCountdown = 6;
+        sender.sendMessage(Bomberman.getPrefix() + "Â§7Das Spiel wurde Â§egestartetÂ§7!");
+        return false;
+    }
 }

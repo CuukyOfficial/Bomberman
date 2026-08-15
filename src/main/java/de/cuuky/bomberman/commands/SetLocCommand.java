@@ -1,35 +1,30 @@
-package de.cuuky.bomberman.commands;
+ï»¿package de.cuuky.bomberman.commands;
 
+import de.cuuky.bomberman.Bomberman;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import de.cuuky.bomberman.Bomberman;
-
 public class SetLocCommand implements CommandExecutor {
-	
-	Location loc;
+    Location loc;
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!(sender instanceof Player)) {
-			sender.sendMessage(Bomberman.getPrefix() + "§cOnly for players!");
-			return false;
-		}
-		
-		Player player = (Player) sender;
-		if (loc == null) {
-			loc = player.getLocation();
-			sender.sendMessage(Bomberman.getPrefix() + "§eErste Location §7gesetzt. Nochmal ausführen, um den Bereich zu sichern.");
-			return false;
-		}
-		
-		Bomberman.getBlockManager().load(loc, player.getLocation());
-		loc = null;
-		sender.sendMessage(Bomberman.getPrefix() + "§eBereich §7erfolgreich gesichert!");
-		return false;
-	}
-
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Bomberman.getPrefix() + "Â§cOnly for players!");
+            return false;
+        }
+        Player player = (Player) sender;
+        if (loc == null) {
+            loc = player.getLocation();
+            sender.sendMessage(Bomberman.getPrefix() + "Â§eErste Location Â§7gesetzt. Nochmal ausfÃ¼hren, um den Bereich zu sichern.");
+            return false;
+        }
+        Bomberman.getBlockManager().load(loc, player.getLocation());
+        loc = null;
+        sender.sendMessage(Bomberman.getPrefix() + "Â§eBereich Â§7erfolgreich gesichert!");
+        return false;
+    }
 }
