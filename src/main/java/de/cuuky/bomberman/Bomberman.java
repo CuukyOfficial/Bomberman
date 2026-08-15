@@ -43,7 +43,7 @@ public class Bomberman extends JavaPlugin {
     }
 
     public static String getPrefix() {
-        return ConfigEntry.PREFIX.getValueAsString().replaceAll("&", "ï¿½");
+        return ConfigEntry.PREFIX.getValueAsString().replaceAll("&", "§");
     }
 
     @Override
