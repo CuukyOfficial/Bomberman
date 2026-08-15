@@ -16,14 +16,12 @@ public class Bomberman extends JavaPlugin {
     private BukkitTask heartbeatTask;
     private List<Listener> listeners;
 
-    public void switchState(GameState state) {
-        if (this.state == state) return;
+    public boolean switchState(GameState state) {
+        if (this.state == state) return false;
 
         StateHeartbeat heartbeat = state.createHeartbeat(this);
         if (!heartbeat.isAvailable()) {
-//            this.switchState(GameState.MAINTENANCE);
-            this.getServer().shutdown();
-            return;
+            return false;
         }
 
         if (this.state != null) {
@@ -36,6 +34,7 @@ public class Bomberman extends JavaPlugin {
         this.listeners = heartbeat.createListeners().collect(Collectors.toList());
         this.listeners.forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
         this.heartbeatTask = this.getServer().getScheduler().runTaskTimer(this, heartbeat::run, 0L, 20L);
+        return true;
     }
 
     @Override
