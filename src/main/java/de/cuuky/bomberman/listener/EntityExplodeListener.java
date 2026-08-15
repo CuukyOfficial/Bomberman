@@ -13,7 +13,7 @@ import java.util.Iterator;
 public class EntityExplodeListener implements Listener {
     @EventHandler
     public void on(EntityExplodeEvent e) {
-        if (!e.getEntity().getType().equals(EntityType.PRIMED_TNT)) return;
+        if (!e.getEntity().getType().equals(EntityType.TNT)) return;
         TnT.getTnT(e.getEntity()).remove();
         Iterator<Block> iter = e.blockList().iterator();
         while (iter.hasNext()) {

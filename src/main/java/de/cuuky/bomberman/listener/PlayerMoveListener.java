@@ -19,7 +19,7 @@ public class PlayerMoveListener implements Listener {
         if (p.getGameMode() != GameMode.SURVIVAL) return;
         if (Bomberman.getState() != GameState.RUNNING) return;
         for (Entity ent : p.getNearbyEntities(0.25, 0.25, 0.25)) {
-            if (!ent.getType().equals(EntityType.PRIMED_TNT)) continue;
+            if (!ent.getType().equals(EntityType.TNT)) continue;
             TnT tnt = TnT.getTnT(ent);
             tnt.setLastTouched(p);
             double multiply = p.isSneaking() ? 3 : 1.10;

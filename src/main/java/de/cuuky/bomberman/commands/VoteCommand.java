@@ -29,12 +29,12 @@ public class VoteCommand implements CommandExecutor {
         Player p = (Player) sender;
         if (Game.votes.contains(p)) {
             Game.votes.remove(p);
-            p.playSound(p.getLocation(), Sound.NOTE_BASS_DRUM, 1, 1);
+            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASEDRUM, 1, 1);
             p.sendMessage(Bomberman.getPrefix() + "§7Du hast §cgegen §7den §cInfinite-TnT-Mode §7gestimmt!");
         } else {
             Game.votes.add(p);
             p.sendMessage(Bomberman.getPrefix() + "§7Du hast §afür §7den §cInfinite-TnT-Mode §7gestimmt!");
-            p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1);
+            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
         }
         p.sendMessage(Bomberman.getPrefix() + "§7Momentan sind §e" + Game.votes.size() + " §7von §e" + Bukkit.getServer().getOnlinePlayers().size() + " §7Spieler für den §cInfinite-TnT-Mode§7!");
         return false;

@@ -17,7 +17,7 @@ public class ItemBuilder {
     }
 
     public static ItemStack getSkullOfPlayer(String playerName) {
-        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1, (byte) 3);
         SkullMeta skullm = (SkullMeta) skull.getItemMeta();
         skullm.setDisplayName("§7" + playerName);
         skullm.setOwner(playerName);

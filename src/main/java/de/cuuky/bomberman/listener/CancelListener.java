@@ -8,7 +8,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerAchievementAwardedEvent;
+import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -42,8 +42,8 @@ public class CancelListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerAchievement(PlayerAchievementAwardedEvent event) {
-        event.setCancelled(true);
+    public void onPlayerAchievement(PlayerAdvancementDoneEvent event) {
+        event.message(null);
     }
 
     @EventHandler

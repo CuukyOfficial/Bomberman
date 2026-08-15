@@ -27,7 +27,7 @@ public class BlockPlaceListener implements Listener {
             }
             event.getBlock().setType(Material.AIR);
             player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.TNT));
-            new TnT(event.getPlayer(), (TNTPrimed) event.getBlock().getWorld().spawnEntity(event.getBlock().getLocation(), EntityType.PRIMED_TNT));
+            new TnT(event.getPlayer(), (TNTPrimed) event.getBlock().getWorld().spawnEntity(event.getBlock().getLocation(), EntityType.TNT));
             return;
         } else if (BuildCommand.buildMode.contains(player.getName())) return;
         else event.setCancelled(true);

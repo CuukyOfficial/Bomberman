@@ -28,7 +28,7 @@ public class Game {
     }
 
     private static void shutdown() {
-        for (Player pl : Bukkit.getOnlinePlayers()) pl.playSound(pl.getLocation(), Sound.NOTE_PLING, 1, 1);
+        for (Player pl : Bukkit.getOnlinePlayers()) pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
         Bukkit.broadcastMessage(Bomberman.getPrefix() + "§7Der Server startet jetzt neu! §aVielen Dank für's Spielen!");
         if (!ConfigEntry.RELOAD_ON_END.getValueAsBoolean()) Bukkit.getServer().shutdown();
         else {
@@ -81,7 +81,7 @@ public class Game {
                         Bukkit.getOnlinePlayers().forEach(pl -> pl.setLevel(startCountdown));
                         if (startCountdown != 0) {
                             if (startCountdown < 6 || startCountdown == 15 || startCountdown == 10 || startCountdown == 30) {
-                                Bukkit.getOnlinePlayers().forEach(pl -> pl.playSound(pl.getLocation(), Sound.NOTE_BASS, 1, 1));
+                                Bukkit.getOnlinePlayers().forEach(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1));
                                 if (startCountdown != 1)
                                     Bukkit.broadcastMessage(Bomberman.getPrefix() + "§cBomberman §7startet in §e" + startCountdown + " §7Sekunden!");
                                 else
@@ -92,12 +92,12 @@ public class Game {
                                 unlimitedTnTMode = true;
                                 Bukkit.broadcastMessage(Bomberman.getPrefix() + "§7Der §cInfinite-TnT-Mode §7wurde §aaktiviert§7!");
                                 for (Player pl : Bukkit.getOnlinePlayers())
-                                    pl.playSound(pl.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
+                                    pl.playSound(pl.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
                             } else {
                                 unlimitedTnTMode = false;
                                 Bukkit.broadcastMessage(Bomberman.getPrefix() + "§7Der §cInfinite-TnT-Mode §7wurde §cnicht aktiviert§7! Stimmen: §c" + votes.size() + "§7/§e" + Bukkit.getServer().getOnlinePlayers().size());
                                 for (Player pl : Bukkit.getOnlinePlayers())
-                                    pl.playSound(pl.getLocation(), Sound.NOTE_BASS_DRUM, 1, 1);
+                                    pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASEDRUM, 1, 1);
                             }
                             votes.clear();
                             int i = 0;
@@ -131,7 +131,7 @@ public class Game {
                             Bukkit.broadcastMessage(Bomberman.getPrefix() + "§cBomberman §7wurde §agestartet§7!");
                             Bomberman.setState(GameState.RUNNING);
                             for (Player pl : Bukkit.getOnlinePlayers())
-                                pl.playSound(pl.getLocation(), Sound.NOTE_PLING, 1, 1);
+                                pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
                         }
                         break;
                     case RUNNING:
@@ -188,7 +188,7 @@ public class Game {
                         }
                         if (stoppingCountdown == 15 || stoppingCountdown == 10 || stoppingCountdown < 6 && stoppingCountdown != 0) {
                             for (Player pl : Bukkit.getOnlinePlayers())
-                                pl.playSound(pl.getLocation(), Sound.NOTE_BASS, 1, 1);
+                                pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
                             if (stoppingCountdown != 1) {
                                 Bukkit.broadcastMessage(Bomberman.getPrefix() + "§7Der Server stoppt in §e" + stoppingCountdown + " §7Sekunden!");
                             } else {
