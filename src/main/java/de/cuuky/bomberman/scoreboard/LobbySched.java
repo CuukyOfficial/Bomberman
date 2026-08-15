@@ -15,7 +15,7 @@ public class LobbySched {
             @Override
             public void run() {
                 try {
-                    if (Bukkit.getOnlinePlayers().size() != 0 && Bukkit.getOnlinePlayers().size() < ConfigEntry.MIN_PLAYERS.getValueAsInt()) {
+                    if (!Bukkit.getOnlinePlayers().isEmpty() && Bukkit.getOnlinePlayers().size() < ConfigEntry.MIN_PLAYERS.getValueAsInt()) {
                         e--;
                         if (e == 0) {
                             Bukkit.broadcastMessage(Bomberman.getPrefix() + "§7Es werden §e2 §7Spieler benötigt, um §eBomberman §7zu starten!");

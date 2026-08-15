@@ -20,7 +20,7 @@ public class Bomberman extends JavaPlugin {
     private static BlockManager bm;
     private static LocationManager lm;
     private static GameState state = GameState.START;
-    private static String consolePrefix = "[Bomberman] ";
+    private static final String consolePrefix = "[Bomberman] ";
 
     public static GameState getState() {
         return state;

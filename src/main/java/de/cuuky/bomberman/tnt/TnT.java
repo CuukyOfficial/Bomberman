@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public class TnT {
     private static ArrayList<TnT> tnts = new ArrayList<>();
-    private Player shooter;
+    private final Player shooter;
     private Player lastTouched = null;
-    private TNTPrimed primed;
+    private final TNTPrimed primed;
     private boolean running = true;
     private int sched;
     private int level = ConfigEntry.TNT_PLACE_DELAY.getValueAsInt();
@@ -36,7 +36,7 @@ public class TnT {
     }
 
     public static TnT getTnT(Entity entity) {
-        TNTPrimed tnt = null;
+        TNTPrimed tnt;
         try {
             tnt = (TNTPrimed) entity;
         } catch (Exception e) {
@@ -56,16 +56,12 @@ public class TnT {
             return;
         }
         shooter.setLevel(level);
-        sched = Bukkit.getScheduler().scheduleSyncRepeatingTask(Bomberman.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-                level--;
-                shooter.setLevel(level);
-                if (level == 0) {
-                    Bukkit.getScheduler().cancelTask(sched);
-                    running = false;
-                    return;
-                }
+        sched = Bukkit.getScheduler().scheduleSyncRepeatingTask(Bomberman.getInstance(), () -> {
+            level--;
+            shooter.setLevel(level);
+            if (level == 0) {
+                Bukkit.getScheduler().cancelTask(sched);
+                running = false;
             }
         }, 20, 20);
     }

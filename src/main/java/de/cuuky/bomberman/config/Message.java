@@ -14,7 +14,7 @@ public enum Message {
     private String name;
     private String mainMessage;
 
-    private Message(String name, String message) {
+    Message(String name, String message) {
         this.name = name;
         this.message = message;
         this.mainMessage = message;

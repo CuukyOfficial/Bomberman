@@ -9,9 +9,9 @@ import java.util.HashMap;
 
 public class LocationManager {
     private Location lobby = null;
-    private HashMap<Integer, Location> spawns = new HashMap<>();
-    private File file;
-    private YamlConfiguration cfg;
+    private final HashMap<Integer, Location> spawns = new HashMap<>();
+    private final File file;
+    private final YamlConfiguration cfg;
 
     public LocationManager() {
         file = new File("plugins/Bomberman/", "locations.yml");
@@ -21,7 +21,7 @@ public class LocationManager {
         for (String str : cfg.getKeys(true)) {
             int number;
             try {
-                number = Integer.valueOf(str);
+                number = Integer.parseInt(str);
             } catch (NumberFormatException e) {
                 continue;
             }
@@ -36,7 +36,7 @@ public class LocationManager {
             try {
                 cfg.save(file);
                 break;
-            } catch (IOException e) {
+            } catch (IOException _) {
             }
     }
 

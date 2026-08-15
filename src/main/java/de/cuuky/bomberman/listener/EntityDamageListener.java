@@ -15,9 +15,8 @@ public class EntityDamageListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         if (Bomberman.getState() != GameState.RUNNING) event.setCancelled(true);
-        else if (event.getEntity() instanceof Player) {
+        else if (event.getEntity() instanceof Player p) {
             if (Bomberman.getState() != GameState.RUNNING) return;
-            Player p = (Player) event.getEntity();
             if (!(p.getHealth() - event.getDamage() <= 0)) return;
             if (!Game.getAlive().contains(p)) return;
             event.setCancelled(true);

@@ -49,10 +49,6 @@ public enum PowerUp {
         return enabled.contains(player);
     }
 
-    public ArrayList<Player> getEnabled() {
-        return enabled;
-    }
-
     public void addEnabled(Player player) {
         if (enabled.contains(player)) return;
         enabled.add(player);

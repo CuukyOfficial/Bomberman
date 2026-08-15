@@ -9,6 +9,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ScoreboardSender {
     public static Scoreboard sb = Bukkit.getServer().getScoreboardManager().getNewScoreboard();
@@ -20,8 +21,8 @@ public class ScoreboardSender {
         obj = sb.registerNewObjective("§eBomberman", "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
         int zeit = countdown;
-        int stunden = (int) zeit / 3600;
-        int min = (int) (zeit - stunden * 3600) / 60;
+        int stunden = zeit / 3600;
+        int min = (zeit - stunden * 3600) / 60;
         int sec = zeit - stunden * 3600 - min * 60;
         obj.getScore("§8").setScore(12);
         obj.getScore("§7Zeit:").setScore(11);
@@ -49,7 +50,7 @@ public class ScoreboardSender {
         obj.getScore("§7Power-Up§7:").setScore(2);
         if (Game.isUnlimitedTnTMode()) obj.getScore("§cINFITE-TNT-MODE").setScore(1);
         else {
-            if (PowerUp.hasPowerUp(p)) obj.getScore("§e" + PowerUp.getPowerUp(p).toString()).setScore(1);
+            if (PowerUp.hasPowerUp(p)) obj.getScore("§e" + Objects.requireNonNull(PowerUp.getPowerUp(p))).setScore(1);
             else obj.getScore("§e-").setScore(1);
         }
         obj.getScore("§0").setScore(0);
@@ -89,11 +90,11 @@ public class ScoreboardSender {
             if (obj == null) continue;
             PowerUp pu = PowerUp.getPowerUp(pl);
             if (remove) {
-                pl.getScoreboard().resetScores("§e" + pu == null ? "-" : "§e" + pu.toString());
+                pl.getScoreboard().resetScores("§e" + Objects.requireNonNull(pu));
                 obj.getScore("§e-").setScore(1);
             } else {
                 pl.getScoreboard().resetScores("§e-");
-                obj.getScore("§e" + pu == null ? "-" : "§e" + pu.toString()).setScore(1);
+                obj.getScore("§e" + Objects.requireNonNull(pu)).setScore(1);
             }
         }
     }
@@ -115,7 +116,7 @@ public class ScoreboardSender {
         obj.getScore("§7Status:").setScore(2);
         obj.getScore(state).setScore(1);
         obj.getScore("§0").setScore(0);
-        if (oldState.containsKey(oldState)) oldState.remove(oldState);
+        oldState.remove(oldState);
         oldState.put(p, state);
         p.setScoreboard(sb);
     }
@@ -144,8 +145,8 @@ public class ScoreboardSender {
 
     public static void sendTime(Player p, int countdown) {
         int zeit = countdown;
-        int stunden = (int) zeit / 3600;
-        int min = (int) (zeit - stunden * 3600) / 60;
+        int stunden = zeit / 3600;
+        int min = (zeit - stunden * 3600) / 60;
         int sec = zeit - stunden * 3600 - min * 60;
         if (min > 9) {
             if (sec > 9) {
@@ -161,8 +162,8 @@ public class ScoreboardSender {
             }
         }
         zeit = countdown + 1;
-        stunden = (int) zeit / 3600;
-        min = (int) (zeit - stunden * 3600) / 60;
+        stunden = zeit / 3600;
+        min = (zeit - stunden * 3600) / 60;
         sec = zeit - stunden * 3600 - min * 60;
         if (min > 9) {
             if (sec > 9) {
@@ -179,23 +180,4 @@ public class ScoreboardSender {
         }
     }
 
-    public static void removeScore(Player p, int countdown) {
-        int zeit = countdown;
-        int stunden = (int) zeit / 3600;
-        int min = (int) (zeit - stunden * 3600) / 60;
-        int sec = zeit - stunden * 3600 - min * 60;
-        if (min > 9) {
-            if (sec > 9) {
-                p.getScoreboard().resetScores("§e" + min + "§7:§e" + sec);
-            } else {
-                p.getScoreboard().resetScores("§e" + min + "§7:§e0" + sec);
-            }
-        } else {
-            if (sec > 9) {
-                p.getScoreboard().resetScores("§e0" + min + "§7:§e" + sec);
-            } else {
-                p.getScoreboard().resetScores("§e0" + min + "§7:§e0" + sec);
-            }
-        }
-    }
 }

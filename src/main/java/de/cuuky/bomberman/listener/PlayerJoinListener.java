@@ -6,15 +6,11 @@ import de.cuuky.bomberman.config.ConfigEntry;
 import de.cuuky.bomberman.config.Message;
 import de.cuuky.bomberman.scoreboard.ScoreboardSender;
 import de.cuuky.bomberman.utils.ItemBuilder;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_8_R3.Packet;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,8 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.lang.reflect.Field;
 
 public class PlayerJoinListener implements Listener {
     public static void giveItems(Player p) {
@@ -43,28 +37,10 @@ public class PlayerJoinListener implements Listener {
     }
 
     public static void setTab(Player p) {
-        PacketPlayOutTitle times = new PacketPlayOutTitle(0, Integer.MAX_VALUE, Integer.MAX_VALUE);
-        PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, ChatSerializer.a("\"" + Message.TAB_HEADER.getMessage() + "\""));
-        PacketPlayOutTitle subtitle = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, ChatSerializer.a("\"" + Message.TAB_FOOTER.getMessage() + "\""));
-        for (@SuppressWarnings("rawtypes") Packet packet : new Packet[]{times, title, subtitle}) {
-            try {
-                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-            } catch (NullPointerException e) {
-                return;
-            }
-        }
-        PacketPlayOutPlayerListHeaderFooter headerfooter = new PacketPlayOutPlayerListHeaderFooter();
-        try {
-            Field header = headerfooter.getClass().getDeclaredField("a");
-            Field footer = headerfooter.getClass().getDeclaredField("b");
-            header.setAccessible(true);
-            footer.setAccessible(true);
-            header.set(headerfooter, ChatSerializer.a("\"" + Message.TAB_HEADER.getMessage() + "\""));
-            footer.set(headerfooter, ChatSerializer.a("\"" + Message.TAB_FOOTER.getMessage() + "\""));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(headerfooter);
+        Component header = Component.text(Message.TAB_HEADER.getMessage(), NamedTextColor.YELLOW);
+        Component footer = Component.text(Message.TAB_FOOTER.getMessage(), NamedTextColor.YELLOW);
+
+        p.sendPlayerListHeaderAndFooter(header, footer);
     }
 
     @EventHandler
