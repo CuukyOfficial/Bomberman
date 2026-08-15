@@ -1,0 +1,5 @@
+[libraries]
+paper = { group = "io.papermc.paper", name = "paper-api", version = "26.2.build.+" }
+jaskl = { group = "io.github.almighty-satan.jaskl", name = "jaskl-yaml", version = "1.10.0" }
+slams = { group = "io.github.almighty-satan.slams", name = "slams-standalone", version = "1.2.3" }
+cfw = { group = "de.varoplugin", name = "cfw", version = "1.0.0-ALPHA-30" }

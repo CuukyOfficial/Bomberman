@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("com.gradleup.shadow") version "9.6.1"
 }
 
 group = "de.varoplugin"
@@ -11,6 +12,11 @@ java {
 
 repositories {
     mavenCentral()
+    
+    maven {
+        name = "varoplugin"
+        url = uri("https://repo.varoplugin.de/releases")
+    }
 
     maven {
         name = "papermc"
@@ -19,9 +25,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.2.build.+")
+    shadow(libs.paper)
 
-    implementation("io.github.almighty-satan.jaskl:jaskl-yaml:1.10.0")
+    implementation(libs.jaskl)
+    implementation(libs.slams)
+    implementation(libs.cfw)
     
     testImplementation(platform("org.junit:junit-bom:6.0.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -30,4 +38,9 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.shadowJar {
+    enableAutoRelocation = true
+    relocationPrefix = "de.varoplugin.bomberman.dependencies"
 }
