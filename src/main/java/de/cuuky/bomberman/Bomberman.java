@@ -82,7 +82,7 @@ public class Bomberman extends JavaPlugin {
         System.out.println(consolePrefix + "Saving files...");
         bm.save();
         lm.save();
-        for (Player pl : Bukkit.getOnlinePlayers()) pl.kickPlayer("ï¿½cServer startet jetzt neu...");
+        for (Player pl : Bukkit.getOnlinePlayers()) pl.kickPlayer("§cServer startet jetzt neu...");
         System.out.println(consolePrefix + "Bomberman successfully disabled!");
         System.out.println("-------------------------------------------");
     }
