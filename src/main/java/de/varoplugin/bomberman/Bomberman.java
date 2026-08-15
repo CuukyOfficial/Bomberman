@@ -4,6 +4,8 @@ import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
+import de.varoplugin.bomberman.hud.ScoreboardListener;
+import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,6 +37,10 @@ public class Bomberman extends JavaPlugin {
         this.heartbeatTask = this.getServer().getScheduler().runTaskTimer(this, heartbeat::run, 0L, 20L);
     }
 
+    public GameState getState() {
+        return state;
+    }
+
     @Override
     public void onEnable() {
         try {
@@ -43,6 +49,8 @@ public class Bomberman extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        Bukkit.getPluginManager().registerEvents(new ScoreboardListener(this), this); // TODO
 
         this.switchState(GameState.LOBBY);
     }

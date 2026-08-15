@@ -11,7 +11,8 @@ public enum GameState {
 
     LOBBY(LobbyHeartbeat::new),
     STARTING(StartingHeartbeat::new),
-    RUNNING(RunningHeartbeat::new);
+    RUNNING(RunningHeartbeat::new),
+    FINISHED(RunningHeartbeat::new); // TODO
 
     private final Function<Bomberman, StateHeartbeat> taskFunction;
 
