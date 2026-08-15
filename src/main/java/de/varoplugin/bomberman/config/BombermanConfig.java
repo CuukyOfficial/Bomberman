@@ -23,7 +23,7 @@ public class BombermanConfig {
     
     private static final Location DEFAULT_LOCATION = new Location(Bukkit.getWorlds().getFirst(), 0, 0, 0);
     
-    private static final String CONFIG_DIR = "plugins/bomberman/config/";
+    public static final String CONFIG_DIR = "plugins/bomberman/config/";
 
     private static final Config CONFIG = YamlConfig.of(new File(CONFIG_DIR + "config.yml"));
     public static final IntegerConfigEntry MIN_PAYERS = IntegerConfigEntry.of(CONFIG, "min_players", "Minimum number of players required", 2); // Validator.integerGreater(1)

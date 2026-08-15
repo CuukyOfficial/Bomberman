@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.game.lobby;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.NoSurvivalListener;
 import de.varoplugin.bomberman.game.StateHeartbeat;
 import org.bukkit.Bukkit;
@@ -30,7 +31,7 @@ public class LobbyHeartbeat implements StateHeartbeat {
     @Override
     public void run() {
         if (this.count >= 10) {
-            Bukkit.broadcastMessage("Waiting for players...");
+            BombermanMessages.broadcast(BombermanMessages.LOBBY_WAITING);
             this.count = 0;
         } else {
             this.count++;

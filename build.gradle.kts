@@ -28,7 +28,9 @@ dependencies {
     shadow(libs.paper)
 
     implementation(libs.jaskl)
-    implementation(libs.slams)
+    implementation(libs.slams.standalone)
+    implementation(libs.slams.jaskl)
+    implementation(libs.slams.bukkit)
     //implementation(libs.cfw)
     
     testImplementation(platform("org.junit:junit-bom:6.0.0"))

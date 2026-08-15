@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman;
 
 import de.varoplugin.bomberman.config.BombermanConfig;
+import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
 import org.bukkit.event.HandlerList;
@@ -38,6 +39,7 @@ public class Bomberman extends JavaPlugin {
     public void onEnable() {
         try {
             BombermanConfig.init();
+            BombermanMessages.init();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
