@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.game.lobby;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
 import org.bukkit.Bukkit;
@@ -24,7 +25,7 @@ public class StartingHeartbeat implements StateHeartbeat {
 
     @Override
     public void init() {
-        this.countdown = 30;
+        this.countdown = BombermanConfig.LOBBY_DELAY.getValue();
     }
 
     @Override

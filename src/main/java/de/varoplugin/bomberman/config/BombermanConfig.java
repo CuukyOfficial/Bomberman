@@ -20,7 +20,6 @@ import java.util.Map;
 
 public class BombermanConfig {
     
-    private static final int TICKS_PER_SECOND = 20;
     private static final Location DEFAULT_LOCATION = new Location(Bukkit.getWorlds().getFirst(), 0, 0, 0);
     
     private static final String CONFIG_DIR = "plugins/bomberman/config/";
@@ -28,9 +27,9 @@ public class BombermanConfig {
     private static final Config CONFIG = YamlConfig.of(new File(CONFIG_DIR + "config.yml"));
     public static final IntegerConfigEntry MIN_PAYERS = IntegerConfigEntry.of(CONFIG, "min_players", "Minimum number of players required", 2); // Validator.integerGreater(1)
     public static final IntegerConfigEntry MAX_PAYERS = IntegerConfigEntry.of(CONFIG, "max_players", "Maximum number of players required", 2); // Validator.integerGreater(1)
-    public static final IntegerConfigEntry TNT_DELAY = IntegerConfigEntry.of(CONFIG, "tnt_delay", "The delay with which tnt can be placed in ticks", TICKS_PER_SECOND * 4, Validator.INTEGER_NOT_NEGATIVE);
-    public static final IntegerConfigEntry LOBBY_DELAY = IntegerConfigEntry.of(CONFIG, "lobby", "The amount of time that should be spent waiting for more players in ticks", TICKS_PER_SECOND * 30, Validator.INTEGER_NOT_NEGATIVE);
-    public static final IntegerConfigEntry PROTECTION_START = IntegerConfigEntry.of(CONFIG, "protection", "The initial protection time in ticks", TICKS_PER_SECOND * 10, Validator.INTEGER_NOT_NEGATIVE);
+    public static final IntegerConfigEntry TNT_DELAY = IntegerConfigEntry.of(CONFIG, "tnt_delay", "The delay with which tnt can be placed in ticks", 80, Validator.INTEGER_NOT_NEGATIVE);
+    public static final IntegerConfigEntry LOBBY_DELAY = IntegerConfigEntry.of(CONFIG, "lobby", "The amount of time that should be spent waiting for more players in seconds", 30, Validator.INTEGER_NOT_NEGATIVE);
+    public static final IntegerConfigEntry PROTECTION_START = IntegerConfigEntry.of(CONFIG, "protection", "The initial protection time in seconds", 10, Validator.INTEGER_NOT_NEGATIVE);
     public static final BooleanConfigEntry END_SHUTDOWN = BooleanConfigEntry.of(CONFIG, "end_shutdown", "Whether the server should shut down after the game ends", true);
     public static final BooleanConfigEntry ALLOW_INFINITE_TNT = BooleanConfigEntry.of(CONFIG, "allow_infinite_tnt", "Whether players can vote on infinite tnt", true);
     

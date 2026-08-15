@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.game.lobby;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.game.GameState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,7 +17,7 @@ public class StartAbortListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if (plugin.getServer().getOnlinePlayers().size() < 2) {
+        if (plugin.getServer().getOnlinePlayers().size() < BombermanConfig.MIN_PAYERS.getValue()) {
             plugin.getServer().broadcastMessage("§cNicht genügend Spieler online! Das Spiel wird abgebrochen.");
             plugin.switchState(GameState.LOBBY);
         }
