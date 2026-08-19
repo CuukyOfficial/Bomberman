@@ -1,6 +1,7 @@
 name: Bomberman
 author: Cuuky
 version: 1.0
+api-version: 1.13
 main: de.varoplugin.bomberman.Bomberman
 
 commands:
