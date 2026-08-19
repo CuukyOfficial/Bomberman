@@ -45,4 +45,9 @@ tasks.test {
 tasks.shadowJar {
     enableAutoRelocation = true
     relocationPrefix = "de.varoplugin.bomberman.dependencies"
+
+    val envPath = System.getenv("JAR_OUTPUT_PATH")
+    if (!envPath.isNullOrBlank()) {
+        destinationDirectory.set(file(envPath))
+    }
 }
