@@ -90,7 +90,6 @@ public class Bomberman extends JavaPlugin {
 
     public void registerListener() {
         Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(), this);
-        Bukkit.getPluginManager().registerEvents(new NoSurvivalListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityExplodeListener(), this);
