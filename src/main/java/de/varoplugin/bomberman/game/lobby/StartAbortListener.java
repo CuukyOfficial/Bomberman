@@ -2,12 +2,12 @@ package de.varoplugin.bomberman.game.lobby;
 
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.config.BombermanConfig;
-import de.varoplugin.bomberman.game.AbstractStateListenerTask;
+import de.varoplugin.bomberman.game.AbstractStateListenerJob;
 import de.varoplugin.bomberman.game.GameState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class StartAbortListener extends AbstractStateListenerTask {
+public class StartAbortListener extends AbstractStateListenerJob {
 
     public StartAbortListener(Bomberman plugin) {
         super(plugin);

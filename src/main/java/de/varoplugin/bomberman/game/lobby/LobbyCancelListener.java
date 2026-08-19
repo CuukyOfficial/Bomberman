@@ -1,12 +1,12 @@
 package de.varoplugin.bomberman.game.lobby;
 
 import de.varoplugin.bomberman.Bomberman;
-import de.varoplugin.bomberman.game.AbstractStateListenerTask;
+import de.varoplugin.bomberman.game.AbstractStateListenerJob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class LobbyCancelListener extends AbstractStateListenerTask {
+public class LobbyCancelListener extends AbstractStateListenerJob {
 
     protected LobbyCancelListener(Bomberman plugin) {
         super(plugin);

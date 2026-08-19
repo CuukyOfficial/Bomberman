@@ -15,6 +15,14 @@ public class Bomb {
         this.lastTouched = source;
     }
 
+    public Player getSource() {
+        return source;
+    }
+
+    public int getRemainingSeconds() {
+        return this.primed.getFuseTicks() / 20;
+    }
+
     public void setLastTouched(Player lastTouched) {
         this.lastTouched = lastTouched;
     }

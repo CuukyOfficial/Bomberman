@@ -4,11 +4,11 @@ import de.varoplugin.bomberman.Bomberman;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
-public class AbstractStateListenerTask implements StateJob, Listener {
+public class AbstractStateListenerJob implements StateJob, Listener {
 
     protected final Bomberman plugin;
 
-    protected AbstractStateListenerTask(Bomberman plugin) {
+    protected AbstractStateListenerJob(Bomberman plugin) {
         this.plugin = plugin;
     }
 

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractStateHeartbeat extends AbstractStateTimerTask implements StateHeartbeat {
+public abstract class AbstractStateHeartbeat extends AbstractStateTimerJob implements StateHeartbeat {
 
     private final List<StateJob> jobs;
 

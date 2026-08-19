@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-public class NoSurvivalListener extends AbstractStateListenerTask {
+public class NoSurvivalListener extends AbstractStateListenerJob {
 
     public NoSurvivalListener(Bomberman plugin) {
         super(plugin);

@@ -15,7 +15,7 @@ public class SynchronousTimerTask implements StateJob {
         this.runnable = runnable;
     }
 
-    protected SynchronousTimerTask(Bomberman plugin, int period, Runnable runnable) {
+    public SynchronousTimerTask(Bomberman plugin, int period, Runnable runnable) {
         this.plugin = plugin;
         this.period = period;
         this.runnable = runnable;

@@ -1,7 +1,8 @@
 package de.varoplugin.bomberman.game.running;
 
 import de.varoplugin.bomberman.Bomberman;
-import de.varoplugin.bomberman.game.AbstractStateListenerTask;
+import de.varoplugin.bomberman.game.AbstractStateListenerJob;
+import de.varoplugin.bomberman.game.AbstractStateTimerJob;
 import de.varoplugin.bomberman.model.Bomb;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class BombListener extends AbstractStateListenerTask {
+public class BombListener extends AbstractStateListenerJob {
 
     private final Map<Entity, Bomb> bombs = new HashMap<>();
 
@@ -32,16 +33,28 @@ public class BombListener extends AbstractStateListenerTask {
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         if (event.getBlock().getType() == Material.TNT) {
-//            TnT tnt = TnT.getTnT(event.getPlayer());
-//            if (tnt != null) if (tnt.isRunning()) {
-//                player.sendMessage(Bomberman.getPrefix() + Message.TNT_SET_DELAY.getMessage().replaceAll("%seconds%", String.valueOf(ConfigEntry.TNT_PLACE_DELAY.getValueAsInt())));
-//                event.setCancelled(true);
-//                return;
-//            } TODO: Add delay for placing bombs
+            if (this.bombs.values().stream().anyMatch(bomb -> bomb.getSource().equals(player))) {
+                player.sendMessage("§cDu kannst nur eine Bombe gleichzeitig platzieren!");
+                event.setCancelled(true);
+                return;
+            }
+
             event.getBlock().setType(Material.AIR);
             player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.TNT));
             Entity tntEntity = event.getBlock().getWorld().spawnEntity(event.getBlock().getLocation(), EntityType.TNT);
-            bombs.put(tntEntity, new Bomb(event.getPlayer(), (TNTPrimed) tntEntity));
+            Bomb bomb = new Bomb(event.getPlayer(), (TNTPrimed) tntEntity);
+            bombs.put(tntEntity, bomb);
+
+            new AbstractStateTimerJob(this.plugin, 10) {
+                @Override
+                public void run() {
+                    if (!bombs.containsKey(tntEntity)) {
+                        this.stop();
+                    } else {
+                        bomb.getSource().setLevel(bomb.getRemainingSeconds());
+                    }
+                }
+            }.start();
             return;
         }
 
