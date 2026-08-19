@@ -3,17 +3,15 @@ package de.varoplugin.bomberman.game.lobby;
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.config.BombermanMessages;
+import de.varoplugin.bomberman.game.AbstractStateListenerTask;
 import de.varoplugin.bomberman.game.GameState;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class LobbyStartListener implements Listener {
-
-    private final Bomberman plugin;
+public class LobbyStartListener extends AbstractStateListenerTask {
 
     public LobbyStartListener(Bomberman plugin) {
-        this.plugin = plugin;
+        super(plugin);
     }
 
     @EventHandler

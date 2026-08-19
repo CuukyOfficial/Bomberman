@@ -1,5 +1,7 @@
 package de.varoplugin.bomberman.game.running;
 
+import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.AbstractStateListenerTask;
 import de.varoplugin.bomberman.model.Bomb;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -8,7 +10,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -19,9 +20,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class BombListener implements Listener {
+public class BombListener extends AbstractStateListenerTask {
 
     private final Map<Entity, Bomb> bombs = new HashMap<>();
+
+    protected BombListener(Bomberman plugin) {
+        super(plugin);
+    }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {

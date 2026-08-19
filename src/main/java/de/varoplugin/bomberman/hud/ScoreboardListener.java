@@ -37,7 +37,7 @@ public class ScoreboardListener implements Listener {
 
             @Override
             public int getNumFrames() {
-                return switch (ScoreboardListener.this.plugin.getState()) {
+                return switch (ScoreboardListener.this.plugin.getHeartbeat().getState()) {
                     case LOBBY -> BombermanMessages.SCOREBOARD_WAITING.translate(null, event.getPlayer()).size();
                     case STARTING -> BombermanMessages.SCOREBOARD_STARTING.translate(null, event.getPlayer()).size();
                     case RUNNING -> BombermanMessages.SCOREBOARD_GAME.translate(null, event.getPlayer()).size();
@@ -47,7 +47,7 @@ public class ScoreboardListener implements Listener {
 
             @Override
             public String[] getFrame(int index) {
-                return switch (ScoreboardListener.this.plugin.getState()) {
+                return switch (ScoreboardListener.this.plugin.getHeartbeat().getState()) {
                     case LOBBY -> BombermanMessages.SCOREBOARD_WAITING.translate(null, event.getPlayer()).get(index).value(event.getPlayer());
                     case STARTING -> BombermanMessages.SCOREBOARD_STARTING.translate(null, event.getPlayer()).get(index).value(event.getPlayer());
                     case RUNNING -> BombermanMessages.SCOREBOARD_GAME.translate(null, event.getPlayer()).get(index).value(event.getPlayer());

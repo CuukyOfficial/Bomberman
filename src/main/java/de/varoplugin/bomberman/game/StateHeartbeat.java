@@ -1,15 +1,11 @@
 package de.varoplugin.bomberman.game;
 
-import org.bukkit.event.Listener;
+public interface StateHeartbeat extends StateJob, Runnable {
 
-import java.util.stream.Stream;
+    GameState getState();
 
-public interface StateHeartbeat {
+    void registerJobs(StateJob... jobs);
 
-    Stream<Listener> createListeners();
-
-    void init();
-
-    void run();
+    void startJobs(StateJob... jobs);
 
 }

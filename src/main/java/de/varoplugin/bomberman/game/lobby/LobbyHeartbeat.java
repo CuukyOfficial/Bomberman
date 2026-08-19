@@ -2,30 +2,24 @@ package de.varoplugin.bomberman.game.lobby;
 
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.config.BombermanMessages;
+import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
+import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.NoSurvivalListener;
 import de.varoplugin.bomberman.game.StateHeartbeat;
-import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 
-import java.util.stream.Stream;
+public class LobbyHeartbeat extends AbstractStateHeartbeat implements StateHeartbeat {
 
-public class LobbyHeartbeat implements StateHeartbeat {
-
-    private final Bomberman plugin;
-    private int count;
+    private int count = 0;
 
     public LobbyHeartbeat(Bomberman plugin) {
-        this.plugin = plugin;
+        super(plugin);
+
+        this.registerJobs(new LobbyCancelListener(this.plugin), new NoSurvivalListener(this.plugin), new LobbyStartListener(this.plugin));
     }
 
     @Override
-    public Stream<Listener> createListeners() {
-        return Stream.of(new LobbyCancelListener(), new NoSurvivalListener(), new LobbyStartListener(this.plugin));
-    }
-
-    @Override
-    public void init() {
-        this.count = 0;
+    public GameState getState() {
+        return GameState.LOBBY;
     }
 
     @Override

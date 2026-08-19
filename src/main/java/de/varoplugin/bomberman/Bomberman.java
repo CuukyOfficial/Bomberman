@@ -6,40 +6,13 @@ import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
 import de.varoplugin.bomberman.hud.ScoreboardListener;
 import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Bomberman extends JavaPlugin {
 
-    private GameState state;
-    private BukkitTask heartbeatTask;
-    private List<Listener> listeners;
-
-    public void switchState(GameState state) {
-        if (this.state == state) return;
-
-        StateHeartbeat heartbeat = state.createHeartbeat(this);
-        if (this.state != null) {
-            this.heartbeatTask.cancel();
-            this.listeners.forEach(HandlerList::unregisterAll);
-        }
-
-        this.state = state;
-        heartbeat.init();
-        this.listeners = heartbeat.createListeners().collect(Collectors.toList());
-        this.listeners.forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
-        this.heartbeatTask = this.getServer().getScheduler().runTaskTimer(this, heartbeat::run, 0L, 20L);
-    }
-
-    public GameState getState() {
-        return state;
-    }
+    private StateHeartbeat heartbeat;
 
     @Override
     public void onEnable() {
@@ -57,8 +30,25 @@ public class Bomberman extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (this.heartbeatTask != null) {
-            this.heartbeatTask.cancel();
+        if (this.heartbeat != null) {
+            this.heartbeat.stop();
         }
+    }
+
+    public void switchState(GameState state) {
+        if (this.heartbeat != null) {
+            if (this.heartbeat.getState() == state) {
+                return;
+            }
+
+            this.heartbeat.stop();
+        }
+
+        this.heartbeat = state.createHeartbeat(this);
+        this.heartbeat.start();
+    }
+
+    public StateHeartbeat getHeartbeat() {
+        return this.heartbeat;
     }
 }
