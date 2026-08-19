@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.game;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.finished.EndingHeartbeat;
 import de.varoplugin.bomberman.game.lobby.LobbyHeartbeat;
 import de.varoplugin.bomberman.game.lobby.StartingHeartbeat;
 import de.varoplugin.bomberman.game.running.RunningHeartbeat;
@@ -12,7 +13,7 @@ public enum GameState {
     LOBBY(LobbyHeartbeat::new),
     STARTING(StartingHeartbeat::new),
     RUNNING(RunningHeartbeat::new),
-    FINISHED(RunningHeartbeat::new); // TODO
+    FINISHED(EndingHeartbeat::new);
 
     private final Function<Bomberman, StateHeartbeat> taskFunction;
 

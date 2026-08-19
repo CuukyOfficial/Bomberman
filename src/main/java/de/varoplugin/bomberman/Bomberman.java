@@ -40,6 +40,8 @@ public class Bomberman extends JavaPlugin {
             this.heartbeat.stop();
         }
 
+        System.out.println("Switching to state: " + state + (this.heartbeat != null ? " from " + this.heartbeat.getState() : ""));
+
         this.heartbeat = state.createHeartbeat(this);
         this.heartbeat.start();
     }
