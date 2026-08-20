@@ -15,8 +15,6 @@ public class EndingHeartbeat extends AbstractStateHeartbeat implements StateHear
 
     public EndingHeartbeat(Bomberman plugin) {
         super(plugin);
-
-        this.registerJobs(new ScoreboardListener(this.plugin, BombermanMessages.SCOREBOARD_END));
     }
 
     @Override

@@ -15,7 +15,6 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
         super(plugin);
 
         this.registerJobs(new BombListener(this.plugin), new NoSurvivalListener(this.plugin),
-                new ScoreboardListener(this.plugin, BombermanMessages.SCOREBOARD_GAME),
                 new PlayerGameStateJob(this),
                 new GameEndListener(this.plugin));
     }

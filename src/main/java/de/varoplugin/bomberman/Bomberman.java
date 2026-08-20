@@ -2,15 +2,23 @@ package de.varoplugin.bomberman;
 
 import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.config.BombermanMessages;
+import de.varoplugin.bomberman.events.BombermanStateSwitchEvent;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
+import de.varoplugin.bomberman.hud.ScoreboardListener;
+import de.varoplugin.bomberman.model.BombPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class Bomberman extends JavaPlugin {
 
     private StateHeartbeat heartbeat;
+    private final HashMap<Player, BombPlayer> players = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -22,6 +30,8 @@ public class Bomberman extends JavaPlugin {
         }
 
         this.switchState(GameState.LOBBY);
+        
+        Bukkit.getPluginManager().registerEvents(new ScoreboardListener(this), this);
     }
 
     @Override
@@ -44,9 +54,19 @@ public class Bomberman extends JavaPlugin {
 
         this.heartbeat = state.createHeartbeat(this);
         this.heartbeat.start();
+
+        Bukkit.getServer().getPluginManager().callEvent(new BombermanStateSwitchEvent(state));
     }
 
     public StateHeartbeat getHeartbeat() {
         return this.heartbeat;
+    }
+    
+    public BombPlayer getPlayer(Player player) {
+        return this.players.computeIfAbsent(player, BombPlayer::new);
+    }
+
+    public Collection<BombPlayer> getPlayers() {
+        return this.players.values();
     }
 }

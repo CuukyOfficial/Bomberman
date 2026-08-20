@@ -16,7 +16,6 @@ public class LobbyHeartbeat extends AbstractStateHeartbeat implements StateHeart
         super(plugin);
 
         this.registerJobs(new LobbyCancelListener(this.plugin), new NoSurvivalListener(this.plugin), new LobbyStartListener(this.plugin),
-                new ScoreboardListener(this.plugin, BombermanMessages.SCOREBOARD_WAITING),
                 new PlayerLobbyStateJob(this.plugin));
     }
 
