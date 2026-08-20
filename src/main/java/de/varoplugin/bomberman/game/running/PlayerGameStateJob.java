@@ -23,8 +23,6 @@ public class PlayerGameStateJob extends AbstractStatePlayerJob {
         for (int i = 0; i < player.getInventory().getSize(); i++) {
             player.getInventory().setItem(i, new ItemStack(Material.TNT));
         }
-
-        this.heartbeat.addPlayer(player);
     }
 
     @Override

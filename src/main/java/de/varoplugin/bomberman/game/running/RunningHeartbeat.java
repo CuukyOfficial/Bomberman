@@ -7,16 +7,9 @@ import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.NoSurvivalListener;
 import de.varoplugin.bomberman.game.StateHeartbeat;
 import de.varoplugin.bomberman.hud.ScoreboardListener;
-import de.varoplugin.bomberman.model.BombPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHeartbeat {
-
-    private final Map<Player, BombPlayer> players = new HashMap<>();
 
     public RunningHeartbeat(Bomberman plugin) {
         super(plugin);
@@ -42,15 +35,5 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
     @Override
     public void run() {
 
-    }
-
-    public BombPlayer getPlayer(Player player) {
-        return this.players.get(player);
-    }
-
-    public BombPlayer addPlayer(Player player) {
-        BombPlayer bombPlayer = new BombPlayer(player);
-        this.players.put(player, bombPlayer);
-        return bombPlayer;
     }
 }
