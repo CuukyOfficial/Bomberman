@@ -45,7 +45,7 @@ public class BombListener extends AbstractStateListenerJob {
             Bomb bomb = new Bomb(event.getPlayer(), (TNTPrimed) tntEntity);
             bombs.put(tntEntity, bomb);
 
-            new AbstractStateTimerJob(this.plugin, 10) {
+            this.plugin.getHeartbeat().startJobs(new AbstractStateTimerJob(this.plugin, 10) {
                 @Override
                 public void run() {
                     if (!bombs.containsKey(tntEntity)) {
@@ -54,7 +54,7 @@ public class BombListener extends AbstractStateListenerJob {
                         bomb.getSource().setLevel(bomb.getRemainingSeconds());
                     }
                 }
-            }.start();
+            });
             return;
         }
 

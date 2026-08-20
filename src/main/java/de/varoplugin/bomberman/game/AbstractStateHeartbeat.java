@@ -40,4 +40,9 @@ public abstract class AbstractStateHeartbeat extends AbstractStateTimerJob imple
 
         this.jobs.forEach(StateJob::stop);
     }
+
+    @Override
+    public Bomberman getPlugin() {
+        return this.plugin;
+    }
 }

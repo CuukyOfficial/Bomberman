@@ -1,6 +1,5 @@
 package de.varoplugin.bomberman.game.running;
 
-import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.game.AbstractStatePlayerJob;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -9,8 +8,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerGameStateJob extends AbstractStatePlayerJob {
 
-    protected PlayerGameStateJob(Bomberman plugin) {
-        super(plugin);
+    private RunningHeartbeat heartbeat;
+
+    protected PlayerGameStateJob(RunningHeartbeat heartbeat) {
+        super(heartbeat.getPlugin());
     }
 
     @Override
@@ -22,6 +23,8 @@ public class PlayerGameStateJob extends AbstractStatePlayerJob {
         for (int i = 0; i < player.getInventory().getSize(); i++) {
             player.getInventory().setItem(i, new ItemStack(Material.TNT));
         }
+
+        this.heartbeat.addPlayer(player);
     }
 
     @Override
