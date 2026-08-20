@@ -6,6 +6,7 @@ import de.varoplugin.bomberman.events.BombermanStateSwitchEvent;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
 import de.varoplugin.bomberman.hud.ScoreboardListener;
+import de.varoplugin.bomberman.listener.PlayerListener;
 import de.varoplugin.bomberman.model.BombPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Bomberman extends JavaPlugin {
@@ -30,7 +32,8 @@ public class Bomberman extends JavaPlugin {
         }
 
         this.switchState(GameState.LOBBY);
-        
+
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ScoreboardListener(this), this);
     }
 
@@ -67,6 +70,10 @@ public class Bomberman extends JavaPlugin {
     }
 
     public Collection<BombPlayer> getPlayers() {
-        return this.players.values();
+        return Collections.unmodifiableCollection(this.players.values());
+    }
+    
+    public void removePlayer(Player player) {
+        this.players.remove(player);
     }
 }
