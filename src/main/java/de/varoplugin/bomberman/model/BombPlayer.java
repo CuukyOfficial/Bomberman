@@ -9,6 +9,7 @@ public class BombPlayer {
     private PlayerType type;
     private Powerup powerup;
     private AnimatedScoreboard scoreboard;
+    private long sneakingSince;
 
     public BombPlayer(Player player) {
         this.player = player;
@@ -16,6 +17,14 @@ public class BombPlayer {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public long getSneakingSince() {
+        return sneakingSince;
+    }
+
+    public void setSneakingSince(long sneakingSince) {
+        this.sneakingSince = sneakingSince;
     }
 
     public AnimatedScoreboard getScoreboard() {
