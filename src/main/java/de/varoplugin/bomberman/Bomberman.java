@@ -9,6 +9,7 @@ import de.varoplugin.bomberman.hud.ScoreboardListener;
 import de.varoplugin.bomberman.listener.PlayerListener;
 import de.varoplugin.bomberman.model.BombPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRules;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,6 +25,13 @@ public class Bomberman extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        Bukkit.getServer().getWorlds().forEach(world -> {
+            if (!world.isFixedTime()) {
+                world.setTime(1000);
+                world.setGameRule(GameRules.ADVANCE_TIME, false);
+            }
+        });
+
         try {
             BombermanConfig.init();
             BombermanMessages.init();
@@ -64,7 +72,7 @@ public class Bomberman extends JavaPlugin {
     public StateHeartbeat getHeartbeat() {
         return this.heartbeat;
     }
-    
+
     public BombPlayer getPlayer(Player player) {
         return this.players.computeIfAbsent(player, BombPlayer::new);
     }
@@ -72,7 +80,7 @@ public class Bomberman extends JavaPlugin {
     public Collection<BombPlayer> getPlayers() {
         return Collections.unmodifiableCollection(this.players.values());
     }
-    
+
     public void removePlayer(Player player) {
         this.players.remove(player);
     }
