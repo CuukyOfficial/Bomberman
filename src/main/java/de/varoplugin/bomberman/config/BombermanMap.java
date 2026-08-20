@@ -28,38 +28,7 @@ public class BombermanMap {
     }
 
     static ObjectMapper<BombermanMap> getMapper() {
-        ObjectMapper<Location> locationMapper = new ObjectMapper<Location>() {
-            @Override
-            public @NonNull Location createInstance(@Unmodifiable @NotNull Map<@NotNull String, @NotNull Object> values) throws InvalidTypeException, ValidationException {
-                return new Location(Bukkit.getWorld((String) values.get("world")), ((BigDecimal) values.get("x")).doubleValue(),
-                        ((BigDecimal) values.get("y")).doubleValue(), ((BigDecimal) values.get("z")).doubleValue(),
-                        ((BigDecimal) values.get("yaw")).floatValue(), ((BigDecimal) values.get("pitch")).floatValue());
-            }
-
-            @Override
-            public @NotNull @Unmodifiable Map<@NotNull String, @NotNull Object> readValues(@NonNull Location instance) throws InvalidTypeException {
-                return Map.of("world", instance.getWorld().getName(), "x", instance.getX(), "y", instance.getY(), "z", instance.getZ(), "yaw", instance.getYaw(), "pitch", instance.getPitch());
-            }
-
-            @Override
-            public @NotNull Class<Location> getObjectClass() {
-                return Location.class;
-            }
-
-            @Override
-            public @NotNull Property<?> @NotNull [] getProperties() {
-                return new Property[] {
-                        Property.of("world", Type.STRING),
-                        Property.of("x", Type.BIG_DECIMAL),
-                        Property.of("y", Type.BIG_DECIMAL),
-                        Property.of("z", Type.BIG_DECIMAL),
-                        Property.of("yaw", Type.BIG_DECIMAL),
-                        Property.of("pitch", Type.BIG_DECIMAL)
-                };
-            }
-        };
-
-        return new ObjectMapper<BombermanMap>() {
+        return new ObjectMapper<>() {
             @SuppressWarnings("unchecked")
             @Override
             public @NonNull BombermanMap createInstance(@Unmodifiable @NotNull Map<@NotNull String, @NotNull Object> values) throws InvalidTypeException, ValidationException {
@@ -80,9 +49,9 @@ public class BombermanMap {
             public @NotNull Property<?> @NotNull [] getProperties() {
                 return new Property[] {
                         Property.of("name", Type.STRING),
-                        Property.of("spawns", Type.list(Type.custom(locationMapper))),
-                        Property.of("corner_0", Type.custom(locationMapper)),
-                        Property.of("corner_1", Type.custom(locationMapper)),
+                        Property.of("spawns", Type.list(Type.custom(LocationMapper.INSTANCE))),
+                        Property.of("corner_0", Type.custom(BlockLocationMapper.INSTANCE)),
+                        Property.of("corner_1", Type.custom(BlockLocationMapper.INSTANCE)),
                 };
             }
         };

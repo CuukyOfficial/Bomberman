@@ -14,6 +14,10 @@ public class BombPlayer {
         this.player = player;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public AnimatedScoreboard getScoreboard() {
         return scoreboard;
     }
