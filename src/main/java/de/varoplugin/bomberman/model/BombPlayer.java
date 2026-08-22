@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.model;
 
 import de.varoplugin.cfw.player.hud.AnimatedScoreboard;
+import de.varoplugin.cfw.player.hud.ScoreboardInstance;
 import org.bukkit.entity.Player;
 
 public class BombPlayer {
@@ -8,6 +9,7 @@ public class BombPlayer {
     private final Player player;
     private PlayerType type;
     private Powerup powerup;
+    private ScoreboardInstance scoreboardInstance;
     private AnimatedScoreboard scoreboard;
     private long sneakingSince;
 
@@ -40,7 +42,12 @@ public class BombPlayer {
         return scoreboard;
     }
 
-    public void setScoreboard(AnimatedScoreboard scoreboard) {
+    public ScoreboardInstance getScoreboardInstance() {
+        return scoreboardInstance;
+    }
+
+    public void setScoreboard(AnimatedScoreboard scoreboard, ScoreboardInstance scoreboardInstance) {
+        this.scoreboardInstance = scoreboardInstance;
         this.scoreboard = scoreboard;
     }
 }

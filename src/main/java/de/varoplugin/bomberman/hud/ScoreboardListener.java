@@ -31,7 +31,7 @@ public class ScoreboardListener implements Listener {
         ScoreboardInstance instance = ScoreboardInstance.newInstance(event.getPlayer());
         var scoreboard = new AnimatedScoreboard(this.plugin, instance, new UnmodifiableAnimationData<>(SCOREBOARD_UPDATE_DELAY,
                 new String[]{BombermanMessages.SCOREBOARD_TITLE.value()}), this.getAnimationData(player, this.getScoreboardContent(this.plugin.getHeartbeat().getState())));
-        player.setScoreboard(scoreboard);
+        player.setScoreboard(scoreboard, instance);
     }
 
     @EventHandler
