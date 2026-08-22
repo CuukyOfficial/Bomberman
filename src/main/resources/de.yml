@@ -1,6 +1,10 @@
 lobby:
   waiting: "§7Warte auf spieler..."
   starting: "§7Es sind nun §e<num_players> §7Spieler online, das Spiel startet in §e30 Sekunden§7!"
+command:
+  maintenance:
+    enabled: "§7Maintenance mode wurde aktiviert!"
+    disabled: "§7Maintenance mode wurde deaktiviert!"
 scoreboard:
   title: "§eBomberman"
   waiting:
@@ -58,4 +62,9 @@ scoreboard:
       - " "
       - "§7Gewinner:"
       - "§e<winner>"
+      - "  "
+  maintenance:
+    - - "               "
+      - "§7Status:"
+      - "§aMaintenance!"
       - "  "

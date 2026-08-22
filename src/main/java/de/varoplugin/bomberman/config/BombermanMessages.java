@@ -37,11 +37,15 @@ public class BombermanMessages {
     public static final BukkitMessage LOBBY_WAITING = BukkitMessage.of("lobby.waiting", SLAMS, PLACEHOLDERS);
     public static final BukkitMessage LOBBY_STARTING = BukkitMessage.of("lobby.starting", SLAMS, PLACEHOLDERS);
 
+    public static final BukkitMessage COMMAND_MAINTENANCE_ENABLED = BukkitMessage.of("command.maintenance.enabled", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage COMMAND_MAINTENANCE_DISABLED = BukkitMessage.of("command.maintenance.disabled", SLAMS, PLACEHOLDERS);
+
     public static final StandaloneMessage SCOREBOARD_TITLE = StandaloneMessage.of("scoreboard.title", SLAMS, PLACEHOLDERS);
     public static final StandaloneMessageArray2d SCOREBOARD_WAITING = StandaloneMessageArray2d.of("scoreboard.waiting", SLAMS, PLACEHOLDERS);
     public static final StandaloneMessageArray2d SCOREBOARD_STARTING = StandaloneMessageArray2d.of("scoreboard.starting", SLAMS, PLACEHOLDERS);
     public static final StandaloneMessageArray2d SCOREBOARD_GAME = StandaloneMessageArray2d.of("scoreboard.game", SLAMS, PLACEHOLDERS);
     public static final StandaloneMessageArray2d SCOREBOARD_END = StandaloneMessageArray2d.of("scoreboard.end", SLAMS, PLACEHOLDERS);
+    public static final StandaloneMessageArray2d SCOREBOARD_MAINTENANCE = StandaloneMessageArray2d.of("scoreboard.maintenance", SLAMS, PLACEHOLDERS);
 
     public static void broadcast(BukkitMessage message) {
         for (Player player : Bukkit.getOnlinePlayers())

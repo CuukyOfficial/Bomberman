@@ -19,7 +19,7 @@ public class ScoreboardListener implements Listener {
     
     private static final int SCOREBOARD_UPDATE_DELAY = 20;
 
-    private Bomberman plugin;
+    private final Bomberman plugin;
     
     public ScoreboardListener(Bomberman plugin) {
         this.plugin = plugin;
@@ -53,6 +53,7 @@ public class ScoreboardListener implements Listener {
             case STARTING -> BombermanMessages.SCOREBOARD_STARTING;
             case RUNNING -> BombermanMessages.SCOREBOARD_GAME;
             case FINISHED -> BombermanMessages.SCOREBOARD_END;
+            case MAINTENANCE -> BombermanMessages.SCOREBOARD_MAINTENANCE;
         };
     }
     

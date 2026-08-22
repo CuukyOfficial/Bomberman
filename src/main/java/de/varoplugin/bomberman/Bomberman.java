@@ -1,5 +1,6 @@
 package de.varoplugin.bomberman;
 
+import de.varoplugin.bomberman.command.BombermanCommand;
 import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.events.BombermanStateSwitchEvent;
@@ -42,6 +43,8 @@ public class Bomberman extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ScoreboardListener(this), this);
+
+        BombermanCommand.register(this);
     }
 
     @Override
