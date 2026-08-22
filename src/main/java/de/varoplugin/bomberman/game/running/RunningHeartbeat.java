@@ -10,7 +10,7 @@ import de.varoplugin.bomberman.game.NoSurvivalListener;
 import de.varoplugin.bomberman.game.StateHeartbeat;
 import de.varoplugin.bomberman.game.running.events.BombermanEvent;
 import de.varoplugin.bomberman.game.running.events.ZombieInvasionEvent;
-import de.varoplugin.bomberman.game.running.powerup.PowerupSpawnJob;
+import de.varoplugin.bomberman.game.running.powerup.PowerupJob;
 import de.varoplugin.bomberman.model.BombPlayer;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
                 new BombTimerJob(this.plugin),
                 new BombBounceJob(this.plugin),
                 new SpectatorListener(this.plugin),
-                new PowerupSpawnJob(this));
+                new PowerupJob(this));
 
         this.events = new BombermanEvent[] {
                 new ZombieInvasionEvent(this)
