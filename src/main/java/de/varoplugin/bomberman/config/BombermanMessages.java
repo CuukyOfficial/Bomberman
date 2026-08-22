@@ -63,7 +63,7 @@ public class BombermanMessages {
 
     public static void broadcast(BukkitMessage message, Bomberman plugin) {
         for (Player player : Bukkit.getOnlinePlayers())
-            message.send(player, player, plugin.getHeartbeat());
+            message.send(player, player, plugin, plugin.getHeartbeat());
     }
 
     public static void init() throws IOException {
