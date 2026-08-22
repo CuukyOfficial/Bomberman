@@ -29,6 +29,7 @@ public class PlayerGameStateJob extends AbstractStatePlayerJob {
         BombPlayer bPlayer = this.plugin.getPlayer(player);
         if (this.heartbeat.getCountdown() != 600) {
             bPlayer.enableSpectator(this.plugin);
+            player.teleport(this.plugin.getAlive().findAny().map(BombPlayer::getPlayer).orElse(player).getLocation());
             return;
         }
 

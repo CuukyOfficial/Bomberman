@@ -6,8 +6,9 @@ import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
+import de.varoplugin.bomberman.game.lobby.LobbyCancelListener;
 import de.varoplugin.bomberman.model.BombPlayer;
-import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class EndingHeartbeat extends AbstractStateHeartbeat implements StateHear
 
     public EndingHeartbeat(Bomberman plugin) {
         super(plugin);
+
+        this.registerJobs(new LobbyCancelListener(this.plugin));
     }
 
     @Override
@@ -29,7 +32,13 @@ public class EndingHeartbeat extends AbstractStateHeartbeat implements StateHear
     public void start() {
         super.start();
 
-        this.plugin.getPlayers().forEach(player -> player.getPlayer().teleport(BombermanConfig.LOBBY_SPAWN.getValue()));
+        this.plugin.getPlayers().forEach(player -> {
+            player.getPlayer().teleport(BombermanConfig.LOBBY_SPAWN.getValue());
+            player.getPlayer().setGameMode(GameMode.ADVENTURE);
+            player.getPlayer().setFlying(false);
+
+            this.plugin.getPlayers().forEach(p -> p.getPlayer().showPlayer(this.plugin, player.getPlayer()));
+        });
 
         List<BombPlayer> winners = this.plugin.getPlayers().filter(BombPlayer::isAlive).toList();
         if (winners.isEmpty()) {
