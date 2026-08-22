@@ -67,7 +67,7 @@ public class PowerupSpawnJob extends AbstractStateTimerJob {
             return; // Don't spawn powerups in the first 30 seconds
 
         long players = this.plugin.getAlive().count();
-        if (Math.random() < 0.0116 * players) { // Max wait time of 1 minute for per player
+        if (Math.random() < 0.0116 * players && this.spawnedPowerups.size() < players * 1.5) { // Max wait time of 1 minute for per player
             this.plugin.getServer().getScheduler().runTask(this.plugin, this::spawnRandomPowerup);
         }
     }
