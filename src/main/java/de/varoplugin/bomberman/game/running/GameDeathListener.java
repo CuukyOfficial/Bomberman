@@ -7,9 +7,12 @@ import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PlayerType;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
+
+import java.util.Objects;
 
 public class GameDeathListener extends AbstractStateListenerJob {
 
@@ -19,9 +22,17 @@ public class GameDeathListener extends AbstractStateListenerJob {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
+        event.setCancelled(true);
+
         BombPlayer player = this.plugin.getPlayer(event.getPlayer());
         player.setType(PlayerType.SPECTATOR);
-        player.getPlayer().setGameMode(GameMode.SPECTATOR);
+
+        Player p = event.getPlayer();
+        p.setGameMode(GameMode.ADVENTURE);
+        p.setFlying(true);
+        p.setHealth(20);
+        p.getInventory().clear();
+        p.setVelocity(p.getLocation().toVector().subtract(Objects.requireNonNull(event.getDamageSource().getSourceLocation()).toVector()).normalize().multiply(5).setY(0.5));
 
         long aliveCount = this.plugin.getPlayers().filter(BombPlayer::isAlive).count();
         if (BombermanConfig.MIN_PAYERS.getValue() > aliveCount) {

@@ -29,13 +29,12 @@ public class PlayerLobbyStateJob extends AbstractStatePlayerJob {
         player.setExp(0);
         player.setLevel(0);
         player.setGameMode(GameMode.ADVENTURE);
+        player.getInventory().clear();
 
         ItemHook hook = new PlayerItemHookBuilder().slot(1)
                 .item(ItemBuilder.itemStack(new ItemStack(Material.PAPER)).displayName("§aVote!").build())
                 .subscribe(HookItemInteractEvent.class, _ ->
                         player.sendMessage("Du hast gevotet!")).complete(player, this.plugin);
-
-        // TODO: Clear inventory and set items for the player
 
         hooks.putIfAbsent(player, new ArrayList<>());
         hooks.get(player).add(hook);

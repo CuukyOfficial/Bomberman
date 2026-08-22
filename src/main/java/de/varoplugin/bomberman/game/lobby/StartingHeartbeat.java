@@ -6,7 +6,6 @@ import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
-import org.bukkit.Bukkit;
 
 public class StartingHeartbeat extends AbstractStateHeartbeat implements StateHeartbeat {
 
