@@ -11,6 +11,7 @@ import de.varoplugin.bomberman.listener.PlayerListener;
 import de.varoplugin.bomberman.model.Bomb;
 import de.varoplugin.bomberman.model.BombPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.GameRules;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -35,6 +36,7 @@ public class Bomberman extends JavaPlugin {
             }
             world.setGameRule(GameRules.SPAWN_MOBS, false);
             world.setGameRule(GameRules.LOCATOR_BAR, false);
+            world.setDifficulty(Difficulty.EASY);
         });
 
         try {

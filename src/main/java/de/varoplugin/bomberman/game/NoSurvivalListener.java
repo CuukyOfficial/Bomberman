@@ -42,9 +42,4 @@ public class NoSurvivalListener extends AbstractStateListenerJob {
     public void onPlayerAchievement(PlayerAdvancementDoneEvent event) {
         event.message(null);
     }
-
-    @EventHandler
-    public void onEntitySpawn(EntitySpawnEvent e) {
-        if (e.getEntity() instanceof LivingEntity) e.setCancelled(true);
-    }
 }

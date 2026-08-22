@@ -8,6 +8,8 @@ import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.NoSurvivalListener;
 import de.varoplugin.bomberman.game.StateHeartbeat;
+import de.varoplugin.bomberman.game.running.events.BombermanEvent;
+import de.varoplugin.bomberman.game.running.events.ZombieInvasionEvent;
 import de.varoplugin.bomberman.model.BombPlayer;
 
 import java.util.ArrayList;
@@ -16,6 +18,9 @@ import java.util.Collections;
 public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHeartbeat {
 
     private int countdown;
+
+    private final BombermanEvent[] events;
+    private BombermanEvent event;
 
     public RunningHeartbeat(Bomberman plugin) {
         super(plugin);
@@ -27,7 +32,12 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
                 new RunningCancelListener(this.plugin),
                 new SpectatorListener(this.plugin),
                 new BombTimerJob(this.plugin),
-                new BombBounceJob(this.plugin));
+                new BombBounceJob(this.plugin),
+                new SpectatorListener(this.plugin));
+
+        this.events = new BombermanEvent[] {
+                new ZombieInvasionEvent(this)
+        };
     }
 
     @Override
@@ -80,12 +90,28 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
         return this.countdown;
     }
 
+    public void setEvent(BombermanEvent event) {
+        this.event = event;
+    }
+
+    public BombermanEvent getEvent() {
+        return event;
+    }
+
     @Override
     public void run() {
         if (this.countdown == 0) {
             this.plugin.switchState(GameState.FINISHED);
             return;
         }
+        
+        // TODO
+        if (this.countdown == 590) {
+            this.events[0].start();
+        }
+
+        if (this.event != null)
+            this.event.run(countdown);
 
         this.countdown--;
     }

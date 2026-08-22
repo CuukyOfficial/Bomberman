@@ -128,7 +128,7 @@ public class BombListener extends AbstractStateListenerJob {
             }
 
             Vector direction = entity.getLocation().toVector().subtract(tnt.getLocation().toVector()).normalize();
-            entity.setVelocity(direction.multiply(4).multiply(new Vector(1, 1.3, 1)));
+            entity.setVelocity(direction.multiply(2).multiply(new Vector(1, 2, 1)));
         }
     }
 
