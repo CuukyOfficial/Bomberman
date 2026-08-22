@@ -15,6 +15,10 @@ public class BombPlayer {
         this.player = player;
     }
 
+    public boolean isAlive() {
+        return this.type == PlayerType.ALIVE;
+    }
+
     public Player getPlayer() {
         return player;
     }

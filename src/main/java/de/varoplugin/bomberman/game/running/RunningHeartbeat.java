@@ -3,12 +3,10 @@ package de.varoplugin.bomberman.game.running;
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.config.BombermanMap;
-import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.NoSurvivalListener;
 import de.varoplugin.bomberman.game.StateHeartbeat;
-import de.varoplugin.bomberman.hud.ScoreboardListener;
 import de.varoplugin.bomberman.model.BombPlayer;
 import org.bukkit.Bukkit;
 
@@ -38,14 +36,14 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
 
         BombermanMap map = findMap();
         int i = 0;
-        for (BombPlayer player : this.plugin.getPlayers()) {
+        for (BombPlayer player : this.plugin.getPlayers().toList()) {
             // TODO spectators
             player.getPlayer().teleport(map.spawns.get(i++));
         }
     }
 
     private BombermanMap findMap() {
-        int numPlayers = this.plugin.getPlayers().size();
+        long numPlayers = this.plugin.getPlayers().count();
 
         var maps = new ArrayList<>(BombermanConfig.MAPS.getValue());
         Collections.shuffle(maps);

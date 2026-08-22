@@ -14,9 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 public class Bomberman extends JavaPlugin {
 
@@ -77,8 +76,8 @@ public class Bomberman extends JavaPlugin {
         return this.players.computeIfAbsent(player, BombPlayer::new);
     }
 
-    public Collection<BombPlayer> getPlayers() {
-        return Collections.unmodifiableCollection(this.players.values());
+    public Stream<BombPlayer> getPlayers() {
+        return this.players.values().stream();
     }
 
     public void removePlayer(Player player) {
