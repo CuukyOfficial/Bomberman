@@ -138,6 +138,8 @@ public class BombListener extends AbstractStateListenerJob {
         Player player = event.getPlayer();
         BombPlayer bombPlayer = this.plugin.getPlayer(player);
 
+        if (!bombPlayer.isAlive()) return;
+
         if (!event.isSneaking()) {
             AbstractStateTimerJob timer = this.sneakTimers.remove(player);
             if (timer != null) timer.stop();
