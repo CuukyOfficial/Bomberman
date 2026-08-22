@@ -219,7 +219,9 @@ public class BombListener extends AbstractStateListenerJob {
     @EventHandler
     public void onPlayerAnimation(PlayerAnimationEvent event) {
         Player player = event.getPlayer();
+        BombPlayer bombPlayer = this.plugin.getPlayer(player);
         if (event.getAnimationType() != PlayerAnimationType.ARM_SWING) return;
+        if (!bombPlayer.isAlive()) return;
 
         RayTraceResult result = player.getWorld().rayTrace(
                 player.getEyeLocation(),
@@ -236,11 +238,9 @@ public class BombListener extends AbstractStateListenerJob {
             Bomb bomb = this.bombs.get(tnt);
 
             if (bomb == null) return;
-
             if (tnt.getFuseTicks() == 80) return;
 
             bomb.setLastTouched(player);
-            BombPlayer bombPlayer = this.plugin.getPlayer(player);
             float vel = calculateVelocity(bombPlayer.getSneakingSince());
 
             Vector direction = player.getLocation().getDirection();
