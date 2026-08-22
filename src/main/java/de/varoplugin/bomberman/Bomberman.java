@@ -30,6 +30,7 @@ public class Bomberman extends JavaPlugin {
                 world.setTime(1000);
                 world.setGameRule(GameRules.ADVANCE_TIME, false);
             }
+            world.setGameRule(GameRules.SPAWN_MOBS, false);
         });
 
         try {
