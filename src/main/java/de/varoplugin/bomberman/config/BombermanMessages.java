@@ -31,8 +31,8 @@ public class BombermanMessages {
         builder.variable("num_players", Bukkit.getOnlinePlayers()::size)
                 .contextual("num_alive", Bomberman.class, (plugin) -> plugin.getAlive().count())
                 .contextual("winner", Bomberman.class, (plugin) -> plugin.getAlive().map(player -> player.getPlayer().getName()).collect(Collectors.joining(", ")))
-                .variable("event", () -> "TODO")
-                .variable("power_up", () -> "TODO")
+                .variable("event", () -> "§7-")
+                .variable("power_up", () -> "§7-")
                 .contextual("min", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() / 60))
                 .contextual("sec", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() % 60))
                 .contextual("lobby_countdown", StartingHeartbeat.class, StartingHeartbeat::getCountdown);
