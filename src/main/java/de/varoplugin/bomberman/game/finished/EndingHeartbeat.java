@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.game.finished;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
@@ -26,6 +27,8 @@ public class EndingHeartbeat extends AbstractStateHeartbeat implements StateHear
     @Override
     public void start() {
         super.start();
+
+        this.plugin.getPlayers().forEach(player -> player.getPlayer().teleport(BombermanConfig.LOBBY_SPAWN.getValue()));
 
         List<BombPlayer> winners = this.plugin.getPlayers().filter(BombPlayer::isAlive).toList();
         if (winners.isEmpty()) {
