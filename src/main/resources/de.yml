@@ -9,6 +9,10 @@ game:
     win: "§7Gewinner: §e<winner>"
     tie: "§7Das Spiel ist unentschieden!"
     shutdown: "§7Der server schließt in §e<if_eq:<shutdown_countdown>:1:einer Sekunde:<shutdown_countdown> Sekunden>§7!"
+player:
+  join: "§a» §7<player>"
+  quit: "§c« §7<player>"
+  cooldown: "§cDu kannst nur eine Bombe gleichzeitig platzieren!"
 command:
   maintenance:
     enabled: "§7Maintenance mode wurde aktiviert!"

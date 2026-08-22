@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.listener;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.config.BombermanMessages;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -15,13 +16,21 @@ public class PlayerListener implements Listener {
         this.plugin = plugin;
     }
     
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         this.plugin.getPlayer(event.getPlayer());
+        event.joinMessage(null);
+        BombermanMessages.broadcast(BombermanMessages.PLAYER_JOIN, this.plugin);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerQuitLowest(PlayerQuitEvent event) {
+        event.quitMessage(null);
+        BombermanMessages.broadcast(BombermanMessages.PLAYER_QUIT, this.plugin);
     }
     
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerQuit(PlayerQuitEvent event) {
+    public void onPlayerQuitMonitor(PlayerQuitEvent event) {
         this.plugin.removePlayer(event.getPlayer());
     }
 }

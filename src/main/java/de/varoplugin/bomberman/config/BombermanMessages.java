@@ -4,6 +4,7 @@ import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.game.finished.EndingHeartbeat;
 import de.varoplugin.bomberman.game.lobby.StartingHeartbeat;
 import de.varoplugin.bomberman.game.running.RunningHeartbeat;
+import de.varoplugin.bomberman.model.BombPlayer;
 import io.github.almightysatan.jaskl.Resource;
 import io.github.almightysatan.jaskl.yaml.YamlConfig;
 import io.github.almightysatan.slams.PlaceholderResolver;
@@ -37,7 +38,8 @@ public class BombermanMessages {
                 .contextual("min", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() / 60))
                 .contextual("sec", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() % 60))
                 .contextual("lobby_countdown", StartingHeartbeat.class, StartingHeartbeat::getCountdown)
-                .contextual("shutdown_countdown", EndingHeartbeat.class, EndingHeartbeat::getCountdown);
+                .contextual("shutdown_countdown", EndingHeartbeat.class, EndingHeartbeat::getCountdown)
+                .contextual("player", BombPlayer.class, p -> p.getPlayer().getName());
         PLACEHOLDERS = builder.build();
     }
 
@@ -51,6 +53,10 @@ public class BombermanMessages {
     public static final BukkitMessage GAME_END_WIN = BukkitMessage.of("game.end.win", SLAMS, PLACEHOLDERS);
     public static final BukkitMessage GAME_END_SHUTDOWN = BukkitMessage.of("game.end.shutdown", SLAMS, PLACEHOLDERS);
 
+    public static final BukkitMessage PLAYER_JOIN = BukkitMessage.of("player.join", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage PLAYER_QUIT = BukkitMessage.of("player.quit", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage PLAYER_COOLDOWN = BukkitMessage.of("player.cooldown", SLAMS, PLACEHOLDERS);
+
     public static final BukkitMessage COMMAND_MAINTENANCE_ENABLED = BukkitMessage.of("command.maintenance.enabled", SLAMS, PLACEHOLDERS);
     public static final BukkitMessage COMMAND_MAINTENANCE_DISABLED = BukkitMessage.of("command.maintenance.disabled", SLAMS, PLACEHOLDERS);
 
@@ -62,8 +68,9 @@ public class BombermanMessages {
     public static final StandaloneMessageArray2d SCOREBOARD_MAINTENANCE = StandaloneMessageArray2d.of("scoreboard.maintenance", SLAMS, PLACEHOLDERS);
 
     public static void broadcast(BukkitMessage message, Bomberman plugin) {
-        for (Player player : Bukkit.getOnlinePlayers())
-            message.send(player, player, plugin, plugin.getHeartbeat());
+        plugin.getPlayers().forEach(player -> {
+            message.send(player.getPlayer(), player, plugin, plugin.getHeartbeat());
+        });
     }
 
     public static void init() throws IOException {

@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.game.running;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateListenerJob;
 import de.varoplugin.bomberman.game.AbstractStateTimerJob;
 import de.varoplugin.bomberman.model.Bomb;
@@ -65,7 +66,7 @@ public class BombListener extends AbstractStateListenerJob {
         }
 
         if (this.bombs.values().stream().anyMatch(bomb -> bomb.getSource().equals(player))) {
-            player.sendMessage("§cDu kannst nur eine Bombe gleichzeitig platzieren!");
+            BombermanMessages.PLAYER_COOLDOWN.send(player, player);
             event.setCancelled(true);
             return;
         }
