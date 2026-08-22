@@ -2,9 +2,9 @@ package de.varoplugin.bomberman.game;
 
 import de.varoplugin.bomberman.Bomberman;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class AbstractStateHeartbeat extends AbstractStateTimerJob implements StateHeartbeat {
 
@@ -13,7 +13,7 @@ public abstract class AbstractStateHeartbeat extends AbstractStateTimerJob imple
     public AbstractStateHeartbeat(Bomberman plugin) {
         super(plugin);
 
-        this.jobs = new ArrayList<>();
+        this.jobs = new CopyOnWriteArrayList<>();
     }
 
     @Override

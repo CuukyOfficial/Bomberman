@@ -1,6 +1,8 @@
 package de.varoplugin.bomberman.config;
 
-import io.github.almightysatan.jaskl.*;
+import io.github.almightysatan.jaskl.Config;
+import io.github.almightysatan.jaskl.Type;
+import io.github.almightysatan.jaskl.Validator;
 import io.github.almightysatan.jaskl.entries.BooleanConfigEntry;
 import io.github.almightysatan.jaskl.entries.CustomConfigEntry;
 import io.github.almightysatan.jaskl.entries.IntegerConfigEntry;
@@ -8,17 +10,11 @@ import io.github.almightysatan.jaskl.entries.ListConfigEntry;
 import io.github.almightysatan.jaskl.yaml.YamlConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Unmodifiable;
-import org.jspecify.annotations.NonNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 public class BombermanConfig {
     
@@ -33,7 +29,8 @@ public class BombermanConfig {
     public static final IntegerConfigEntry PROTECTION_START = IntegerConfigEntry.of(CONFIG, "protection", "The initial protection time in seconds", 10, Validator.INTEGER_NOT_NEGATIVE);
     public static final BooleanConfigEntry END_SHUTDOWN = BooleanConfigEntry.of(CONFIG, "end_shutdown", "Whether the server should shut down after the game ends", true);
     public static final BooleanConfigEntry ALLOW_INFINITE_TNT = BooleanConfigEntry.of(CONFIG, "allow_infinite_tnt", "Whether players can vote on infinite tnt", true);
-    
+    public static final IntegerConfigEntry GAME_LENGTH = IntegerConfigEntry.of(CONFIG, "game_length", "The length of the game in seconds", 600, Validator.INTEGER_NOT_NEGATIVE);
+
     public static final ListConfigEntry<BombermanMap> MAPS = ListConfigEntry.of(CONFIG, "maps", "A list of all available maps",
             Collections.singletonList(new BombermanMap("default", Arrays.asList(DEFAULT_LOCATION, DEFAULT_LOCATION), DEFAULT_LOCATION, DEFAULT_LOCATION)),
             Type.custom(BombermanMap.getMapper()), Validator.listNotEmpty());

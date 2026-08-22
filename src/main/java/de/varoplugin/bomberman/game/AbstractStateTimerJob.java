@@ -3,25 +3,23 @@ package de.varoplugin.bomberman.game;
 import de.varoplugin.bomberman.Bomberman;
 import org.bukkit.scheduler.BukkitTask;
 
-public abstract class AbstractStateTimerJob implements StateJob, Runnable {
+public abstract class AbstractStateTimerJob extends AbstractStateListenerJob implements StateJob, Runnable {
 
-    protected final Bomberman plugin;
     private BukkitTask task;
     private int period = 20;
     private boolean async = false;
 
     protected AbstractStateTimerJob(Bomberman plugin) {
-        this.plugin = plugin;
+        super(plugin);
     }
 
     protected AbstractStateTimerJob(Bomberman plugin, int period) {
-        this.plugin = plugin;
+        this(plugin);
         this.period = period;
     }
 
     protected AbstractStateTimerJob(Bomberman plugin, int period, boolean async) {
-        this.plugin = plugin;
-        this.period = period;
+        this(plugin, period);
         this.async = async;
     }
 
@@ -35,12 +33,16 @@ public abstract class AbstractStateTimerJob implements StateJob, Runnable {
 
     @Override
     public void start() {
+        super.start();
+
         this.stop();
         this.task = this.createTask();
     }
 
     @Override
     public void stop() {
+        super.stop();
+
         if (this.task != null) {
             this.task.cancel();
         }

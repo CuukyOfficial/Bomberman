@@ -1,5 +1,6 @@
 package de.varoplugin.bomberman.game.running;
 
+import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.game.AbstractStatePlayerJob;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.cfw.item.ItemBuilder;
@@ -27,7 +28,7 @@ public class PlayerGameStateJob extends AbstractStatePlayerJob {
     @Override
     public void enable(Player player) {
         BombPlayer bPlayer = this.plugin.getPlayer(player);
-        if (this.heartbeat.getCountdown() != 600) {
+        if (this.heartbeat.getCountdown() != BombermanConfig.GAME_LENGTH.getValue()) {
             bPlayer.enableSpectator(this.plugin);
             player.teleport(this.plugin.getAlive().findAny().map(BombPlayer::getPlayer).orElse(player).getLocation());
             return;

@@ -15,7 +15,7 @@ public class BombPlayer {
 
     private final Player player;
     private PlayerType type;
-    private Powerup powerup;
+    private PowerupEffect powerupEffect;
     private ScoreboardInstance scoreboardInstance;
     private AnimatedScoreboard scoreboard;
     private long sneakingSince;
@@ -43,6 +43,14 @@ public class BombPlayer {
             if (!alive.isAlive()) continue;
             alive.getPlayer().hidePlayer(plugin, this.player);
         }
+    }
+
+    public PowerupEffect getPowerupEffect() {
+        return powerupEffect;
+    }
+
+    public void setPowerupEffect(PowerupEffect powerupEffect) {
+        this.powerupEffect = powerupEffect;
     }
 
     public PlayerType getType() {
