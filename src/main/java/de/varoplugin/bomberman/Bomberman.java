@@ -8,14 +8,17 @@ import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
 import de.varoplugin.bomberman.hud.ScoreboardListener;
 import de.varoplugin.bomberman.listener.PlayerListener;
+import de.varoplugin.bomberman.model.Bomb;
 import de.varoplugin.bomberman.model.BombPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRules;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class Bomberman extends JavaPlugin {
@@ -89,5 +92,26 @@ public class Bomberman extends JavaPlugin {
 
     public void removePlayer(Player player) {
         this.players.remove(player);
+    }
+
+    public Stream<Bomb> getBombs() {
+        return this.getPlayers()
+                .flatMap(BombPlayer::getBombs);
+    }
+
+    public Bomb removeBomb(TNTPrimed primed) {
+        return this.getPlayers()
+                .map(bp -> bp.removeBomb(primed))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Bomb getBomb(TNTPrimed primed) {
+        return this.getPlayers()
+                .map(bp -> bp.getBomb(primed))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
     }
 }

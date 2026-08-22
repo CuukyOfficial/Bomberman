@@ -12,7 +12,7 @@ game:
 player:
   join: "§a» §7<player>"
   quit: "§c« §7<player>"
-  cooldown: "§cDu kannst nur eine Bombe gleichzeitig platzieren!"
+  cooldown: "§7Du kannst nur alle §e<cooldown> §7Sekunden eine Bombe legen!"
 command:
   maintenance:
     enabled: "§7Maintenance mode wurde aktiviert!"

@@ -8,6 +8,7 @@ public abstract class AbstractStateTimerJob implements StateJob, Runnable {
     protected final Bomberman plugin;
     private BukkitTask task;
     private int period = 20;
+    private boolean async = false;
 
     protected AbstractStateTimerJob(Bomberman plugin) {
         this.plugin = plugin;
@@ -18,8 +19,18 @@ public abstract class AbstractStateTimerJob implements StateJob, Runnable {
         this.period = period;
     }
 
+    protected AbstractStateTimerJob(Bomberman plugin, int period, boolean async) {
+        this.plugin = plugin;
+        this.period = period;
+        this.async = async;
+    }
+
     protected BukkitTask createTask() {
-        return this.plugin.getServer().getScheduler().runTaskTimer(this.plugin, this, 0L, this.period);
+        if (this.async) {
+            return this.plugin.getServer().getScheduler().runTaskTimerAsynchronously(this.plugin, this, 0L, this.period);
+        } else {
+            return this.plugin.getServer().getScheduler().runTaskTimer(this.plugin, this, 0L, this.period);
+        }
     }
 
     @Override

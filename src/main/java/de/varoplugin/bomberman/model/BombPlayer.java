@@ -5,6 +5,11 @@ import de.varoplugin.cfw.player.hud.AnimatedScoreboard;
 import de.varoplugin.cfw.player.hud.ScoreboardInstance;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class BombPlayer {
 
@@ -14,10 +19,12 @@ public class BombPlayer {
     private ScoreboardInstance scoreboardInstance;
     private AnimatedScoreboard scoreboard;
     private long sneakingSince;
+    private final Map<TNTPrimed, Bomb> bombs;
 
     public BombPlayer(Player player) {
         this.player = player;
         this.type = PlayerType.ALIVE;
+        this.bombs = new HashMap<>();
     }
 
     public void enableSpectator(Bomberman plugin) {
@@ -42,6 +49,10 @@ public class BombPlayer {
         return type;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public boolean isAlive() {
         return this.type == PlayerType.ALIVE;
     }
@@ -50,8 +61,20 @@ public class BombPlayer {
         this.type = type;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Stream<Bomb> getBombs() {
+        return bombs.values().stream();
+    }
+
+    public void addBomb(Bomb bomb) {
+        this.bombs.put(bomb.getPrimed(), bomb);
+    }
+
+    public Bomb removeBomb(TNTPrimed bomb) {
+        return this.bombs.remove(bomb);
+    }
+
+    public Bomb getBomb(TNTPrimed primed) {
+        return this.bombs.get(primed);
     }
 
     public long getSneakingSince() {

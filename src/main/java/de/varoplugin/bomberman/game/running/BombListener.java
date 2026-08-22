@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.game.running;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateListenerJob;
 import de.varoplugin.bomberman.game.AbstractStateTimerJob;
@@ -33,7 +34,6 @@ public class BombListener extends AbstractStateListenerJob {
 
     private static final int MAX_TIME = 4;
 
-    private final Map<Entity, Bomb> bombs = new HashMap<>();
     private final Map<Player, AbstractStateTimerJob> sneakTimers = new HashMap<>();
 
     protected BombListener(Bomberman plugin) {
@@ -46,17 +46,6 @@ public class BombListener extends AbstractStateListenerJob {
         return (float) (MAX_TIME - ((MAX_TIME - 1) * Math.exp(-0.4 * x)));
     }
 
-    @Override
-    public void stop() {
-        this.bombs.values().forEach(bomb -> {
-            bomb.getSource().setLevel(0);
-            bomb.getSource().setExp(0);
-            bomb.getPrimed().remove();
-        });
-
-        super.stop();
-    }
-
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
@@ -65,7 +54,9 @@ public class BombListener extends AbstractStateListenerJob {
             return;
         }
 
-        if (this.bombs.values().stream().anyMatch(bomb -> bomb.getSource().equals(player))) {
+        BombPlayer bombPlayer = this.plugin.getPlayer(player);
+        int cooldown = BombermanConfig.TNT_DELAY.getValue();
+        if (bombPlayer.getBombs().anyMatch(bomb -> bomb.getPrimed().getTicksLived() < cooldown)) {
             BombermanMessages.PLAYER_COOLDOWN.send(player, player);
             event.setCancelled(true);
             return;
@@ -76,61 +67,10 @@ public class BombListener extends AbstractStateListenerJob {
 
         Entity tntEntity = event.getBlock().getWorld().spawnEntity(event.getBlock().getLocation().add(0.5, 0, 0.5), EntityType.TNT);
         Bomb bomb = new Bomb(player, (TNTPrimed) tntEntity);
-        this.bombs.put(tntEntity, bomb);
+        bombPlayer.addBomb(bomb);
 
         player.playSound(player.getLocation(), Sound.ENTITY_CREEPER_PRIMED, 1.0f, 1.0f);
         player.getWorld().spawnParticle(Particle.FLAME, tntEntity.getLocation(), 15, 0.2, 0.2, 0.2, 0.05);
-
-        this.plugin.getHeartbeat().startJobs(new AbstractStateTimerJob(this.plugin, 1) {
-
-            private Vector prevVelocity = tntEntity.getVelocity();
-
-            @Override
-            public void run() {
-                if (!tntEntity.isValid() || !bombs.containsKey(tntEntity)) {
-                    this.stop();
-                    return;
-                }
-
-                Vector currentVelocity = tntEntity.getVelocity();
-                double prevX = prevVelocity.getX();
-                double currX = currentVelocity.getX();
-                double prevZ = prevVelocity.getZ();
-                double currZ = currentVelocity.getZ();
-
-                boolean bounced = false;
-                double bounceFactor = 0.65;
-
-                if (Math.abs(prevX) > 0.1 && Math.abs(currX) < 0.01) {
-                    currentVelocity.setX(-prevX * bounceFactor);
-                    bounced = true;
-                }
-                if (Math.abs(prevZ) > 0.1 && Math.abs(currZ) < 0.01) {
-                    currentVelocity.setZ(-prevZ * bounceFactor);
-                    bounced = true;
-                }
-
-                if (bounced) {
-                    tntEntity.setVelocity(currentVelocity);
-                    tntEntity.getWorld().playSound(tntEntity.getLocation(), Sound.ENTITY_SLIME_JUMP, 1.0f, 1.2f);
-                }
-
-                prevVelocity = currentVelocity.clone();
-            }
-        });
-
-        this.plugin.getHeartbeat().startJobs(new AbstractStateTimerJob(this.plugin, 10) {
-            @Override
-            public void run() {
-                if (!bombs.containsKey(tntEntity)) {
-                    bomb.getSource().setLevel(0);
-                    this.stop();
-                } else {
-                    bomb.getSource().setLevel(bomb.getRemainingSeconds());
-                    tntEntity.getWorld().spawnParticle(Particle.LARGE_SMOKE, tntEntity.getLocation().add(0, 0.5, 0), 2, 0.1, 0.1, 0.1, 0.01);
-                }
-            }
-        });
     }
 
     @EventHandler
@@ -168,11 +108,8 @@ public class BombListener extends AbstractStateListenerJob {
     public void onEntityExplode(EntityExplodeEvent event) {
         if (event.getEntityType() != EntityType.TNT) return;
 
-        Entity tnt = event.getEntity();
-        Bomb bomb = this.bombs.remove(tnt);
-        if (bomb != null) {
-            bomb.getSource().setLevel(0);
-        }
+        TNTPrimed tnt = (TNTPrimed) event.getEntity();
+        this.plugin.removeBomb(tnt);
 
         event.blockList().removeIf(block -> block.getType() != Material.CLAY);
         for (Block block : event.blockList()) {
@@ -191,7 +128,7 @@ public class BombListener extends AbstractStateListenerJob {
             }
 
             Vector direction = entity.getLocation().toVector().subtract(tnt.getLocation().toVector()).normalize();
-            entity.setVelocity(direction.multiply(4).multiply(new Vector(1, 10, 1)));
+            entity.setVelocity(direction.multiply(4).multiply(new Vector(1, 1.3, 1)));
         }
     }
 
@@ -203,7 +140,7 @@ public class BombListener extends AbstractStateListenerJob {
 
         for (Entity ent : p.getNearbyEntities(0.25, 0.25, 0.25)) {
             if (!ent.getType().equals(EntityType.TNT)) continue;
-            Bomb bomb = this.bombs.get(ent);
+            Bomb bomb = this.plugin.getBomb((TNTPrimed) ent);
             if (bomb == null) continue;
 
             bomb.setLastTouched(p);
@@ -235,7 +172,7 @@ public class BombListener extends AbstractStateListenerJob {
 
         if (result != null && result.getHitEntity() != null) {
             TNTPrimed tnt = (TNTPrimed) result.getHitEntity();
-            Bomb bomb = this.bombs.get(tnt);
+            Bomb bomb = this.plugin.getBomb(tnt);
 
             if (bomb == null) return;
             if (tnt.getFuseTicks() == 80) return;

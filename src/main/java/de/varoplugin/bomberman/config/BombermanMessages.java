@@ -15,7 +15,6 @@ import io.github.almightysatan.slams.standalone.StandaloneMessage;
 import io.github.almightysatan.slams.standalone.StandaloneMessageArray2d;
 import io.github.almightysatan.slams.standalone.StandaloneSlams;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +32,7 @@ public class BombermanMessages {
         builder.variable("num_players", Bukkit.getOnlinePlayers()::size)
                 .contextual("num_alive", Bomberman.class, (plugin) -> plugin.getAlive().count())
                 .contextual("winner", Bomberman.class, (plugin) -> plugin.getAlive().map(player -> player.getPlayer().getName()).collect(Collectors.joining(", ")))
+                .variable("cooldown", () -> BombermanConfig.TNT_DELAY.getValue() / 20)
                 .variable("event", () -> "-")
                 .variable("power_up", () -> "-")
                 .contextual("min", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() / 60))
