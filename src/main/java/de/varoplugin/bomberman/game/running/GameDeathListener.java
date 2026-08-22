@@ -37,9 +37,10 @@ public class GameDeathListener extends AbstractStateListenerJob {
         p.setFallDistance(0);
         p.setNoDamageTicks(0);
         p.setFireTicks(0);
+        p.setInvulnerable(false);
 
         long aliveCount = this.plugin.getPlayers().filter(BombPlayer::isAlive).count();
-        if (BombermanConfig.MIN_PAYERS.getValue() > aliveCount) {
+        if (aliveCount > 1) {
             return;
         }
 
