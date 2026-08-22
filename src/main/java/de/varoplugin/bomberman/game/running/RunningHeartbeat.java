@@ -23,7 +23,8 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
         this.countdown = 600;
         this.registerJobs(new BombListener(this.plugin), new NoSurvivalListener(this.plugin),
                 new PlayerGameStateJob(this),
-                new GameEndListener(this.plugin));
+                new GameEndListener(this.plugin),
+                new PlayerStateListener(this));
     }
 
     @Override

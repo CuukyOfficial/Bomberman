@@ -20,6 +20,10 @@ public class BombPlayer {
         return this.type == PlayerType.ALIVE;
     }
 
+    public void setType(PlayerType type) {
+        this.type = type;
+    }
+
     public Player getPlayer() {
         return player;
     }

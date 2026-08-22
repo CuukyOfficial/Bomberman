@@ -6,7 +6,6 @@ import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.NoSurvivalListener;
 import de.varoplugin.bomberman.game.StateHeartbeat;
-import de.varoplugin.bomberman.hud.ScoreboardListener;
 
 public class LobbyHeartbeat extends AbstractStateHeartbeat implements StateHeartbeat {
 
@@ -16,7 +15,7 @@ public class LobbyHeartbeat extends AbstractStateHeartbeat implements StateHeart
         super(plugin);
 
         this.registerJobs(new LobbyCancelListener(this.plugin), new NoSurvivalListener(this.plugin), new LobbyStartListener(this.plugin),
-                new PlayerLobbyStateJob(this.plugin));
+                new PlayerLobbyStateJob(this.plugin), new LobbyJoinListener(this.plugin));
     }
 
     @Override

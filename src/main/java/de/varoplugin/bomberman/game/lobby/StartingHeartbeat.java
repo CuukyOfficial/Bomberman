@@ -2,11 +2,9 @@ package de.varoplugin.bomberman.game.lobby;
 
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.config.BombermanConfig;
-import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
-import de.varoplugin.bomberman.hud.ScoreboardListener;
 import org.bukkit.Bukkit;
 
 public class StartingHeartbeat extends AbstractStateHeartbeat implements StateHeartbeat {
@@ -17,7 +15,7 @@ public class StartingHeartbeat extends AbstractStateHeartbeat implements StateHe
         super(plugin);
         this.countdown = BombermanConfig.LOBBY_DELAY.getValue();
 
-        this.registerJobs(new StartAbortListener(this.plugin), new LobbyCancelListener(this.plugin));
+        this.registerJobs(new StartAbortListener(this.plugin), new LobbyCancelListener(this.plugin), new LobbyJoinListener(this.plugin));
     }
 
     @Override
