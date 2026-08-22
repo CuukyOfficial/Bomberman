@@ -1,18 +1,14 @@
 package de.varoplugin.bomberman.game.running;
 
 import de.varoplugin.bomberman.Bomberman;
-import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.game.AbstractStateListenerJob;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.model.BombPlayer;
-import de.varoplugin.bomberman.model.PlayerType;
-import org.bukkit.GameMode;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
-
-import java.util.Objects;
 
 public class GameDeathListener extends AbstractStateListenerJob {
 
@@ -23,21 +19,17 @@ public class GameDeathListener extends AbstractStateListenerJob {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.setCancelled(true);
+        Bukkit.broadcastMessage("§e" + event.getPlayer().getName() + " §7ist gestorben!");
 
         BombPlayer player = this.plugin.getPlayer(event.getPlayer());
-        player.setType(PlayerType.SPECTATOR);
+        Player p = player.getPlayer();
+        player.enableSpectator(this.plugin);
 
-        Player p = event.getPlayer();
-        p.setGameMode(GameMode.ADVENTURE);
-        p.setAllowFlight(true);
-        p.setFlying(true);
-        p.setHealth(20);
-        p.getInventory().clear();
-        p.setVelocity(p.getLocation().toVector().subtract(Objects.requireNonNull(event.getDamageSource().getSourceLocation()).toVector()).normalize().multiply(1.5).setY(0.5));
-        p.setFallDistance(0);
-        p.setNoDamageTicks(0);
-        p.setFireTicks(0);
-        p.setInvulnerable(false);
+        if (event.getDamageSource().getSourceLocation() != null) {
+            p.setVelocity(p.getLocation().toVector().subtract(event.getDamageSource().getSourceLocation().toVector()).normalize().multiply(1.5).setY(0.5));
+        } else {
+            p.setVelocity(p.getLocation().toVector().subtract(p.getLocation().toVector()).normalize().multiply(1.5).setY(0.5));
+        }
 
         long aliveCount = this.plugin.getPlayers().filter(BombPlayer::isAlive).count();
         if (aliveCount > 1) {

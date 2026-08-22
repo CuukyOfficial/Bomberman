@@ -9,7 +9,6 @@ import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.NoSurvivalListener;
 import de.varoplugin.bomberman.game.StateHeartbeat;
 import de.varoplugin.bomberman.model.BombPlayer;
-import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +24,8 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
         this.registerJobs(new BombListener(this.plugin), new NoSurvivalListener(this.plugin),
                 new PlayerGameStateJob(this),
                 new GameDeathListener(this.plugin),
-                new RunningCancelListener(this.plugin));
+                new RunningCancelListener(this.plugin),
+                new SpectatorListener(this.plugin));
     }
 
     @Override

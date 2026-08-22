@@ -2,6 +2,9 @@ package de.varoplugin.bomberman.game.running;
 
 import de.varoplugin.bomberman.game.AbstractStatePlayerJob;
 import de.varoplugin.bomberman.model.BombPlayer;
+import de.varoplugin.cfw.item.ItemBuilder;
+import de.varoplugin.cfw.player.hook.item.HookItemInteractEvent;
+import de.varoplugin.cfw.player.hook.item.PlayerItemHookBuilder;
 import de.varoplugin.cfw.player.hud.NameTagGroup;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -29,7 +32,10 @@ public class PlayerGameStateJob extends AbstractStatePlayerJob {
         this.nameTagGroup.register(bPlayer.getScoreboardInstance(), false, "" ,"");
 
         for (int i = 0; i < player.getInventory().getSize(); i++) {
-            player.getInventory().setItem(i, new ItemStack(Material.TNT));
+            new PlayerItemHookBuilder().slot(i)
+                    .item(ItemBuilder.itemStack(new ItemStack(Material.TNT)).displayName("§cSprengstoff").build())
+                    .subscribe(HookItemInteractEvent.class, _ ->
+                            player.sendMessage("Du hast gevotet!")).complete(player, this.plugin);
         }
     }
 

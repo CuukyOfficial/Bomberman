@@ -56,31 +56,6 @@ public class BombListener extends AbstractStateListenerJob {
         super.stop();
     }
 
-    /**
-     * Ausgelagerte Logik für das Schlagen von TNT.
-     * So vermeiden wir doppelten Code in den verschiedenen Events.
-     */
-    private void punchTNT(Player player, Entity tnt) {
-        Bomb bomb = this.bombs.get(tnt);
-        if (bomb == null) return;
-
-        bomb.setLastTouched(player);
-        BombPlayer bombPlayer = this.plugin.getPlayer(player);
-        float vel = calculateVelocity(bombPlayer.getSneakingSince());
-
-        Vector direction = player.getLocation().getDirection();
-        Vector newVelocity = new Vector(
-                direction.getX() * vel * 1.5,
-                0.25,
-                direction.getZ() * vel * 1.5
-        );
-
-        tnt.setVelocity(newVelocity);
-
-        player.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_ATTACK, 1.0f, 1.5f);
-        player.getWorld().spawnParticle(Particle.CLOUD, tnt.getLocation(), 10, 0.2, 0.2, 0.2, 0.1);
-    }
-
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
@@ -206,14 +181,14 @@ public class BombListener extends AbstractStateListenerJob {
         tnt.getWorld().spawnParticle(Particle.EXPLOSION, tnt.getLocation(), 2);
         tnt.getWorld().playSound(tnt.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 2.0f, 0.8f);
 
-        for (Entity entity : tnt.getNearbyEntities(3, 3, 3)) {
+        for (Entity entity : tnt.getNearbyEntities(7, 7, 7)) {
             if (entity instanceof Player player) {
                 BombPlayer bombPlayer = this.plugin.getPlayer(player);
                 if (!bombPlayer.isAlive()) continue;
             }
 
             Vector direction = entity.getLocation().toVector().subtract(tnt.getLocation().toVector()).normalize();
-            entity.setVelocity(direction.multiply(2).setY(0.5));
+            entity.setVelocity(direction.multiply(4).multiply(new Vector(1, 10, 1)));
         }
     }
 
