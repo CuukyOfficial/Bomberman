@@ -7,6 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
@@ -27,20 +29,27 @@ public class ZombieInvasionEvent extends BombermanEvent {
         super(heartbeat, "Zombie Invasion");
     }
 
+    @EventHandler
+    public void onZombieDoDamage(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Zombie zombie && this.zombies.contains(zombie)) {
+            event.setCancelled(true);
+        }
+    }
+
     @Override
     public void start() {
         super.start();
 
         this.start_time = this.getHeartbeat().getCountdown();
         this.plugin.getAlive().forEach(player -> {
-            player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1.0f, 1.0f);
+            player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1.0f, 0.3f);
 
             Zombie entity = (Zombie) player.getPlayer().getLocation().getWorld().spawnEntity(player.getPlayer().getLocation(), EntityType.ZOMBIE);
             entity.setShouldBurnInDay(false);
             entity.setInvulnerable(true);
             entity.setTarget(player.getPlayer());
             entity.getEquipment().setHelmet(new ItemStack(Material.TNT), true);
-            entity.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, PotionEffect.INFINITE_DURATION, 5, false, false, false));
+            entity.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, PotionEffect.INFINITE_DURATION, 2, false, false, false));
             entity.setInvisible(false);
 
             player.getPlayer().showEntity(this.plugin, entity);
