@@ -198,14 +198,15 @@ public class BombListener extends AbstractStateListenerJob {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player p = event.getPlayer();
+        BombPlayer bombPlayer = this.plugin.getPlayer(p);
+        if (!bombPlayer.isAlive()) return;
+
         for (Entity ent : p.getNearbyEntities(0.25, 0.25, 0.25)) {
             if (!ent.getType().equals(EntityType.TNT)) continue;
             Bomb bomb = this.bombs.get(ent);
             if (bomb == null) continue;
 
             bomb.setLastTouched(p);
-            BombPlayer bombPlayer = this.plugin.getPlayer(p);
-
             float vel = calculateVelocity(bombPlayer.getSneakingSince());
             ent.setVelocity(new Vector(
                     p.getLocation().getDirection().multiply(vel).getX(),
