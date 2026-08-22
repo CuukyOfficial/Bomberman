@@ -39,7 +39,7 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
 
         BombermanMap map = findMap();
         int i = 0;
-        for (BombPlayer player : this.plugin.getPlayers().toList()) {
+        for (BombPlayer player : this.plugin.getAlive().toList()) {
             // TODO spectators
             player.getPlayer().teleport(map.spawns.get(i++));
         }
