@@ -19,15 +19,15 @@ public class LobbyStartListener extends AbstractStateListenerJob {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (this.plugin.getServer().getOnlinePlayers().size() >= BombermanConfig.MIN_PAYERS.getValue()) {
-            BombermanMessages.broadcast(BombermanMessages.LOBBY_STARTING);
             this.plugin.switchState(GameState.STARTING);
+            BombermanMessages.broadcast(BombermanMessages.LOBBY_STARTING, this.plugin);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (this.plugin.getServer().getOnlinePlayers().size() < BombermanConfig.MIN_PAYERS.getValue()) {
-            BombermanMessages.broadcast(BombermanMessages.LOBBY_ABORT);
+            BombermanMessages.broadcast(BombermanMessages.LOBBY_ABORT, this.plugin);
             this.plugin.switchState(GameState.LOBBY);
         }
     }

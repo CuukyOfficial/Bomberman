@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.config;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.lobby.StartingHeartbeat;
 import de.varoplugin.bomberman.game.running.RunningHeartbeat;
 import io.github.almightysatan.jaskl.Resource;
 import io.github.almightysatan.jaskl.yaml.YamlConfig;
@@ -33,12 +34,14 @@ public class BombermanMessages {
                 .variable("event", () -> "TODO")
                 .variable("power_up", () -> "TODO")
                 .contextual("min", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() / 60))
-                .contextual("sec", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() % 60));
+                .contextual("sec", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() % 60))
+                .contextual("lobby_countdown", StartingHeartbeat.class, StartingHeartbeat::getCountdown);
         PLACEHOLDERS = builder.build();
     }
 
     public static final BukkitMessage LOBBY_WAITING = BukkitMessage.of("lobby.waiting", SLAMS, PLACEHOLDERS);
     public static final BukkitMessage LOBBY_STARTING = BukkitMessage.of("lobby.starting", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage LOBBY_COUNTDOWN = BukkitMessage.of("lobby.countdown", SLAMS, PLACEHOLDERS);
     public static final BukkitMessage LOBBY_ABORT = BukkitMessage.of("lobby.abort", SLAMS, PLACEHOLDERS);
 
     public static final BukkitMessage COMMAND_MAINTENANCE_ENABLED = BukkitMessage.of("command.maintenance.enabled", SLAMS, PLACEHOLDERS);
@@ -51,9 +54,9 @@ public class BombermanMessages {
     public static final StandaloneMessageArray2d SCOREBOARD_END = StandaloneMessageArray2d.of("scoreboard.end", SLAMS, PLACEHOLDERS);
     public static final StandaloneMessageArray2d SCOREBOARD_MAINTENANCE = StandaloneMessageArray2d.of("scoreboard.maintenance", SLAMS, PLACEHOLDERS);
 
-    public static void broadcast(BukkitMessage message) {
+    public static void broadcast(BukkitMessage message, Bomberman plugin) {
         for (Player player : Bukkit.getOnlinePlayers())
-            message.send(player, player);
+            message.send(player, player, plugin.getHeartbeat());
     }
 
     public static void init() throws IOException {

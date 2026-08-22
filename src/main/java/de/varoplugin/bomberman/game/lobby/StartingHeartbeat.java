@@ -2,6 +2,7 @@ package de.varoplugin.bomberman.game.lobby;
 
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.config.BombermanConfig;
+import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
@@ -32,9 +33,13 @@ public class StartingHeartbeat extends AbstractStateHeartbeat implements StateHe
         }
 
         if (this.countdown % 5 == 0 || this.countdown <= 5) {
-            Bukkit.broadcastMessage("Das Spiel startet in " + this.countdown + " Sekunden!");
+            BombermanMessages.broadcast(BombermanMessages.LOBBY_COUNTDOWN, this.plugin);
         }
 
         this.countdown--;
+    }
+
+    public int getCountdown() {
+        return countdown;
     }
 }

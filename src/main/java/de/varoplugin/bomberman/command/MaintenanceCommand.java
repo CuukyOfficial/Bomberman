@@ -24,10 +24,10 @@ public class MaintenanceCommand extends BombermanCommand {
     public int execute(CommandContext<CommandSourceStack> context) {
         if (this.getPlugin().getHeartbeat().getState() == GameState.MAINTENANCE) {
             this.getPlugin().switchState(GameState.LOBBY);
-            BombermanMessages.broadcast(BombermanMessages.COMMAND_MAINTENANCE_DISABLED);
+            BombermanMessages.broadcast(BombermanMessages.COMMAND_MAINTENANCE_DISABLED, this.getPlugin());
         } else {
             this.getPlugin().switchState(GameState.MAINTENANCE);
-            BombermanMessages.broadcast(BombermanMessages.COMMAND_MAINTENANCE_ENABLED);
+            BombermanMessages.broadcast(BombermanMessages.COMMAND_MAINTENANCE_ENABLED, this.getPlugin());
         }
         return Command.SINGLE_SUCCESS;
     }

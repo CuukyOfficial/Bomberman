@@ -26,7 +26,7 @@ public class LobbyHeartbeat extends AbstractStateHeartbeat implements StateHeart
     @Override
     public void run() {
         if (this.count >= 10) {
-            BombermanMessages.broadcast(BombermanMessages.LOBBY_WAITING);
+            BombermanMessages.broadcast(BombermanMessages.LOBBY_WAITING, this.plugin);
             this.count = 0;
         } else {
             this.count++;
