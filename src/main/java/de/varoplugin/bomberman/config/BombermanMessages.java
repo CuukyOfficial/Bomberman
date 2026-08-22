@@ -73,6 +73,12 @@ public class BombermanMessages {
         });
     }
 
+    public static void broadcast(BukkitMessage message, Bomberman plugin, BombPlayer subject) {
+        plugin.getPlayers().forEach(player -> {
+            message.send(player.getPlayer(), subject, plugin, plugin.getHeartbeat());
+        });
+    }
+
     public static void init() throws IOException {
         SLAMS.load("de", JasklParser.createReadParser(YamlConfig.of(Resource.of(BombermanMessages.class.getClassLoader().getResource("de.yml")))),
                 JasklParser.createReadWriteParser(YamlConfig.of(new File(BombermanConfig.CONFIG_DIR + "de.yml"))));

@@ -18,15 +18,15 @@ public class PlayerListener implements Listener {
     
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        this.plugin.getPlayer(event.getPlayer());
+        var player = this.plugin.getPlayer(event.getPlayer());
         event.joinMessage(null);
-        BombermanMessages.broadcast(BombermanMessages.PLAYER_JOIN, this.plugin);
+        BombermanMessages.broadcast(BombermanMessages.PLAYER_JOIN, this.plugin, player);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuitLowest(PlayerQuitEvent event) {
         event.quitMessage(null);
-        BombermanMessages.broadcast(BombermanMessages.PLAYER_QUIT, this.plugin);
+        BombermanMessages.broadcast(BombermanMessages.PLAYER_QUIT, this.plugin, this.plugin.getPlayer(event.getPlayer()));
     }
     
     @EventHandler(priority = EventPriority.MONITOR)

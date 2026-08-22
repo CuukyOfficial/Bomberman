@@ -28,7 +28,6 @@ public class BombermanConfig {
 
     private static final Config CONFIG = YamlConfig.of(new File(CONFIG_DIR + "config.yml"));
     public static final IntegerConfigEntry MIN_PAYERS = IntegerConfigEntry.of(CONFIG, "min_players", "Minimum number of players required", 2, Validator.integerGreater(0));
-    public static final IntegerConfigEntry MAX_PAYERS = IntegerConfigEntry.of(CONFIG, "max_players", "Maximum number of players required", 2, Validator.integerGreater(0));
     public static final IntegerConfigEntry TNT_DELAY = IntegerConfigEntry.of(CONFIG, "tnt_delay", "The delay with which tnt can be placed in ticks", 80, Validator.INTEGER_NOT_NEGATIVE);
     public static final IntegerConfigEntry LOBBY_DELAY = IntegerConfigEntry.of(CONFIG, "lobby.delay", "The amount of time that should be spent waiting for more players in seconds", 30, Validator.INTEGER_NOT_NEGATIVE);
     public static final IntegerConfigEntry PROTECTION_START = IntegerConfigEntry.of(CONFIG, "protection", "The initial protection time in seconds", 10, Validator.INTEGER_NOT_NEGATIVE);
