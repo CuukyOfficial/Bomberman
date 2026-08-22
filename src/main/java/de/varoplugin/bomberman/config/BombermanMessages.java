@@ -32,8 +32,8 @@ public class BombermanMessages {
                 .contextual("winner", Bomberman.class, (plugin) -> plugin.getAlive().map(player -> player.getPlayer().getName()).collect(Collectors.joining(", ")))
                 .variable("event", () -> "TODO")
                 .variable("power_up", () -> "TODO")
-                .contextual("min", RunningHeartbeat.class, (beat) -> beat.getCountdown() / 60)
-                .contextual("sec", RunningHeartbeat.class, (beat) -> beat.getCountdown() % 60);
+                .contextual("min", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() / 60))
+                .contextual("sec", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() % 60));
         PLACEHOLDERS = builder.build();
     }
 
