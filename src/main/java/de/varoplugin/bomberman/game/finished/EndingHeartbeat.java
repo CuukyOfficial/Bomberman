@@ -1,12 +1,13 @@
 package de.varoplugin.bomberman.game.finished;
 
 import de.varoplugin.bomberman.Bomberman;
-import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
-import de.varoplugin.bomberman.hud.ScoreboardListener;
+import de.varoplugin.bomberman.model.BombPlayer;
 import org.bukkit.Bukkit;
+
+import java.util.List;
 
 // Me I hope soon
 public class EndingHeartbeat extends AbstractStateHeartbeat implements StateHeartbeat {
@@ -26,7 +27,20 @@ public class EndingHeartbeat extends AbstractStateHeartbeat implements StateHear
     public void start() {
         super.start();
 
-        Bukkit.broadcastMessage("§7Das Spiel ist vorbei!");
+        List<BombPlayer> winners = this.plugin.getPlayers().filter(BombPlayer::isAlive).toList();
+        if (winners.isEmpty()) {
+            Bukkit.broadcastMessage("§7Niemand hat gewonnen!");
+        } else {
+            StringBuilder message = new StringBuilder("§7Gewinner: ");
+            for (int i = 0; i < winners.size(); i++) {
+                BombPlayer winner = winners.get(i);
+                message.append(winner.getPlayer().getName());
+                if (i < winners.size() - 1) {
+                    message.append(", ");
+                }
+            }
+            Bukkit.broadcastMessage(message.toString());
+        }
     }
 
     @Override

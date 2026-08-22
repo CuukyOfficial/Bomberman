@@ -15,9 +15,12 @@ import java.util.Collections;
 
 public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHeartbeat {
 
+    private int countdown;
+
     public RunningHeartbeat(Bomberman plugin) {
         super(plugin);
 
+        this.countdown = 600;
         this.registerJobs(new BombListener(this.plugin), new NoSurvivalListener(this.plugin),
                 new PlayerGameStateJob(this),
                 new GameEndListener(this.plugin));
@@ -71,6 +74,11 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
 
     @Override
     public void run() {
+        if (this.countdown == 0) {
+            this.plugin.switchState(GameState.FINISHED);
+            return;
+        }
 
+        this.countdown--;
     }
 }
