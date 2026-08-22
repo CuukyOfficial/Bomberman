@@ -2,6 +2,7 @@ package de.varoplugin.bomberman.game.finished;
 
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.config.BombermanConfig;
+import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.StateHeartbeat;
@@ -32,17 +33,9 @@ public class EndingHeartbeat extends AbstractStateHeartbeat implements StateHear
 
         List<BombPlayer> winners = this.plugin.getPlayers().filter(BombPlayer::isAlive).toList();
         if (winners.isEmpty()) {
-            Bukkit.broadcastMessage("§7Niemand hat gewonnen!");
+            BombermanMessages.broadcast(BombermanMessages.GAME_END_TIE, this.plugin);
         } else {
-            StringBuilder message = new StringBuilder("§7Gewinner: ");
-            for (int i = 0; i < winners.size(); i++) {
-                BombPlayer winner = winners.get(i);
-                message.append(winner.getPlayer().getName());
-                if (i < winners.size() - 1) {
-                    message.append(", ");
-                }
-            }
-            Bukkit.broadcastMessage(message.toString());
+            BombermanMessages.broadcast(BombermanMessages.GAME_END_WIN, this.plugin);
         }
     }
 
@@ -51,9 +44,13 @@ public class EndingHeartbeat extends AbstractStateHeartbeat implements StateHear
         if (count == 0) {
             this.plugin.getServer().shutdown();
         } else {
-            Bukkit.broadcastMessage("§7Spiel endet in " + count + " Sekunden");
+            BombermanMessages.broadcast(BombermanMessages.GAME_END_SHUTDOWN, this.plugin);
         }
 
         count--;
+    }
+
+    public int getCountdown() {
+        return count;
     }
 }

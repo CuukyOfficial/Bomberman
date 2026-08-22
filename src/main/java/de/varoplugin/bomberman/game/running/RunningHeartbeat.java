@@ -3,6 +3,7 @@ package de.varoplugin.bomberman.game.running;
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.config.BombermanMap;
+import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateHeartbeat;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.game.NoSurvivalListener;
@@ -35,7 +36,7 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
     public void start() {
         super.start();
 
-        Bukkit.broadcastMessage("§7Das Spiel hat begonnen!");
+        BombermanMessages.broadcast(BombermanMessages.GAME_START, this.plugin);
 
         BombermanMap map = findMap();
         int i = 0;

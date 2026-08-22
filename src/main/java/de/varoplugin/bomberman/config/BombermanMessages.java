@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.config;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.finished.EndingHeartbeat;
 import de.varoplugin.bomberman.game.lobby.StartingHeartbeat;
 import de.varoplugin.bomberman.game.running.RunningHeartbeat;
 import io.github.almightysatan.jaskl.Resource;
@@ -35,7 +36,8 @@ public class BombermanMessages {
                 .variable("power_up", () -> "§7-")
                 .contextual("min", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() / 60))
                 .contextual("sec", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() % 60))
-                .contextual("lobby_countdown", StartingHeartbeat.class, StartingHeartbeat::getCountdown);
+                .contextual("lobby_countdown", StartingHeartbeat.class, StartingHeartbeat::getCountdown)
+                .contextual("shutdown_countdown", EndingHeartbeat.class, EndingHeartbeat::getCountdown);
         PLACEHOLDERS = builder.build();
     }
 
@@ -43,6 +45,11 @@ public class BombermanMessages {
     public static final BukkitMessage LOBBY_STARTING = BukkitMessage.of("lobby.starting", SLAMS, PLACEHOLDERS);
     public static final BukkitMessage LOBBY_COUNTDOWN = BukkitMessage.of("lobby.countdown", SLAMS, PLACEHOLDERS);
     public static final BukkitMessage LOBBY_ABORT = BukkitMessage.of("lobby.abort", SLAMS, PLACEHOLDERS);
+
+    public static final BukkitMessage GAME_START = BukkitMessage.of("game.start", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage GAME_END_TIE = BukkitMessage.of("game.end.tie", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage GAME_END_WIN = BukkitMessage.of("game.end.win", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage GAME_END_SHUTDOWN = BukkitMessage.of("game.end.shutdown", SLAMS, PLACEHOLDERS);
 
     public static final BukkitMessage COMMAND_MAINTENANCE_ENABLED = BukkitMessage.of("command.maintenance.enabled", SLAMS, PLACEHOLDERS);
     public static final BukkitMessage COMMAND_MAINTENANCE_DISABLED = BukkitMessage.of("command.maintenance.disabled", SLAMS, PLACEHOLDERS);
