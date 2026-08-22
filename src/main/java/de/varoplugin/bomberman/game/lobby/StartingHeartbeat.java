@@ -13,15 +13,20 @@ public class StartingHeartbeat extends AbstractStateHeartbeat implements StateHe
 
     public StartingHeartbeat(Bomberman plugin) {
         super(plugin);
-        this.countdown = BombermanConfig.LOBBY_DELAY.getValue();
 
-        this.registerJobs(new StartAbortListener(this.plugin), new LobbyCancelListener(this.plugin), new LobbyJoinListener(this.plugin),
-                new PlayerLobbyStateJob(this.plugin));
+        this.registerJobs(new LobbyCancelListener(this.plugin), new LobbyJoinListener(this.plugin),
+                new PlayerLobbyStateJob(this.plugin), new LobbyAbortListener(this.plugin));
     }
 
     @Override
     public GameState getState() {
         return GameState.STARTING;
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        this.countdown = BombermanConfig.LOBBY_DELAY.getValue();
     }
 
     @Override
