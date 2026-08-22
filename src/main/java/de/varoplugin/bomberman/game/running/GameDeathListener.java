@@ -33,7 +33,7 @@ public class GameDeathListener extends AbstractStateListenerJob {
         p.setFlying(true);
         p.setHealth(20);
         p.getInventory().clear();
-        p.setVelocity(p.getLocation().toVector().subtract(Objects.requireNonNull(event.getDamageSource().getSourceLocation()).toVector()).normalize().multiply(5).setY(0.5));
+        p.setVelocity(p.getLocation().toVector().subtract(Objects.requireNonNull(event.getDamageSource().getSourceLocation()).toVector()).normalize().multiply(1.5).setY(0.5));
         p.setFallDistance(0);
         p.setNoDamageTicks(0);
         p.setFireTicks(0);

@@ -15,6 +15,10 @@ public class Bomb {
         this.lastTouched = source;
     }
 
+    public TNTPrimed getPrimed() {
+        return primed;
+    }
+
     public Player getSource() {
         return source;
     }

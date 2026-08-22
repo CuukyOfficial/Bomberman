@@ -45,6 +45,17 @@ public class BombListener extends AbstractStateListenerJob {
         return (float) (MAX_TIME - ((MAX_TIME - 1) * Math.exp(-0.4 * x)));
     }
 
+    @Override
+    public void stop() {
+        this.bombs.values().forEach(bomb -> {
+            bomb.getSource().setLevel(0);
+            bomb.getSource().setExp(0);
+            bomb.getPrimed().remove();
+        });
+
+        super.stop();
+    }
+
     /**
      * Ausgelagerte Logik für das Schlagen von TNT.
      * So vermeiden wir doppelten Code in den verschiedenen Events.
@@ -194,6 +205,16 @@ public class BombListener extends AbstractStateListenerJob {
 
         tnt.getWorld().spawnParticle(Particle.EXPLOSION, tnt.getLocation(), 2);
         tnt.getWorld().playSound(tnt.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 2.0f, 0.8f);
+
+        for (Entity entity : tnt.getNearbyEntities(3, 3, 3)) {
+            if (entity instanceof Player player) {
+                BombPlayer bombPlayer = this.plugin.getPlayer(player);
+                if (!bombPlayer.isAlive()) continue;
+            }
+
+            Vector direction = entity.getLocation().toVector().subtract(tnt.getLocation().toVector()).normalize();
+            entity.setVelocity(direction.multiply(2).setY(0.5));
+        }
     }
 
     @EventHandler
