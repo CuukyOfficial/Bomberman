@@ -16,11 +16,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ScoreboardListener implements Listener {
-    
+
     private static final int SCOREBOARD_UPDATE_DELAY = 20;
 
     private final Bomberman plugin;
-    
+
     public ScoreboardListener(Bomberman plugin) {
         this.plugin = plugin;
     }
@@ -38,9 +38,8 @@ public class ScoreboardListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         var player = this.plugin.getPlayer(event.getPlayer());
         player.getScoreboard().destroy();
-        player.setScoreboard(null);
     }
-    
+
     @EventHandler
     public void onStateSwitch(BombermanStateSwitchEvent event) {
         var content = this.getScoreboardContent(this.plugin.getHeartbeat().getState());
@@ -56,7 +55,7 @@ public class ScoreboardListener implements Listener {
             case MAINTENANCE -> BombermanMessages.SCOREBOARD_MAINTENANCE;
         };
     }
-    
+
     private AnimationData<String[]> getAnimationData(BombPlayer player, StandaloneMessageArray2d content) {
         return new AnimationData<>() {
             @Override
