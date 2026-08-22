@@ -1,5 +1,7 @@
 package de.varoplugin.bomberman.config;
 
+import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.running.RunningHeartbeat;
 import io.github.almightysatan.jaskl.Resource;
 import io.github.almightysatan.jaskl.yaml.YamlConfig;
 import io.github.almightysatan.slams.PlaceholderResolver;
@@ -14,6 +16,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class BombermanMessages {
 
@@ -25,12 +28,12 @@ public class BombermanMessages {
         PlaceholderResolver.Builder builder = PlaceholderResolver.builder().builtIn();
         BukkitPlaceholders.addBuiltIn(builder);
         builder.variable("num_players", Bukkit.getOnlinePlayers()::size)
-                .variable("num_alive", () -> "TODO")
-                .variable("winner", () -> "TODO")
+                .contextual("num_alive", Bomberman.class, (plugin) -> plugin.getAlive().count())
+                .contextual("winner", Bomberman.class, (plugin) -> plugin.getAlive().map(player -> player.getPlayer().getName()).collect(Collectors.joining(", ")))
                 .variable("event", () -> "TODO")
                 .variable("power_up", () -> "TODO")
-                .variable("min", () -> "TODO")
-                .variable("sec", () -> "TODO");
+                .contextual("min", RunningHeartbeat.class, (beat) -> beat.getCountdown() / 60)
+                .contextual("sec", RunningHeartbeat.class, (beat) -> beat.getCountdown() % 60);
         PLACEHOLDERS = builder.build();
     }
 

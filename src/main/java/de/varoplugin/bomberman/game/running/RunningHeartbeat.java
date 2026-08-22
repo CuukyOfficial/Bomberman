@@ -72,6 +72,10 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
         return optimal;
     }
 
+    public int getCountdown() {
+        return this.countdown;
+    }
+
     @Override
     public void run() {
         if (this.countdown == 0) {

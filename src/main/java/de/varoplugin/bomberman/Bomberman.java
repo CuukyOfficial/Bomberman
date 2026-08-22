@@ -79,6 +79,10 @@ public class Bomberman extends JavaPlugin {
         return this.players.computeIfAbsent(player, BombPlayer::new);
     }
 
+    public Stream<BombPlayer> getAlive() {
+        return this.getPlayers().filter(BombPlayer::isAlive);
+    }
+
     public Stream<BombPlayer> getPlayers() {
         return this.players.values().stream();
     }

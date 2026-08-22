@@ -71,7 +71,7 @@ public class ScoreboardListener implements Listener {
 
             @Override
             public String[] getFrame(int index) {
-                return content.translate(null, player).get(index).value(player);
+                return content.translate(null, player).get(index).value(player, plugin.getHeartbeat(), plugin);
             }
         };
     }
