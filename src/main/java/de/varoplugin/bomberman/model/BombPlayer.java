@@ -13,6 +13,7 @@ public class BombPlayer {
 
     public BombPlayer(Player player) {
         this.player = player;
+        this.type = PlayerType.ALIVE;
     }
 
     public boolean isAlive() {
