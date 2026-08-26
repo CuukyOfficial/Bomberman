@@ -35,7 +35,9 @@ public abstract class AbstractStateTimerJob extends AbstractStateListenerJob imp
     public void start() {
         super.start();
 
-        this.stop();
+        if (this.task != null)
+            throw new IllegalStateException("Task " + this + " already started");
+
         this.task = this.createTask();
     }
 

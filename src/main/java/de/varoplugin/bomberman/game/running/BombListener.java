@@ -138,9 +138,9 @@ public class BombListener extends AbstractStateListenerJob {
         BombPlayer bombPlayer = this.plugin.getPlayer(p);
         if (!bombPlayer.isAlive()) return;
 
-        for (Entity ent : p.getNearbyEntities(0.25, 0.25, 0.25)) {
+        for (TNTPrimed ent : p.getLocation().getNearbyEntitiesByType(TNTPrimed.class, 0.25, 0.25, 0.25)) {
             if (!ent.getType().equals(EntityType.TNT)) continue;
-            Bomb bomb = this.plugin.getBomb((TNTPrimed) ent);
+            Bomb bomb = this.plugin.getBomb(ent);
             if (bomb == null) continue;
 
             bomb.setLastTouched(p);

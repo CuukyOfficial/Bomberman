@@ -27,7 +27,7 @@ public class PowerupJob extends AbstractStateTimerJob {
         this.heartbeat = heartbeat;
 
         this.heartbeat.registerJobs(new RunnableJob(this.plugin, 1, true, this::checkPlayersForCollect),
-                new FreezePowerupJob(this.plugin));
+                new FreezePowerupJob(this.plugin), new CarryPowerupJob(this.plugin));
     }
 
     private void checkPlayersForCollect() {
