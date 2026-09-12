@@ -2,7 +2,7 @@ package de.varoplugin.bomberman.game.running.powerup;
 
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.game.AbstractStateTimerJob;
-import de.varoplugin.bomberman.game.running.event.PlayerPunchBombEvent;
+import de.varoplugin.bomberman.game.running.event.PlayerThrowBombEvent;
 import de.varoplugin.bomberman.model.Bomb;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
@@ -24,7 +24,7 @@ public class CarryPowerupJob extends AbstractStateTimerJob {
     }
 
     @EventHandler
-    public void onPlayerPunchBomb(PlayerPunchBombEvent event) {
+    public void onPlayerPunchBomb(PlayerThrowBombEvent event) {
         BombPlayer player = event.getPlayer();
         if (player.getPowerupEffect() != PowerupEffect.CARRY) return;
         event.setCancelled(true);

@@ -15,6 +15,10 @@ public class PowerupItem {
         this.hologram = hologram;
     }
 
+    public Hologram getHologram() {
+        return hologram;
+    }
+
     public PowerupEffect getEffect() {
         return effect;
     }

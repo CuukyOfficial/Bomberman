@@ -4,7 +4,7 @@ import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateListenerJob;
-import de.varoplugin.bomberman.game.running.event.PlayerPunchBombEvent;
+import de.varoplugin.bomberman.game.running.event.PlayerThrowBombEvent;
 import de.varoplugin.bomberman.model.Bomb;
 import de.varoplugin.bomberman.model.BombPlayer;
 import org.bukkit.FluidCollisionMode;
@@ -59,8 +59,6 @@ public class BombListener extends AbstractStateListenerJob {
         player.getWorld().spawnParticle(Particle.FLAME, tntEntity.getLocation(), 15, 0.2, 0.2, 0.2, 0.05);
     }
 
-
-
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
         if (event.getEntityType() != EntityType.TNT) return;
@@ -101,6 +99,10 @@ public class BombListener extends AbstractStateListenerJob {
             if (bomb == null) continue;
 
             bomb.setLastTouched(bombPlayer);
+            PlayerThrowBombEvent throwEvent = new PlayerThrowBombEvent(bombPlayer, bomb);
+            this.plugin.getServer().getPluginManager().callEvent(throwEvent);
+            if (throwEvent.isCancelled()) return;
+
             float vel = bombPlayer.calculateCharge();
             ent.setVelocity(new Vector(
                     p.getLocation().getDirection().multiply(vel).getX(),
@@ -135,9 +137,9 @@ public class BombListener extends AbstractStateListenerJob {
             if (tnt.getFuseTicks() == 80) return;
 
             bomb.setLastTouched(bombPlayer);
-            PlayerPunchBombEvent punchEvent = new PlayerPunchBombEvent(event, bombPlayer, bomb);
-            this.plugin.getServer().getPluginManager().callEvent(punchEvent);
-            if (punchEvent.isCancelled()) return;
+            PlayerThrowBombEvent throwEvent = new PlayerThrowBombEvent(bombPlayer, bomb);
+            this.plugin.getServer().getPluginManager().callEvent(throwEvent);
+            if (throwEvent.isCancelled()) return;
 
             float vel = bombPlayer.calculateCharge();
 

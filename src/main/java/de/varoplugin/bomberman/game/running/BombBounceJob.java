@@ -15,7 +15,7 @@ public class BombBounceJob extends AbstractStateTimerJob {
     private final Map<TNTPrimed, Vector> velocities = new HashMap<>();
 
     public BombBounceJob(Bomberman plugin) {
-        super(plugin, 1, true);
+        super(plugin, 1, false);
     }
 
     @Override
@@ -26,10 +26,6 @@ public class BombBounceJob extends AbstractStateTimerJob {
                 velocities.remove(tntEntity);
                 return;
             }
-
-            BombBounceEvent event = new BombBounceEvent(bomb);
-            this.plugin.getServer().getPluginManager().callEvent(event);
-            if (event.isCancelled()) return;
 
             if (!velocities.containsKey(tntEntity)) {
                 velocities.put(tntEntity, tntEntity.getVelocity().clone());
@@ -55,12 +51,16 @@ public class BombBounceJob extends AbstractStateTimerJob {
             }
 
             if (bounced) {
+                BombBounceEvent event = new BombBounceEvent(bomb);
+                this.plugin.getServer().getPluginManager().callEvent(event);
+                if (event.isCancelled()) return;
+
                 tntEntity.setVelocity(currentVelocity);
                 this.plugin.getServer().getScheduler().runTask(this.plugin, () ->
                         tntEntity.getWorld().playSound(tntEntity.getLocation(), Sound.ENTITY_SLIME_JUMP, 1.0f, 1.2f));
             }
 
-            velocities.put(tntEntity, currentVelocity.clone());
+            velocities.put(tntEntity, tntEntity.getVelocity().clone());
         });
     }
 }

@@ -2,7 +2,7 @@ package de.varoplugin.bomberman.game.running.powerup;
 
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.game.AbstractStateListenerJob;
-import de.varoplugin.bomberman.game.running.event.PlayerPunchBombEvent;
+import de.varoplugin.bomberman.game.running.event.PlayerThrowBombEvent;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.event.EventHandler;
@@ -35,7 +35,7 @@ public abstract class AbstractSneakPowerupJob extends AbstractStateListenerJob {
     abstract void power(BombPlayer player);
 
     @EventHandler
-    public void onPlayerPunchBomb(PlayerPunchBombEvent event) {
+    public void onPlayerPunchBomb(PlayerThrowBombEvent event) {
         BombPlayer player = event.getPlayer();
         if (player.getPowerupEffect() != this.effect || !player.getPlayer().isSneaking()) return;
         if (this.isCooldown(player)) return;

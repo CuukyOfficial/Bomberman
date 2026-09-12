@@ -5,30 +5,19 @@ import de.varoplugin.bomberman.model.BombPlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerAnimationEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class PlayerPunchBombEvent extends Event implements Cancellable {
+public class PlayerThrowBombEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
-    private final PlayerAnimationEvent source;
     private final BombPlayer player;
     private final Bomb bomb;
     private boolean cancelled = false;
 
-    public PlayerPunchBombEvent(PlayerAnimationEvent source, BombPlayer player, Bomb bomb) {
-        this.source = source;
+    public PlayerThrowBombEvent(BombPlayer player, Bomb bomb) {
         this.player = player;
         this.bomb = bomb;
-    }
-
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
-
-    public PlayerAnimationEvent getSource() {
-        return source;
     }
 
     public BombPlayer getPlayer() {
@@ -51,6 +40,10 @@ public class PlayerPunchBombEvent extends Event implements Cancellable {
 
     @Override
     public @NotNull HandlerList getHandlers() {
+        return HANDLER_LIST;
+    }
+
+    public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
 

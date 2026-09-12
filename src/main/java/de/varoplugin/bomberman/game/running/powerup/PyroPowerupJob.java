@@ -8,6 +8,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class PyroPowerupJob extends AbstractStateListenerJob {
@@ -16,7 +17,7 @@ public class PyroPowerupJob extends AbstractStateListenerJob {
         super(plugin);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onEntityExplode(EntityExplodeEvent event) {
         if (event.isCancelled()) return;
         if (!(event.getEntity() instanceof TNTPrimed tnt)) return;

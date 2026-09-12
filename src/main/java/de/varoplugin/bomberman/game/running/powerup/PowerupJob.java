@@ -3,12 +3,15 @@ package de.varoplugin.bomberman.game.running.powerup;
 import de.varoplugin.bomberman.game.AbstractStateTimerJob;
 import de.varoplugin.bomberman.game.RunnableJob;
 import de.varoplugin.bomberman.game.running.RunningHeartbeat;
+import de.varoplugin.bomberman.game.running.event.PowerupCollectEvent;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import de.varoplugin.bomberman.model.PowerupItem;
 import de.varoplugin.cfw.world.Hologram;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityRemoveEvent;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -25,11 +28,20 @@ public class PowerupJob extends AbstractStateTimerJob {
         super(heartbeat.getPlugin(), 20, true);
         this.heartbeat = heartbeat;
 
-        this.heartbeat.registerJobs(new RunnableJob(this.plugin, 1, true, this::checkPlayersForCollect),
+        this.heartbeat.registerJobs(new RunnableJob(this.plugin, 1, false, this::checkPlayersForCollect),
                 new FreezePowerupJob(this.plugin), new CarryPowerupJob(this.plugin), new SpeedPowerupJob(this.plugin),
                 new ShockwavePowerupJob(this.plugin), new DetonatorPowerupJob(this.plugin),
                 new StickyPowerupJob(this.plugin),
                 new BullyPowerupJob(this.plugin));
+    }
+
+    @EventHandler
+    public void onEntityDestroyed(EntityRemoveEvent event) {
+        if (this.spawnedPowerups.containsKey(event.getEntity())) {
+            PowerupItem powerup = this.spawnedPowerups.get(event.getEntity());
+            powerup.getHologram().remove();
+            this.spawnedPowerups.remove(event.getEntity());
+        }
     }
 
     private void checkPlayersForCollect() {
@@ -37,8 +49,9 @@ public class PowerupJob extends AbstractStateTimerJob {
             Location playerLocation = player.getPlayer().getLocation();
             this.spawnedPowerups.forEach((crystal, powerup) -> {
                 if (playerLocation.distance(crystal.getLocation()) < 1) {
-                    this.plugin.getServer().getScheduler().runTask(this.plugin, powerup::remove);
+                    powerup.remove();
                     this.spawnedPowerups.remove(crystal);
+                    this.plugin.getServer().getPluginManager().callEvent(new PowerupCollectEvent(player, powerup.getEffect()));
                     player.setPowerupEffect(powerup.getEffect());
                     player.getScoreboard().queueUpdate();
                 }
