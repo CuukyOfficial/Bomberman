@@ -23,7 +23,7 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
         float strength = player.calculateCharge();
         float radius = 2 + strength * 5;
         int particleAmount = (int) (10 + strength * 20);
-        int duration = (int) (2 + strength * 5);
+        int duration = (int) (2 + strength * 5) * 20;
         int amplifier = (int) (1 + strength * 4);
         player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_SNOW_GOLEM_HURT, 1.0f, 1.0f);
         // Effects

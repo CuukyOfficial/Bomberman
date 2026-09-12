@@ -33,7 +33,8 @@ public class PowerupJob extends AbstractStateTimerJob {
                 new FreezePowerupJob(this.plugin), new CarryPowerupJob(this.plugin), new SpeedPowerupJob(this.plugin),
                 new ShockwavePowerupJob(this.plugin), new DetonatorPowerupJob(this.plugin),
                 new StickyPowerupJob(this.plugin),
-                new BullyPowerupJob(this.plugin));
+                new BullyPowerupJob(this.plugin),
+                new PyroPowerupJob(this.plugin));
     }
 
     @EventHandler
