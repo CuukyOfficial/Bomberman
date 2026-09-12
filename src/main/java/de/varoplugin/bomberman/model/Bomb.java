@@ -1,15 +1,14 @@
 package de.varoplugin.bomberman.model;
 
-import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 
 public class Bomb {
 
-    private final Player source;
+    private final BombPlayer source;
     private final TNTPrimed primed;
-    private Player lastTouched;
+    private BombPlayer lastTouched;
 
-    public Bomb(Player source, TNTPrimed primed) {
+    public Bomb(BombPlayer source, TNTPrimed primed) {
         this.source = source;
         this.primed = primed;
         this.lastTouched = source;
@@ -19,7 +18,7 @@ public class Bomb {
         return primed;
     }
 
-    public Player getSource() {
+    public BombPlayer getSource() {
         return source;
     }
 
@@ -27,7 +26,7 @@ public class Bomb {
         return this.primed.getFuseTicks() / 20;
     }
 
-    public void setLastTouched(Player lastTouched) {
+    public void setLastTouched(BombPlayer lastTouched) {
         this.lastTouched = lastTouched;
     }
 }

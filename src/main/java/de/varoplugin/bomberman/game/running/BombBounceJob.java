@@ -2,6 +2,7 @@ package de.varoplugin.bomberman.game.running;
 
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.game.AbstractStateTimerJob;
+import de.varoplugin.bomberman.game.running.event.BombBounceEvent;
 import org.bukkit.Sound;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.util.Vector;
@@ -21,16 +22,19 @@ public class BombBounceJob extends AbstractStateTimerJob {
     public void run() {
         this.plugin.getBombs().forEach(bomb -> {
             TNTPrimed tntEntity = bomb.getPrimed();
+            if (!tntEntity.isValid()) {
+                velocities.remove(tntEntity);
+                return;
+            }
+
+            BombBounceEvent event = new BombBounceEvent(bomb);
+            this.plugin.getServer().getPluginManager().callEvent(event);
+            if (event.isCancelled()) return;
+
             if (!velocities.containsKey(tntEntity)) {
                 velocities.put(tntEntity, tntEntity.getVelocity().clone());
             }
             Vector prevVelocity = velocities.get(tntEntity);
-
-            if (!tntEntity.isValid()) {
-                velocities.remove(tntEntity);
-                this.stop();
-                return;
-            }
 
             Vector currentVelocity = tntEntity.getVelocity();
             double prevX = prevVelocity.getX();

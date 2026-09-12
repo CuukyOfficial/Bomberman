@@ -29,8 +29,8 @@ public class BombTimerJob extends AbstractStateTimerJob {
         super.stop();
 
         this.plugin.getBombs().forEach(bomb -> {
-            bomb.getSource().setLevel(0);
-            bomb.getSource().setExp(0);
+            bomb.getSource().getPlayer().setLevel(0);
+            bomb.getSource().getPlayer().setExp(0);
             bomb.getPrimed().remove();
         });
     }

@@ -1,28 +1,43 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
 import de.varoplugin.bomberman.Bomberman;
-import de.varoplugin.bomberman.game.AbstractStateListenerJob;
-import de.varoplugin.bomberman.model.Bomb;
 import de.varoplugin.bomberman.model.BombPlayer;
-import org.bukkit.FluidCollisionMode;
+import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.TNTPrimed;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerAnimationEvent;
-import org.bukkit.event.player.PlayerAnimationType;
-import org.bukkit.util.RayTraceResult;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-public class FreezePowerupJob extends AbstractStateListenerJob {
+public class FreezePowerupJob extends AbstractSneakPowerupJob {
 
-    // You can freeze players that you punch
     public FreezePowerupJob(Bomberman plugin) {
-        super(plugin);
+        super(plugin, PowerupEffect.FREEZE, 5);
     }
 
+    @Override
+    void power(BombPlayer player) {
+        // Give all nearby entities a slowness effect and play a sound and particle effect
+        float strength = player.calculateCharge();
+        float radius = 2 + strength * 5;
+        int duration = (int) (2 + strength * 5);
+        int amplifier = (int) (1 + strength * 4);
+        player.getPlayer().getNearbyEntities(radius, radius, radius).forEach(entity -> {
+            if (!entity.equals(player.getPlayer())) {
+                entity.setVelocity(new Vector(0, 0, 0));
 
+                entity.getWorld().spawnParticle(Particle.SNOWFLAKE, entity.getLocation().add(0, 1, 0), 10, 0.5, 0.5, 0.5, 0);
+
+                if (entity instanceof LivingEntity lv) {
+                    lv.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, duration, amplifier, false, false, false));
+
+                    if (lv instanceof Player p) {
+                        p.playSound(entity.getLocation(), Sound.ENTITY_SNOW_GOLEM_HURT, 1.0f, 1.0f);
+                    }
+                }
+            }
+        });
+    }
 }

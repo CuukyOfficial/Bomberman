@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 
 public class BombPlayer {
 
+    public static final int MAX_CHARGE_TIME = 4;
+
     private final Player player;
     private PlayerType type;
     private PowerupEffect powerupEffect;
@@ -43,6 +45,12 @@ public class BombPlayer {
             if (!alive.isAlive()) continue;
             alive.getPlayer().hidePlayer(plugin, this.player);
         }
+    }
+
+    public float calculateCharge() {
+        if (sneakingSince == 0) return 1;
+        float x = (System.currentTimeMillis() - sneakingSince) / 1000f;
+        return (float) (MAX_CHARGE_TIME - ((MAX_CHARGE_TIME - 1) * Math.exp(-0.4 * x)));
     }
 
     public PowerupEffect getPowerupEffect() {

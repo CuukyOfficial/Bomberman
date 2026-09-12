@@ -32,6 +32,7 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
                 new GameDeathListener(this.plugin),
                 new RunningCancelListener(this.plugin),
                 new SpectatorListener(this.plugin),
+                new PlayerChargeJob(this.plugin),
                 new BombTimerJob(this.plugin),
                 new BombBounceJob(this.plugin),
                 new SpectatorListener(this.plugin),

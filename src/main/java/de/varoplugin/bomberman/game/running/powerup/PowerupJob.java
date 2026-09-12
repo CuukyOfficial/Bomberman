@@ -1,6 +1,5 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
-import de.varoplugin.bomberman.config.BombermanConfig;
 import de.varoplugin.bomberman.game.AbstractStateTimerJob;
 import de.varoplugin.bomberman.game.RunnableJob;
 import de.varoplugin.bomberman.game.running.RunningHeartbeat;
@@ -27,7 +26,10 @@ public class PowerupJob extends AbstractStateTimerJob {
         this.heartbeat = heartbeat;
 
         this.heartbeat.registerJobs(new RunnableJob(this.plugin, 1, true, this::checkPlayersForCollect),
-                new FreezePowerupJob(this.plugin), new CarryPowerupJob(this.plugin));
+                new FreezePowerupJob(this.plugin), new CarryPowerupJob(this.plugin), new SpeedPowerupJob(this.plugin),
+                new ShockwavePowerupJob(this.plugin), new DetonatorPowerupJob(this.plugin),
+                new StickyPowerupJob(this.plugin),
+                new BullyPowerupJob(this.plugin));
     }
 
     private void checkPlayersForCollect() {
@@ -64,11 +66,11 @@ public class PowerupJob extends AbstractStateTimerJob {
             this.possibleLocations.add(player.getPlayer().getLocation().clone());
         });
 
-        if (this.heartbeat.getCountdown() > BombermanConfig.GAME_LENGTH.getValue() - 30)
-            return; // Don't spawn powerups in the first 30 seconds
+//        if (this.heartbeat.getCountdown() > BombermanConfig.GAME_LENGTH.getValue() - 30)
+//            return; // Don't spawn powerups in the first 30 seconds
 
         long players = this.plugin.getAlive().count();
-        if (Math.random() < 0.0116 * players && this.spawnedPowerups.size() < players * 2) { // Max wait time of 1 minute for per player
+        if (Math.random() < 0.3116 * players && this.spawnedPowerups.size() < players * 2) { // Max wait time of 1 minute for per player
             this.plugin.getServer().getScheduler().runTask(this.plugin, this::spawnRandomPowerup);
         }
     }
