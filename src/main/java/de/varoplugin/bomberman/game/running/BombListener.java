@@ -98,7 +98,7 @@ public class BombListener extends AbstractStateListenerJob {
             if (bomb == null) continue;
 
             bomb.setLastTouched(bombPlayer);
-            PlayerThrowBombEvent throwEvent = new PlayerThrowBombEvent(bombPlayer, bomb);
+            PlayerThrowBombEvent throwEvent = new PlayerThrowBombEvent(bombPlayer, PlayerThrowBombEvent.ThrowSource.TOUCH, bomb);
             this.plugin.getServer().getPluginManager().callEvent(throwEvent);
             if (throwEvent.isCancelled()) return;
 
@@ -136,7 +136,7 @@ public class BombListener extends AbstractStateListenerJob {
             if (tnt.getFuseTicks() == 80) return;
 
             bomb.setLastTouched(bombPlayer);
-            PlayerThrowBombEvent throwEvent = new PlayerThrowBombEvent(bombPlayer, bomb);
+            PlayerThrowBombEvent throwEvent = new PlayerThrowBombEvent(bombPlayer, PlayerThrowBombEvent.ThrowSource.PUNCH, bomb);
             this.plugin.getServer().getPluginManager().callEvent(throwEvent);
             if (throwEvent.isCancelled()) return;
 

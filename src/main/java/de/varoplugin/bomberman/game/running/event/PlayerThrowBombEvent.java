@@ -10,18 +10,22 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerThrowBombEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLER_LIST = new HandlerList();
-
     private final BombPlayer player;
     private final Bomb bomb;
+    private final ThrowSource throwSource;
     private boolean cancelled = false;
-
-    public PlayerThrowBombEvent(BombPlayer player, Bomb bomb) {
+    public PlayerThrowBombEvent(BombPlayer player, ThrowSource throwSource, Bomb bomb) {
         this.player = player;
+        this.throwSource = throwSource;
         this.bomb = bomb;
     }
 
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
+    }
+
+    public ThrowSource getThrowSource() {
+        return throwSource;
     }
 
     public BombPlayer getPlayer() {
@@ -45,6 +49,10 @@ public class PlayerThrowBombEvent extends Event implements Cancellable {
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLER_LIST;
+    }
+
+    public enum ThrowSource {
+        PUNCH, TOUCH
     }
 
 }

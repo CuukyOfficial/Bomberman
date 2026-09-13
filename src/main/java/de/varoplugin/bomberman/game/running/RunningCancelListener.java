@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 public class RunningCancelListener extends AbstractStateListenerJob {
 
@@ -22,6 +23,13 @@ public class RunningCancelListener extends AbstractStateListenerJob {
     @EventHandler
     public void onPlayerDamageEachOther(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onEntityFallDamage(EntityDamageEvent event) {
+        if (event.getCause() == EntityDamageByEntityEvent.DamageCause.FALL) {
             event.setCancelled(true);
         }
     }

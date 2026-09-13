@@ -37,6 +37,11 @@ public class PlayerGameStateJob extends AbstractStatePlayerJob {
         player.setExp(0);
         player.setLevel(0);
         player.setGameMode(GameMode.SURVIVAL);
+        // Add golden hearts depending on config
+        int extraHearts = BombermanConfig.EXTRA_HEARTS.getValue() / 2;
+        if (extraHearts > 0) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, PotionEffect.INFINITE_DURATION, extraHearts, false, false, false));
+        }
         player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 255, false, false, false));
 
         this.nameTagGroup.register(bPlayer.getScoreboardInstance(), false, "", "");

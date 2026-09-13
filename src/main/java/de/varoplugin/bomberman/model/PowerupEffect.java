@@ -20,6 +20,8 @@ public enum PowerupEffect {
     STICKY,
     // Allows player to instantly detonate oldest bomb he placed when sneaked and left clicked
     DETONATOR,
+    // Makes all tnt that the player touches instantly explode but without damage
+    IMPULSE,
     // Allows player to carry a bomb in his hand and throw it
     CARRY;
 

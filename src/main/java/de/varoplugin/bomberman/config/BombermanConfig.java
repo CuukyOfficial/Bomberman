@@ -3,10 +3,7 @@ package de.varoplugin.bomberman.config;
 import io.github.almightysatan.jaskl.Config;
 import io.github.almightysatan.jaskl.Type;
 import io.github.almightysatan.jaskl.Validator;
-import io.github.almightysatan.jaskl.entries.BooleanConfigEntry;
-import io.github.almightysatan.jaskl.entries.CustomConfigEntry;
-import io.github.almightysatan.jaskl.entries.IntegerConfigEntry;
-import io.github.almightysatan.jaskl.entries.ListConfigEntry;
+import io.github.almightysatan.jaskl.entries.*;
 import io.github.almightysatan.jaskl.yaml.YamlConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -28,6 +25,8 @@ public class BombermanConfig {
     public static final BooleanConfigEntry END_SHUTDOWN = BooleanConfigEntry.of(CONFIG, "end_shutdown", "Whether the server should shut down after the game ends", true);
     public static final BooleanConfigEntry ALLOW_INFINITE_TNT = BooleanConfigEntry.of(CONFIG, "allow_infinite_tnt", "Whether players can vote on infinite tnt", true);
     public static final IntegerConfigEntry GAME_LENGTH = IntegerConfigEntry.of(CONFIG, "game_length", "The length of the game in seconds", 600, Validator.INTEGER_NOT_NEGATIVE);
+    public static final FloatConfigEntry POWERUP_CHANCE = FloatConfigEntry.of(CONFIG, "powerup_chance", "The chance of a powerup spawning per second", 0.04f, Validator.FLOAT_NOT_ZERO);
+    public static final IntegerConfigEntry EXTRA_HEARTS = IntegerConfigEntry.of(CONFIG, "extra_hearts", "The amount of extra hearts players have", 20, Validator.INTEGER_NOT_NEGATIVE);
 
     public static final ListConfigEntry<BombermanMap> MAPS = ListConfigEntry.of(CONFIG, "maps", "A list of all available maps",
             Collections.singletonList(new BombermanMap("default", Arrays.asList(DEFAULT_LOCATION, DEFAULT_LOCATION), DEFAULT_LOCATION, DEFAULT_LOCATION)),

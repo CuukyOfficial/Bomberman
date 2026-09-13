@@ -44,7 +44,8 @@ public class PowerupJob extends AbstractStateTimerJob {
                 new ShockwavePowerupJob(heartbeat), new DetonatorPowerupJob(heartbeat),
                 new StickyPowerupJob(this.plugin),
                 new BullyPowerupJob(heartbeat),
-                new PyroPowerupJob(heartbeat));
+                new PyroPowerupJob(heartbeat),
+                new ImpulsePowerupJob(heartbeat));
     }
 
     @EventHandler
@@ -101,8 +102,8 @@ public class PowerupJob extends AbstractStateTimerJob {
         if (this.possibleLocations.isEmpty()) return;
 
         Location location = this.possibleLocations.stream()
-                // Filter any where another powerup is within 2 blocks
                 .filter(loc -> this.spawnedPowerups.keySet().stream().noneMatch(entity -> entity.getLocation().distance(loc) < 3))
+                .filter(loc -> this.plugin.getAlive().noneMatch(player -> player.getPlayer().getLocation().distance(loc) < 3))
                 .skip((int) (Math.random() * this.possibleLocations.size())).findFirst().orElse(null);
         if (location == null) return;
 
@@ -148,7 +149,7 @@ public class PowerupJob extends AbstractStateTimerJob {
             return;
 
         long players = this.plugin.getAlive().count();
-        if (Math.random() < 0.0300f * players && this.spawnedPowerups.size() < players * 2) {
+        if (Math.random() < BombermanConfig.POWERUP_CHANCE.getValue() * players && this.spawnedPowerups.size() < players * 2) {
             this.plugin.getServer().getScheduler().runTask(this.plugin, this::spawnRandomPowerup);
         }
     }
