@@ -28,7 +28,7 @@ public class GameDeathListener extends AbstractStateListenerJob {
         if (event.getDamageSource().getSourceLocation() != null) {
             p.setVelocity(p.getLocation().toVector().subtract(event.getDamageSource().getSourceLocation().toVector()).normalize().multiply(1.5).setY(0.5));
         } else {
-            p.setVelocity(p.getLocation().toVector().subtract(p.getLocation().toVector()).normalize().multiply(1.5).setY(0.5));
+            p.setVelocity(p.getLocation().getDirection().multiply(-1.5).setY(0.5));
         }
 
         long aliveCount = this.plugin.getPlayers().filter(BombPlayer::isAlive).count();

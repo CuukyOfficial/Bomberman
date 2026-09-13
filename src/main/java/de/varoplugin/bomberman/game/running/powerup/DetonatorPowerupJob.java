@@ -29,7 +29,7 @@ public class DetonatorPowerupJob extends AbstractSneakPowerupJob {
     }
 
     @Override
-    void power(BombPlayer player) {
+    boolean power(BombPlayer player) {
         Player p = player.getPlayer();
         float strength = player.calculateCharge();
         double distance = 5 + strength * 10;
@@ -55,8 +55,13 @@ public class DetonatorPowerupJob extends AbstractSneakPowerupJob {
             toDetonate.add((TNTPrimed) result.getHitEntity());
         }
 
-        for (TNTPrimed tntPrimed : toDetonate) {
-            tntPrimed.setFuseTicks(0);
+        if (toDetonate.isEmpty()) {
+            return false;
         }
+
+        for (TNTPrimed tntPrimed : toDetonate) {
+            tntPrimed.setFuseTicks(1);
+        }
+        return true;
     }
 }

@@ -8,6 +8,7 @@ import de.varoplugin.bomberman.game.running.event.PlayerThrowBombEvent;
 import de.varoplugin.bomberman.model.Bomb;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.util.Vector;
 
@@ -48,6 +49,10 @@ public class StickyPowerupJob extends AbstractStateListenerJob {
                     return;
                 }
 
+                event.getBomb().getPrimed().getWorld().spawnParticle(Particle.ITEM_SLIME, event.getBomb().getPrimed().getLocation(),
+                        2, 0.2, 0.2, 0.2, 0.1);
+
+                event.getBomb().getPrimed().setGravity(false);
                 event.getBomb().getPrimed().setVelocity(new Vector(0, 0, 0));
                 event.getBomb().getPrimed().teleport(stick.get(event.getBomb()));
             }

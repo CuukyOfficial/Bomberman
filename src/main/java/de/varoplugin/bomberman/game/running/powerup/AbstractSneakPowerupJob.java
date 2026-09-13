@@ -1,7 +1,6 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
 import de.varoplugin.bomberman.Bomberman;
-import de.varoplugin.bomberman.game.AbstractStateListenerJob;
 import de.varoplugin.bomberman.game.running.event.PlayerThrowBombEvent;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
@@ -12,17 +11,15 @@ import org.bukkit.event.player.PlayerAnimationType;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractSneakPowerupJob extends AbstractStateListenerJob {
+public abstract class AbstractSneakPowerupJob extends AbstractPowerupJob {
 
-    private final PowerupEffect effect;
     private final int cooldown;
 
     private final Map<BombPlayer, Long> cooldowns = new HashMap<>();
 
     protected AbstractSneakPowerupJob(Bomberman plugin, PowerupEffect effect, int cooldown) {
-        super(plugin);
+        super(plugin, effect);
 
-        this.effect = effect;
         this.cooldown = cooldown;
     }
 
@@ -32,7 +29,7 @@ public abstract class AbstractSneakPowerupJob extends AbstractStateListenerJob {
         return timeSinceLastUse < this.cooldown * 1000L;
     }
 
-    abstract void power(BombPlayer player);
+    abstract boolean power(BombPlayer player);
 
     @EventHandler
     public void onPlayerPunchBomb(PlayerThrowBombEvent event) {
@@ -57,7 +54,8 @@ public abstract class AbstractSneakPowerupJob extends AbstractStateListenerJob {
             return;
         }
 
-        this.cooldowns.put(player, System.currentTimeMillis());
-        this.power(player);
+        if (this.power(player)) {
+            this.cooldowns.put(player, System.currentTimeMillis());
+        }
     }
 }

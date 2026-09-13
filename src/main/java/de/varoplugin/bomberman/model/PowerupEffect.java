@@ -1,5 +1,9 @@
 package de.varoplugin.bomberman.model;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public enum PowerupEffect {
 
     // Allows players to punch to other players with velocity and small damage
@@ -19,7 +23,9 @@ public enum PowerupEffect {
     // Allows player to carry a bomb in his hand and throw it
     CARRY;
 
-    public static PowerupEffect random() {
-        return values()[(int) (Math.random() * values().length)];
+    public static PowerupEffect randomExcept(PowerupEffect... exclude) {
+        Set<PowerupEffect> usable = new HashSet<>(Arrays.asList(PowerupEffect.values()));
+        Arrays.stream(exclude).forEach(usable::remove);
+        return usable.stream().skip((int) (usable.size() * Math.random())).findFirst().orElseThrow(() -> new IllegalStateException("No usable powerup effect found"));
     }
 }

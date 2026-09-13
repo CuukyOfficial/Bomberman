@@ -11,6 +11,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class FreezePowerupJob extends AbstractSneakPowerupJob {
 
     public FreezePowerupJob(Bomberman plugin) {
@@ -18,7 +20,7 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
     }
 
     @Override
-    void power(BombPlayer player) {
+    boolean power(BombPlayer player) {
         // Give all nearby entities a slowness effect and play a sound and particle effect
         float strength = player.calculateCharge();
         float radius = 2 + strength * 5;
@@ -28,6 +30,7 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
         player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_SNOW_GOLEM_HURT, 1.0f, 1.0f);
         // Effects
         player.getPlayer().getWorld().spawnParticle(Particle.SNOWFLAKE, player.getPlayer().getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);
+        AtomicBoolean hit = new AtomicBoolean(false);
         player.getPlayer().getNearbyEntities(radius, radius, radius).forEach(entity -> {
             if (!entity.equals(player.getPlayer()) && entity.getVelocity().length() > 0) {
                 entity.setVelocity(new Vector(0, 0, 0));
@@ -36,6 +39,7 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
 
                 if (entity instanceof LivingEntity lv) {
                     lv.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, duration, amplifier, false, false, false));
+                    hit.set(true);
 
                     if (lv instanceof Player p) {
                         p.playSound(entity.getLocation(), Sound.ENTITY_SNOW_GOLEM_HURT, 1.0f, 1.0f);
@@ -43,5 +47,6 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
                 }
             }
         });
+        return hit.get();
     }
 }

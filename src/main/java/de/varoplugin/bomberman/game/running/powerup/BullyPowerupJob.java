@@ -5,6 +5,7 @@ import de.varoplugin.bomberman.game.AbstractStateListenerJob;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class BullyPowerupJob extends AbstractStateListenerJob {
@@ -13,9 +14,8 @@ public class BullyPowerupJob extends AbstractStateListenerJob {
         super(plugin);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerPunchAnother(EntityDamageByEntityEvent event) {
-        if (event.isCancelled()) return;
         if (!(event.getDamager() instanceof Player damager)) return;
         if (!(event.getEntity() instanceof Player victim)) return;
 
@@ -24,14 +24,15 @@ public class BullyPowerupJob extends AbstractStateListenerJob {
 
         if (damagerPlayer == null || victimPlayer == null) return;
         if (damagerPlayer.getPowerupEffect() != PowerupEffect.BULLY) return;
+        if (event.isCancelled()) event.setCancelled(false);
 
         float strength = damagerPlayer.calculateCharge();
 
         // Knockback the victim away from the damager
         var direction = victim.getLocation().toVector().subtract(damager.getLocation().toVector()).normalize();
-        victim.setVelocity(direction.multiply(3 + strength * 3));
+        victim.setVelocity(direction.multiply(3 + strength * 3).setY(1.5));
 
         // Add extra damage to the victim
-        event.setDamage(event.getDamage() + (1 + strength * 4));
+        event.setDamage((strength - 1) * 2);
     }
 }

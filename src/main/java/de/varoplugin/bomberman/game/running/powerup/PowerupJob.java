@@ -21,10 +21,13 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PowerupJob extends AbstractStateTimerJob {
+
+    private static final long POWER_UP_DESPAWN_TIME = 30_000; // 30 seconds
 
     private final RunningHeartbeat heartbeat;
     private final Set<Location> possibleLocations = new HashSet<>();
@@ -46,7 +49,7 @@ public class PowerupJob extends AbstractStateTimerJob {
     public void onEntityDestroyed(EntityRemoveEvent event) {
         if (this.spawnedPowerups.containsKey(event.getEntity())) {
             PowerupItem powerup = this.spawnedPowerups.get(event.getEntity());
-            powerup.getHologram().remove();
+            powerup.remove();
             this.spawnedPowerups.remove(event.getEntity());
         }
     }
@@ -57,17 +60,16 @@ public class PowerupJob extends AbstractStateTimerJob {
 
             this.plugin.getAlive().forEach(player -> {
                 Location playerLocation = player.getPlayer().getLocation();
-                if (playerLocation.distance(displayEntity.getLocation()) < 1.2) {
-                    powerup.remove();
-                    displayEntity.remove();
+                if (playerLocation.distance(displayEntity.getLocation()) < 1.5) {
                     this.spawnedPowerups.remove(displayEntity);
+                    powerup.remove();
 
-                    // Effekte abspielen
                     playerLocation.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, displayEntity.getLocation().add(0, 0.5, 0), 30, 0.3, 0.3, 0.3, 0.1);
                     playerLocation.getWorld().playSound(displayEntity.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 2.0f);
 
-                    this.plugin.getServer().getPluginManager().callEvent(new PlayerPowerupChangeEvent(player, powerup.getEffect()));
-                    player.setPowerupEffect(powerup.getEffect());
+                    PowerupEffect effect = PowerupEffect.randomExcept(player.getPowerupEffect());
+                    this.plugin.getServer().getPluginManager().callEvent(new PlayerPowerupChangeEvent(player, effect));
+                    player.setPowerupEffect(effect);
                     player.getScoreboard().queueUpdate();
                 }
             });
@@ -80,29 +82,49 @@ public class PowerupJob extends AbstractStateTimerJob {
         Location location = this.possibleLocations.stream().skip((int) (Math.random() * this.possibleLocations.size())).findFirst().orElse(null);
         if (location == null) return;
 
-        PowerupEffect effect = PowerupEffect.random();
-
-        String displayName = "§k§7|| §5POWER-UP §k§7||";
+        String displayName = "§7§k|| §5POWER-UP §7§k||";
         Hologram hologram = new Hologram(this.plugin, location.clone().add(0, 1.2, 0), displayName);
 
         ItemDisplay display = (ItemDisplay) location.getWorld().spawnEntity(location.clone().add(0, 0.5, 0), EntityType.ITEM_DISPLAY);
         display.setItemStack(new ItemStack(Material.NETHER_STAR));
 
-        PowerupItem powerup = new PowerupItem(display, effect, hologram);
+        PowerupItem powerup = new PowerupItem(display, hologram, System.currentTimeMillis());
         this.spawnedPowerups.put(display, powerup);
+    }
+
+    private Optional<Location> findItemSpawnLocationUnder(Location location) {
+        Location checkLocation = location.clone();
+        // Round block coordinates to the nearest integer
+        checkLocation.setY(Math.floor(checkLocation.getY()) + 0.5);
+        while (checkLocation.getBlockY() > 0) {
+            if (checkLocation.getBlock().getType().isSolid()) {
+                return Optional.of(checkLocation.add(0, 1, 0));
+            }
+            checkLocation.subtract(0, 1, 0);
+        }
+        return Optional.empty();
     }
 
     @Override
     public void run() {
-        this.plugin.getAlive().forEach(player -> {
-            this.possibleLocations.add(player.getPlayer().getLocation().clone());
+        this.plugin.getAlive()
+                .map(player -> this.findItemSpawnLocationUnder(player.getPlayer().getLocation()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(this.possibleLocations::add);
+
+        this.spawnedPowerups.forEach((entity, powerup) -> {
+            if (System.currentTimeMillis() - powerup.getSpawnTime() > POWER_UP_DESPAWN_TIME) {
+                this.plugin.getServer().getScheduler().runTask(this.plugin, powerup::remove);
+                this.spawnedPowerups.remove(entity);
+            }
         });
 
-//        if (this.heartbeat.getCountdown() > BombermanConfig.GAME_LENGTH.getValue() - 30)
-//            return; // Don't spawn powerups in the first 30 seconds
+        if (this.heartbeat.getCountdown() > BombermanConfig.GAME_LENGTH.getValue() - 30)
+            return; // Don't spawn powerups in the first 30 seconds
 
         long players = this.plugin.getAlive().count();
-        if (Math.random() < 0.3116 * players && this.spawnedPowerups.size() < players * 2) {
+        if (Math.random() < 0.1116 * players && this.spawnedPowerups.size() < players * 2) {
             this.plugin.getServer().getScheduler().runTask(this.plugin, this::spawnRandomPowerup);
         }
     }

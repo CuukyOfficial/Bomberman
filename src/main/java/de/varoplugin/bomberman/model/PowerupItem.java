@@ -5,26 +5,22 @@ import org.bukkit.entity.Entity;
 
 public class PowerupItem {
 
-    private final Entity crystal;
-    private final PowerupEffect effect;
+    private final Entity item;
     private final Hologram hologram;
+    private final long spawnTime;
 
-    public PowerupItem(Entity crystal, PowerupEffect effect, Hologram hologram) {
-        this.crystal = crystal;
-        this.effect = effect;
+    public PowerupItem(Entity item, Hologram hologram, long spawnTime) {
+        this.item = item;
         this.hologram = hologram;
+        this.spawnTime = spawnTime;
     }
 
-    public Hologram getHologram() {
-        return hologram;
-    }
-
-    public PowerupEffect getEffect() {
-        return effect;
+    public long getSpawnTime() {
+        return spawnTime;
     }
 
     public void remove() {
-        this.crystal.remove();
+        this.item.remove();
         this.hologram.remove();
     }
 }

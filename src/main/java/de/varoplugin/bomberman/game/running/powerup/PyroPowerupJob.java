@@ -1,7 +1,6 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
 import de.varoplugin.bomberman.Bomberman;
-import de.varoplugin.bomberman.game.AbstractStateListenerJob;
 import de.varoplugin.bomberman.game.AbstractStateTimerJob;
 import de.varoplugin.bomberman.model.Bomb;
 import de.varoplugin.bomberman.model.PowerupEffect;
@@ -51,7 +50,7 @@ public class PyroPowerupJob extends AbstractStateTimerJob {
                 float strength = player.calculateCharge();
                 int particleCount = (int) (5 + strength * 20);
                 float radius = 1 + strength * 2;
-                player.getPlayer().getWorld().spawnParticle(Particle.FLAME, player.getPlayer().getLocation().add(0, 1, 0), particleCount, radius / 2, radius / 2, radius / 2, 0.1);
+                player.getPlayer().getWorld().spawnParticle(Particle.FLAME, player.getPlayer().getLocation().add(0, 1, 0), particleCount / 2, radius / 2, radius / 2, radius / 2, 0.1);
 
                 player.getBombs().forEach(bomb ->
                         bomb.getPrimed().getWorld().spawnParticle(Particle.FLAME, bomb.getPrimed().getLocation(), particleCount, radius / 2, radius / 2, radius / 2, 0.1));
