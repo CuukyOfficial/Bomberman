@@ -1,6 +1,6 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
-import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.running.RunningHeartbeat;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.potion.PotionEffect;
@@ -8,8 +8,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public class SpeedPowerupJob extends AbstractPowerupJob {
 
-    public SpeedPowerupJob(Bomberman plugin) {
-        super(plugin, PowerupEffect.SPEED);
+    public SpeedPowerupJob(RunningHeartbeat heartbeat) {
+        super(heartbeat, PowerupEffect.SPEED, null);
     }
 
     @Override

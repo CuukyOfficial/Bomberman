@@ -39,7 +39,7 @@ public class PlayerGameStateJob extends AbstractStatePlayerJob {
         player.setGameMode(GameMode.SURVIVAL);
         player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 255, false, false, false));
 
-        this.nameTagGroup.register(bPlayer.getScoreboardInstance(), false, "" ,"");
+        this.nameTagGroup.register(bPlayer.getScoreboardInstance(), false, "", "");
 
         for (int i = 0; i < player.getInventory().getSize(); i++) {
             new PlayerItemHookBuilder().slot(i)

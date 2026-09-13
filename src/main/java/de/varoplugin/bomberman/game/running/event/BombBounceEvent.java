@@ -17,6 +17,10 @@ public class BombBounceEvent extends Event implements Cancellable {
         this.bomb = bomb;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
     public Bomb getBomb() {
         return bomb;
     }
@@ -33,10 +37,6 @@ public class BombBounceEvent extends Event implements Cancellable {
 
     @Override
     public @NotNull HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
-
-    public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
 

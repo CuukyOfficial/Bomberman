@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.model;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.running.event.PlayerPowerupChangeEvent;
 import de.varoplugin.cfw.player.hud.AnimatedScoreboard;
 import de.varoplugin.cfw.player.hud.ScoreboardInstance;
 import org.bukkit.GameMode;
@@ -16,12 +17,12 @@ public class BombPlayer {
     public static final int MAX_CHARGE_TIME = 4;
 
     private final Player player;
+    private final Map<TNTPrimed, Bomb> bombs;
     private PlayerType type;
-    private PowerupEffect powerupEffect;
+    private PowerUp powerUp;
     private ScoreboardInstance scoreboardInstance;
     private AnimatedScoreboard scoreboard;
     private long sneakingSince;
-    private final Map<TNTPrimed, Bomb> bombs;
 
     public BombPlayer(Player player) {
         this.player = player;
@@ -31,6 +32,8 @@ public class BombPlayer {
 
     public void enableSpectator(Bomberman plugin) {
         this.setType(PlayerType.SPECTATOR);
+        plugin.getServer().getPluginManager().callEvent(new PlayerPowerupChangeEvent(this, null));
+        this.powerUp = null;
         player.setGameMode(GameMode.ADVENTURE);
         player.setAllowFlight(true);
         player.setFlying(true);
@@ -54,15 +57,23 @@ public class BombPlayer {
     }
 
     public PowerupEffect getPowerupEffect() {
-        return powerupEffect;
+        return this.powerUp != null ? this.powerUp.getEffect() : null;
     }
 
-    public void setPowerupEffect(PowerupEffect powerupEffect) {
-        this.powerupEffect = powerupEffect;
+    public PowerUp getPowerUp() {
+        return powerUp;
+    }
+
+    public void setPowerUp(PowerUp powerUp) {
+        this.powerUp = powerUp;
     }
 
     public PlayerType getType() {
         return type;
+    }
+
+    public void setType(PlayerType type) {
+        this.type = type;
     }
 
     public Player getPlayer() {
@@ -71,10 +82,6 @@ public class BombPlayer {
 
     public boolean isAlive() {
         return this.type == PlayerType.ALIVE;
-    }
-
-    public void setType(PlayerType type) {
-        this.type = type;
     }
 
     public Stream<Bomb> getBombs() {

@@ -1,8 +1,6 @@
 package de.varoplugin.bomberman.game.running.events;
 
-import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.game.running.RunningHeartbeat;
-import de.varoplugin.cfw.player.hook.item.PlayerItemHook;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -10,7 +8,6 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 

@@ -27,7 +27,7 @@ public class CarryPowerupJob extends AbstractStateTimerJob {
     @EventHandler
     public void onPlayerPowerupChange(PlayerThrowBombEvent event) {
         BombPlayer player = event.getPlayer();
-        if (player.getPowerupEffect() != PowerupEffect.CARRY) {
+        if (player.getPowerupEffect() == PowerupEffect.CARRY) {
             this.carryingPlayers.remove(player);
         }
     }

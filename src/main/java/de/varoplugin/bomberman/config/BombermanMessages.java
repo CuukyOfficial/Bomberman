@@ -25,6 +25,27 @@ public class BombermanMessages {
     private static final StandaloneSlams SLAMS = StandaloneSlams.of("de");
 
     private static final PlaceholderResolver PLACEHOLDERS;
+    public static final BukkitMessage LOBBY_WAITING = BukkitMessage.of("lobby.waiting", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage LOBBY_STARTING = BukkitMessage.of("lobby.starting", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage LOBBY_COUNTDOWN = BukkitMessage.of("lobby.countdown", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage LOBBY_ABORT = BukkitMessage.of("lobby.abort", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage GAME_START = BukkitMessage.of("game.start", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage GAME_END_TIE = BukkitMessage.of("game.end.tie", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage GAME_END_WIN = BukkitMessage.of("game.end.win", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage GAME_END_SHUTDOWN = BukkitMessage.of("game.end.shutdown", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage GAME_PLAYER_DEATH = BukkitMessage.of("game.player.death", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage GAME_PLAYER_COOLDOWN = BukkitMessage.of("game.player.cooldown", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage PLAYER_JOIN = BukkitMessage.of("player.join", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage PLAYER_QUIT = BukkitMessage.of("player.quit", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage PLAYER_COOLDOWN = BukkitMessage.of("player.cooldown", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage COMMAND_MAINTENANCE_ENABLED = BukkitMessage.of("command.maintenance.enabled", SLAMS, PLACEHOLDERS);
+    public static final BukkitMessage COMMAND_MAINTENANCE_DISABLED = BukkitMessage.of("command.maintenance.disabled", SLAMS, PLACEHOLDERS);
+    public static final StandaloneMessage SCOREBOARD_TITLE = StandaloneMessage.of("scoreboard.title", SLAMS, PLACEHOLDERS);
+    public static final StandaloneMessageArray2d SCOREBOARD_WAITING = StandaloneMessageArray2d.of("scoreboard.waiting", SLAMS, PLACEHOLDERS);
+    public static final StandaloneMessageArray2d SCOREBOARD_STARTING = StandaloneMessageArray2d.of("scoreboard.starting", SLAMS, PLACEHOLDERS);
+    public static final StandaloneMessageArray2d SCOREBOARD_GAME = StandaloneMessageArray2d.of("scoreboard.game", SLAMS, PLACEHOLDERS);
+    public static final StandaloneMessageArray2d SCOREBOARD_END = StandaloneMessageArray2d.of("scoreboard.end", SLAMS, PLACEHOLDERS);
+    public static final StandaloneMessageArray2d SCOREBOARD_MAINTENANCE = StandaloneMessageArray2d.of("scoreboard.maintenance", SLAMS, PLACEHOLDERS);
 
     static {
         PlaceholderResolver.Builder builder = PlaceholderResolver.builder().builtIn();
@@ -39,33 +60,10 @@ public class BombermanMessages {
                 .contextual("sec", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() % 60))
                 .contextual("lobby_countdown", StartingHeartbeat.class, StartingHeartbeat::getCountdown)
                 .contextual("shutdown_countdown", EndingHeartbeat.class, EndingHeartbeat::getCountdown)
+                .contextual("powerUpCooldown", BombPlayer.class, (player) -> player.getPowerUp() == null ? 0 : (int) player.getPowerUp().calculateCooldownRemaining() / 1000 + 1)
                 .contextual("player", BombPlayer.class, p -> p.getPlayer().getName());
         PLACEHOLDERS = builder.build();
     }
-
-    public static final BukkitMessage LOBBY_WAITING = BukkitMessage.of("lobby.waiting", SLAMS, PLACEHOLDERS);
-    public static final BukkitMessage LOBBY_STARTING = BukkitMessage.of("lobby.starting", SLAMS, PLACEHOLDERS);
-    public static final BukkitMessage LOBBY_COUNTDOWN = BukkitMessage.of("lobby.countdown", SLAMS, PLACEHOLDERS);
-    public static final BukkitMessage LOBBY_ABORT = BukkitMessage.of("lobby.abort", SLAMS, PLACEHOLDERS);
-
-    public static final BukkitMessage GAME_START = BukkitMessage.of("game.start", SLAMS, PLACEHOLDERS);
-    public static final BukkitMessage GAME_END_TIE = BukkitMessage.of("game.end.tie", SLAMS, PLACEHOLDERS);
-    public static final BukkitMessage GAME_END_WIN = BukkitMessage.of("game.end.win", SLAMS, PLACEHOLDERS);
-    public static final BukkitMessage GAME_END_SHUTDOWN = BukkitMessage.of("game.end.shutdown", SLAMS, PLACEHOLDERS);
-
-    public static final BukkitMessage PLAYER_JOIN = BukkitMessage.of("player.join", SLAMS, PLACEHOLDERS);
-    public static final BukkitMessage PLAYER_QUIT = BukkitMessage.of("player.quit", SLAMS, PLACEHOLDERS);
-    public static final BukkitMessage PLAYER_COOLDOWN = BukkitMessage.of("player.cooldown", SLAMS, PLACEHOLDERS);
-
-    public static final BukkitMessage COMMAND_MAINTENANCE_ENABLED = BukkitMessage.of("command.maintenance.enabled", SLAMS, PLACEHOLDERS);
-    public static final BukkitMessage COMMAND_MAINTENANCE_DISABLED = BukkitMessage.of("command.maintenance.disabled", SLAMS, PLACEHOLDERS);
-
-    public static final StandaloneMessage SCOREBOARD_TITLE = StandaloneMessage.of("scoreboard.title", SLAMS, PLACEHOLDERS);
-    public static final StandaloneMessageArray2d SCOREBOARD_WAITING = StandaloneMessageArray2d.of("scoreboard.waiting", SLAMS, PLACEHOLDERS);
-    public static final StandaloneMessageArray2d SCOREBOARD_STARTING = StandaloneMessageArray2d.of("scoreboard.starting", SLAMS, PLACEHOLDERS);
-    public static final StandaloneMessageArray2d SCOREBOARD_GAME = StandaloneMessageArray2d.of("scoreboard.game", SLAMS, PLACEHOLDERS);
-    public static final StandaloneMessageArray2d SCOREBOARD_END = StandaloneMessageArray2d.of("scoreboard.end", SLAMS, PLACEHOLDERS);
-    public static final StandaloneMessageArray2d SCOREBOARD_MAINTENANCE = StandaloneMessageArray2d.of("scoreboard.maintenance", SLAMS, PLACEHOLDERS);
 
     public static void broadcast(BukkitMessage message, Bomberman plugin) {
         plugin.getPlayers().forEach(player -> {

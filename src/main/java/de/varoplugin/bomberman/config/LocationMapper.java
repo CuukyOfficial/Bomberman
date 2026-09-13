@@ -14,10 +14,11 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public class LocationMapper implements ObjectMapper<Location> {
-    
+
     public static final LocationMapper INSTANCE = new LocationMapper();
-    
-    private LocationMapper() {}
+
+    private LocationMapper() {
+    }
 
     @Override
     public @NonNull Location createInstance(@Unmodifiable @NotNull Map<@NotNull String, @NotNull Object> values) throws InvalidTypeException, ValidationException {
@@ -38,7 +39,7 @@ public class LocationMapper implements ObjectMapper<Location> {
 
     @Override
     public @NotNull Property<?> @NotNull [] getProperties() {
-        return new Property[] {
+        return new Property[]{
                 Property.of("world", Type.STRING),
                 Property.of("x", Type.BIG_DECIMAL),
                 Property.of("y", Type.BIG_DECIMAL),

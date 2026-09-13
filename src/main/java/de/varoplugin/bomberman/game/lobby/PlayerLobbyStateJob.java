@@ -30,6 +30,8 @@ public class PlayerLobbyStateJob extends AbstractStatePlayerJob {
         player.setLevel(0);
         player.setGameMode(GameMode.ADVENTURE);
         player.getInventory().clear();
+        player.setHealth(20);
+        player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
 
         ItemHook hook = new PlayerItemHookBuilder().slot(8)
                 .item(ItemBuilder.itemStack(new ItemStack(Material.PAPER)).displayName("§aVote!").build())

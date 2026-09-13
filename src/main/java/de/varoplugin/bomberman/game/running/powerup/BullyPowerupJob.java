@@ -1,17 +1,17 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
-import de.varoplugin.bomberman.Bomberman;
-import de.varoplugin.bomberman.game.AbstractStateListenerJob;
+import de.varoplugin.bomberman.game.running.RunningHeartbeat;
 import de.varoplugin.bomberman.model.PowerupEffect;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class BullyPowerupJob extends AbstractStateListenerJob {
+public class BullyPowerupJob extends AbstractPowerupJob {
 
-    protected BullyPowerupJob(Bomberman plugin) {
-        super(plugin);
+    protected BullyPowerupJob(RunningHeartbeat heartbeat) {
+        super(heartbeat, PowerupEffect.BULLY, Particle.ANGRY_VILLAGER);
     }
 
     @EventHandler(priority = EventPriority.HIGH)

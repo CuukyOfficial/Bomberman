@@ -5,6 +5,7 @@ import de.varoplugin.bomberman.game.AbstractStateTimerJob;
 import de.varoplugin.bomberman.game.RunnableJob;
 import de.varoplugin.bomberman.game.running.RunningHeartbeat;
 import de.varoplugin.bomberman.game.running.event.PlayerPowerupChangeEvent;
+import de.varoplugin.bomberman.model.PowerUp;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import de.varoplugin.bomberman.model.PowerupItem;
 import de.varoplugin.cfw.world.Hologram;
@@ -38,11 +39,12 @@ public class PowerupJob extends AbstractStateTimerJob {
         this.heartbeat = heartbeat;
 
         this.heartbeat.registerJobs(new RunnableJob(this.plugin, 1, false, this::checkPlayersForCollect),
-                new FreezePowerupJob(this.plugin), new CarryPowerupJob(this.plugin), new SpeedPowerupJob(this.plugin),
-                new ShockwavePowerupJob(this.plugin), new DetonatorPowerupJob(this.plugin),
+                new RunnableJob(this.plugin, 1, false, this::checkPlayersForExpiringPowerups),
+                new FreezePowerupJob(heartbeat), new CarryPowerupJob(this.plugin), new SpeedPowerupJob(heartbeat),
+                new ShockwavePowerupJob(heartbeat), new DetonatorPowerupJob(heartbeat),
                 new StickyPowerupJob(this.plugin),
-                new BullyPowerupJob(this.plugin),
-                new PyroPowerupJob(this.plugin));
+                new BullyPowerupJob(heartbeat),
+                new PyroPowerupJob(heartbeat));
     }
 
     @EventHandler
@@ -52,6 +54,24 @@ public class PowerupJob extends AbstractStateTimerJob {
             powerup.remove();
             this.spawnedPowerups.remove(event.getEntity());
         }
+    }
+
+    private void checkPlayersForExpiringPowerups() {
+        this.plugin.getAlive().forEach(player -> {
+            PowerUp powerup = player.getPowerUp();
+            if (powerup == null) return;
+
+            long remainingTime = powerup.calculateRemainingTime();
+            if (remainingTime <= 0) {
+                player.setPowerUp(null);
+                this.plugin.getServer().getPluginManager().callEvent(new PlayerPowerupChangeEvent(player, null));
+                player.getScoreboard().queueUpdate();
+
+                // Effects and sound
+                player.getPlayer().getWorld().spawnParticle(Particle.SMOKE, player.getPlayer().getLocation().add(0, 1, 0), 30, 0.3, 0.3, 0.3, 0.1);
+                player.getPlayer().getWorld().playSound(player.getPlayer().getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 2.0f, 2.0f);
+            }
+        });
     }
 
     private void checkPlayersForCollect() {
@@ -65,11 +85,12 @@ public class PowerupJob extends AbstractStateTimerJob {
                     powerup.remove();
 
                     playerLocation.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, displayEntity.getLocation().add(0, 0.5, 0), 30, 0.3, 0.3, 0.3, 0.1);
-                    playerLocation.getWorld().playSound(displayEntity.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 2.0f);
+                    playerLocation.getWorld().playSound(displayEntity.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5f, 2.0f);
 
                     PowerupEffect effect = PowerupEffect.randomExcept(player.getPowerupEffect());
-                    this.plugin.getServer().getPluginManager().callEvent(new PlayerPowerupChangeEvent(player, effect));
-                    player.setPowerupEffect(effect);
+                    PowerUp powerUp = new PowerUp(effect, System.currentTimeMillis());
+                    this.plugin.getServer().getPluginManager().callEvent(new PlayerPowerupChangeEvent(player, powerUp));
+                    player.setPowerUp(powerUp);
                     player.getScoreboard().queueUpdate();
                 }
             });
@@ -79,7 +100,10 @@ public class PowerupJob extends AbstractStateTimerJob {
     private void spawnRandomPowerup() {
         if (this.possibleLocations.isEmpty()) return;
 
-        Location location = this.possibleLocations.stream().skip((int) (Math.random() * this.possibleLocations.size())).findFirst().orElse(null);
+        Location location = this.possibleLocations.stream()
+                // Filter any where another powerup is within 2 blocks
+                .filter(loc -> this.spawnedPowerups.keySet().stream().noneMatch(entity -> entity.getLocation().distance(loc) < 3))
+                .skip((int) (Math.random() * this.possibleLocations.size())).findFirst().orElse(null);
         if (location == null) return;
 
         String displayName = "§7§k|| §5POWER-UP §7§k||";
@@ -120,11 +144,11 @@ public class PowerupJob extends AbstractStateTimerJob {
             }
         });
 
-        if (this.heartbeat.getCountdown() > BombermanConfig.GAME_LENGTH.getValue() - 30)
-            return; // Don't spawn powerups in the first 30 seconds
+        if (this.heartbeat.getCountdown() > BombermanConfig.GAME_LENGTH.getValue() - BombermanConfig.PROTECTION_START.getValue())
+            return;
 
         long players = this.plugin.getAlive().count();
-        if (Math.random() < 0.1116 * players && this.spawnedPowerups.size() < players * 2) {
+        if (Math.random() < 0.0416f * players && this.spawnedPowerups.size() < players * 2) {
             this.plugin.getServer().getScheduler().runTask(this.plugin, this::spawnRandomPowerup);
         }
     }

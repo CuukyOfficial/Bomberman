@@ -1,7 +1,7 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
-import de.varoplugin.bomberman.Bomberman;
-import de.varoplugin.bomberman.game.SynchronousTimerTask;
+import de.varoplugin.bomberman.game.AbstractStateTimerJob;
+import de.varoplugin.bomberman.game.running.RunningHeartbeat;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.Particle;
@@ -16,8 +16,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FreezePowerupJob extends AbstractSneakPowerupJob {
 
-    public FreezePowerupJob(Bomberman plugin) {
-        super(plugin, PowerupEffect.FREEZE, 5);
+    public FreezePowerupJob(RunningHeartbeat heartbeat) {
+        super(heartbeat, PowerupEffect.FREEZE, Particle.SNOWFLAKE, 5);
     }
 
     @Override
@@ -30,7 +30,6 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
         int amplifier = (int) (1 + strength * 4);
         player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_SNOW_GOLEM_HURT, 1.0f, 1.0f);
         // Effects
-        player.getPlayer().getWorld().spawnParticle(Particle.SNOWFLAKE, player.getPlayer().getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);
         AtomicBoolean hit = new AtomicBoolean(false);
         player.getPlayer().getNearbyEntities(radius, radius, radius).forEach(entity -> {
             if (!entity.equals(player.getPlayer()) && entity.getVelocity().length() > 0) {
@@ -41,10 +40,20 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
                 if (entity instanceof LivingEntity lv) {
                     lv.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, duration, amplifier, false, false, false));
                     hit.set(true);
+                    long until = System.currentTimeMillis() + duration * 50L; // 50ms per tick
 
-                    this.plugin.getHeartbeat().startJobs(new SynchronousTimerTask(plugin, 5, () -> {
-                        lv.getWorld().spawnParticle(Particle.SNOWFLAKE, lv.getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);
-                    }));
+                    this.plugin.getHeartbeat().startJobs(new AbstractStateTimerJob(plugin, 5) {
+                        @Override
+                        public void run() {
+                            if (!lv.isValid() || System.currentTimeMillis() > until) {
+                                this.stop();
+                                return;
+                            }
+
+                            lv.getWorld().spawnParticle(Particle.SNOWFLAKE, lv.getLocation().add(0, 0.3, 0), particleAmount / 2, 0.5, 0.5, 0.5, 0);
+
+                        }
+                    });
 
                     if (lv instanceof Player p) {
                         p.playSound(entity.getLocation(), Sound.ENTITY_SNOW_GOLEM_HURT, 1.0f, 1.0f);

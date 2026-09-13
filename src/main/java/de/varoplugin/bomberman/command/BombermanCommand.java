@@ -12,14 +12,8 @@ public abstract class BombermanCommand {
         this.plugin = plugin;
     }
 
-    public abstract void register(Commands commands);
-
-    public Bomberman getPlugin() {
-        return plugin;
-    }
-
     public static void register(Bomberman plugin) {
-        BombermanCommand[] commands = new BombermanCommand[] {
+        BombermanCommand[] commands = new BombermanCommand[]{
                 new MaintenanceCommand(plugin)
         };
 
@@ -27,5 +21,11 @@ public abstract class BombermanCommand {
             for (BombermanCommand command : commands)
                 command.register(event.registrar());
         });
+    }
+
+    public abstract void register(Commands commands);
+
+    public Bomberman getPlugin() {
+        return plugin;
     }
 }

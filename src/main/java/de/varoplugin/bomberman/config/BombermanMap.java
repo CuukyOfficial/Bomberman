@@ -4,28 +4,15 @@ import io.github.almightysatan.jaskl.InvalidTypeException;
 import io.github.almightysatan.jaskl.ObjectMapper;
 import io.github.almightysatan.jaskl.Type;
 import io.github.almightysatan.jaskl.ValidationException;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.NonNull;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-public class BombermanMap {
-
-    public final String name;
-    public final List<Location> spawns;
-    public final Location corner0, corner1;
-
-    public BombermanMap(String name, List<Location> spawns, Location corner0, Location corner1) {
-        this.name = name;
-        this.spawns = spawns;
-        this.corner0 = corner0;
-        this.corner1 = corner1;
-    }
+public record BombermanMap(String name, List<Location> spawns, Location corner0, Location corner1) {
 
     static ObjectMapper<BombermanMap> getMapper() {
         return new ObjectMapper<>() {
@@ -47,7 +34,7 @@ public class BombermanMap {
 
             @Override
             public @NotNull Property<?> @NotNull [] getProperties() {
-                return new Property[] {
+                return new Property[]{
                         Property.of("name", Type.STRING),
                         Property.of("spawns", Type.list(Type.custom(LocationMapper.INSTANCE))),
                         Property.of("corner_0", Type.custom(BlockLocationMapper.INSTANCE)),

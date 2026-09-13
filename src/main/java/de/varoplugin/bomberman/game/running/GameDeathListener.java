@@ -1,10 +1,10 @@
 package de.varoplugin.bomberman.game.running;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.config.BombermanMessages;
 import de.varoplugin.bomberman.game.AbstractStateListenerJob;
 import de.varoplugin.bomberman.game.GameState;
 import de.varoplugin.bomberman.model.BombPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,9 +19,9 @@ public class GameDeathListener extends AbstractStateListenerJob {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.setCancelled(true);
-        Bukkit.broadcastMessage("§e" + event.getPlayer().getName() + " §7ist gestorben!");
-
         BombPlayer player = this.plugin.getPlayer(event.getPlayer());
+        BombermanMessages.broadcast(BombermanMessages.GAME_PLAYER_DEATH, plugin, player);
+
         Player p = player.getPlayer();
         player.enableSpectator(this.plugin);
 

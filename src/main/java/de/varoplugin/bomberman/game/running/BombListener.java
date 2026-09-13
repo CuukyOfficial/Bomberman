@@ -22,7 +22,6 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerAnimationType;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
@@ -49,7 +48,7 @@ public class BombListener extends AbstractStateListenerJob {
         }
 
         event.getBlock().setType(Material.AIR);
-        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.TNT));
+        event.getPlayer().setItemOnCursor(player.getItemOnCursor().clone().asOne());
 
         Entity tntEntity = event.getBlock().getWorld().spawnEntity(event.getBlock().getLocation().add(0.5, 0, 0.5), EntityType.TNT);
         Bomb bomb = new Bomb(bombPlayer, (TNTPrimed) tntEntity);

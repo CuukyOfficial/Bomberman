@@ -18,9 +18,8 @@ import java.util.Collections;
 
 public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHeartbeat {
 
-    private int countdown;
-
     private final BombermanEvent[] events;
+    private int countdown;
     private BombermanEvent event;
 
     public RunningHeartbeat(Bomberman plugin) {
@@ -38,7 +37,7 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
                 new SpectatorListener(this.plugin),
                 new PowerupJob(this));
 
-        this.events = new BombermanEvent[] {
+        this.events = new BombermanEvent[]{
                 new ZombieInvasionEvent(this)
         };
     }
@@ -58,7 +57,7 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
         int i = 0;
         for (BombPlayer player : this.plugin.getAlive().toList()) {
             // TODO spectators
-            player.getPlayer().teleport(map.spawns.get(i++));
+            player.getPlayer().teleport(map.spawns().get(i++));
         }
     }
 
@@ -71,15 +70,15 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
         BombermanMap optimal = null;
         int optimal_players = Integer.MAX_VALUE;
         for (var map : maps) {
-            if (map.spawns.size() < numPlayers)
+            if (map.spawns().size() < numPlayers)
                 continue;
 
-            if (map.spawns.size() == numPlayers)
+            if (map.spawns().size() == numPlayers)
                 return map;
 
-            if (optimal == null || map.spawns.size() < optimal_players) {
+            if (optimal == null || map.spawns().size() < optimal_players) {
                 optimal = map;
-                optimal_players = map.spawns.size();
+                optimal_players = map.spawns().size();
             }
         }
 
@@ -93,12 +92,12 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
         return this.countdown;
     }
 
-    public void setEvent(BombermanEvent event) {
-        this.event = event;
-    }
-
     public BombermanEvent getEvent() {
         return event;
+    }
+
+    public void setEvent(BombermanEvent event) {
+        this.event = event;
     }
 
     @Override
@@ -107,7 +106,7 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
             this.plugin.switchState(GameState.FINISHED);
             return;
         }
-        
+
         // TODO
         if (this.countdown == 590) {
             // this.events[0].start();

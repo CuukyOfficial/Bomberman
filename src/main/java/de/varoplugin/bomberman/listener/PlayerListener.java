@@ -9,13 +9,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener {
-    
+
     private final Bomberman plugin;
-    
+
     public PlayerListener(Bomberman plugin) {
         this.plugin = plugin;
     }
-    
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         var player = this.plugin.getPlayer(event.getPlayer());
@@ -28,7 +28,7 @@ public class PlayerListener implements Listener {
         event.quitMessage(null);
         BombermanMessages.broadcast(BombermanMessages.PLAYER_QUIT, this.plugin, this.plugin.getPlayer(event.getPlayer()));
     }
-    
+
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuitMonitor(PlayerQuitEvent event) {
         this.plugin.removePlayer(event.getPlayer());

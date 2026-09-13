@@ -10,14 +10,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.NonNull;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 public class BlockLocationMapper implements ObjectMapper<Location> {
 
     public static final BlockLocationMapper INSTANCE = new BlockLocationMapper();
 
-    private BlockLocationMapper() {}
+    private BlockLocationMapper() {
+    }
 
     @Override
     public @NonNull Location createInstance(@Unmodifiable @NotNull Map<@NotNull String, @NotNull Object> values) throws InvalidTypeException, ValidationException {
@@ -36,7 +36,7 @@ public class BlockLocationMapper implements ObjectMapper<Location> {
 
     @Override
     public @NotNull Property<?> @NotNull [] getProperties() {
-        return new Property[] {
+        return new Property[]{
                 Property.of("world", Type.STRING),
                 Property.of("x", Type.LONG),
                 Property.of("y", Type.LONG),

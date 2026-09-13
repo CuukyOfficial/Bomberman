@@ -17,11 +17,9 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class BombermanConfig {
-    
-    private static final Location DEFAULT_LOCATION = new Location(Bukkit.getWorlds().getFirst(), 0, 0, 0);
-    
-    public static final String CONFIG_DIR = "plugins/bomberman/config/";
 
+    public static final String CONFIG_DIR = "plugins/bomberman/config/";
+    private static final Location DEFAULT_LOCATION = new Location(Bukkit.getWorlds().getFirst(), 0, 0, 0);
     private static final Config CONFIG = YamlConfig.of(new File(CONFIG_DIR + "config.yml"));
     public static final IntegerConfigEntry MIN_PAYERS = IntegerConfigEntry.of(CONFIG, "min_players", "Minimum number of players required", 2, Validator.integerGreater(0));
     public static final IntegerConfigEntry TNT_DELAY = IntegerConfigEntry.of(CONFIG, "tnt_delay", "The delay with which tnt can be placed in ticks", 80, Validator.INTEGER_NOT_NEGATIVE);
@@ -35,9 +33,10 @@ public class BombermanConfig {
             Collections.singletonList(new BombermanMap("default", Arrays.asList(DEFAULT_LOCATION, DEFAULT_LOCATION), DEFAULT_LOCATION, DEFAULT_LOCATION)),
             Type.custom(BombermanMap.getMapper()), Validator.listNotEmpty());
     public static final CustomConfigEntry<Location> LOBBY_SPAWN = CustomConfigEntry.of(CONFIG, "lobby.spawn", "The lobby spawn point", DEFAULT_LOCATION, Type.custom(LocationMapper.INSTANCE));
-    
-    private BombermanConfig() {}
-    
+
+    private BombermanConfig() {
+    }
+
     public static void init() throws IOException {
         CONFIG.load();
         CONFIG.prune();

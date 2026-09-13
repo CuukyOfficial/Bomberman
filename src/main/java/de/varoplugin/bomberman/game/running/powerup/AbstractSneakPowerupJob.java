@@ -1,32 +1,27 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
-import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.config.BombermanMessages;
+import de.varoplugin.bomberman.game.running.RunningHeartbeat;
 import de.varoplugin.bomberman.game.running.event.PlayerThrowBombEvent;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
+import org.bukkit.Particle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerAnimationType;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class AbstractSneakPowerupJob extends AbstractPowerupJob {
 
     private final int cooldown;
 
-    private final Map<BombPlayer, Long> cooldowns = new HashMap<>();
-
-    protected AbstractSneakPowerupJob(Bomberman plugin, PowerupEffect effect, int cooldown) {
-        super(plugin, effect);
+    protected AbstractSneakPowerupJob(RunningHeartbeat heartbeat, PowerupEffect effect, Particle auraParticle, int cooldown) {
+        super(heartbeat, effect, auraParticle);
 
         this.cooldown = cooldown;
     }
 
     private boolean isCooldown(BombPlayer player) {
-        long lastUsed = this.cooldowns.getOrDefault(player, 0L);
-        long timeSinceLastUse = System.currentTimeMillis() - lastUsed;
-        return timeSinceLastUse < this.cooldown * 1000L;
+        return player.getPowerUp().calculateCooldownRemaining() > 0;
     }
 
     abstract boolean power(BombPlayer player);
@@ -37,7 +32,7 @@ public abstract class AbstractSneakPowerupJob extends AbstractPowerupJob {
         if (player.getPowerupEffect() != this.effect || !player.getPlayer().isSneaking()) return;
         if (this.isCooldown(player)) return;
 
-        if (this.cooldowns.getOrDefault(player, 0L) != System.currentTimeMillis()) return;
+        if (player.getPowerUp().calculateCooldownRemaining() == this.cooldown * 1000L) return;
 
         event.setCancelled(true);
     }
@@ -50,12 +45,12 @@ public abstract class AbstractSneakPowerupJob extends AbstractPowerupJob {
 
         if (player.getPowerupEffect() != this.effect || !player.getPlayer().isSneaking()) return;
         if (this.isCooldown(player)) {
-            player.getPlayer().sendMessage("§cYou are on cooldown for this powerup!");
+            player.getPlayer().sendMessage(BombermanMessages.GAME_PLAYER_COOLDOWN.stringValue(player));
             return;
         }
 
         if (this.power(player)) {
-            this.cooldowns.put(player, System.currentTimeMillis());
+            player.getPowerUp().setCooldownUntil(System.currentTimeMillis() + this.cooldown * 1000L);
         }
     }
 }

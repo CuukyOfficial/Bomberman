@@ -5,6 +5,9 @@ lobby:
   abort: "§7Der start wurde abgebrochen!"
 game:
   start: "§7Das Spiel hat begonnen!"
+  player:
+    death: "§e<player> §7ist gestorben!"
+    cooldown: "§7Du kannst das Power-Up erst in §e<powerUpCooldown> §7Sekunden wieder einsetzen!"
   end:
     win: "§7Gewinner: §e<winner>"
     tie: "§7Das Spiel ist unentschieden!"

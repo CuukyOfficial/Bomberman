@@ -1,6 +1,6 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
-import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.running.RunningHeartbeat;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.Effect;
@@ -12,8 +12,8 @@ import org.bukkit.util.Vector;
 
 public class ShockwavePowerupJob extends AbstractSneakPowerupJob {
 
-    public ShockwavePowerupJob(Bomberman plugin) {
-        super(plugin, PowerupEffect.SHOCKWAVE, 5);
+    public ShockwavePowerupJob(RunningHeartbeat heartbeat) {
+        super(heartbeat, PowerupEffect.SHOCKWAVE, Particle.WHITE_SMOKE, 5);
     }
 
     @Override
@@ -21,11 +21,11 @@ public class ShockwavePowerupJob extends AbstractSneakPowerupJob {
         float strength = player.calculateCharge();
         float radius = 2 + strength * 5;
         double knockback = 0.5 + strength * 0.8;
-        int particleAmount = (int) (10 + strength * 20);
+        int particleAmount = (int) (5 + strength * 15);
 
         // Effects
         player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
-        player.getPlayer().getWorld().spawnParticle(Particle.EXPLOSION, player.getPlayer().getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);
+        player.getPlayer().getWorld().spawnParticle(Particle.WHITE_SMOKE, player.getPlayer().getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);
         boolean hit = false;
 
         for (Entity entity : player.getPlayer().getNearbyEntities(radius, radius, radius)) {

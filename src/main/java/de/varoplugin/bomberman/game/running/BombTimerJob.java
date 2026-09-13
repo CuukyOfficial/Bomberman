@@ -16,7 +16,8 @@ public class BombTimerJob extends AbstractStateTimerJob {
     @Override
     public void run() {
         this.plugin.getAlive().forEach(player -> {
-            int time = player.getBombs().map(Bomb::getRemainingSeconds).min(Comparator.naturalOrder()).orElse(0);
+            int time = player.getBombs().map(Bomb::getRemainingSeconds).map(i -> i + 1)
+                    .min(Comparator.naturalOrder()).orElse(0);
             player.getPlayer().setLevel(time);
 
             player.getBombs().map(Bomb::getPrimed).forEach(tntEntity ->

@@ -14,7 +14,8 @@ public abstract class BombermanEvent extends AbstractStateListenerJob {
         this.name = name;
     }
 
-    public void run(int countdown) {}
+    public void run(int countdown) {
+    }
 
     @Override
     public void start() {

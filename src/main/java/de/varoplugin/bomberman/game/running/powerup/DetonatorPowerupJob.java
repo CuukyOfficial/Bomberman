@@ -1,10 +1,11 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
-import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.running.RunningHeartbeat;
 import de.varoplugin.bomberman.game.running.event.PlayerThrowBombEvent;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.FluidCollisionMode;
+import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -16,8 +17,8 @@ import java.util.Set;
 
 public class DetonatorPowerupJob extends AbstractSneakPowerupJob {
 
-    protected DetonatorPowerupJob(Bomberman plugin) {
-        super(plugin, PowerupEffect.DETONATOR, 6);
+    protected DetonatorPowerupJob(RunningHeartbeat heartbeat) {
+        super(heartbeat, PowerupEffect.DETONATOR, Particle.DRIPPING_LAVA, 6);
     }
 
     @EventHandler

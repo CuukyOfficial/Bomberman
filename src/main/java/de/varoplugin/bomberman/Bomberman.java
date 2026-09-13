@@ -24,8 +24,8 @@ import java.util.stream.Stream;
 
 public class Bomberman extends JavaPlugin {
 
-    private StateHeartbeat heartbeat;
     private final HashMap<Player, BombPlayer> players = new HashMap<>();
+    private StateHeartbeat heartbeat;
 
     @Override
     public void onEnable() {

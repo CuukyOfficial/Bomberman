@@ -15,12 +15,12 @@ public class BombermanStateSwitchEvent extends Event {
         this.state = state;
     }
 
-    public GameState getState() {
-        return state;
-    }
-
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
+    }
+
+    public GameState getState() {
+        return state;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.game.running.event;
 
 import de.varoplugin.bomberman.model.BombPlayer;
+import de.varoplugin.bomberman.model.PowerUp;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -11,11 +12,11 @@ public class PlayerPowerupChangeEvent extends Event {
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
     private final BombPlayer player;
-    private final PowerupEffect effect;
+    private final PowerUp powerUp;
 
-    public PlayerPowerupChangeEvent(BombPlayer player, PowerupEffect effect) {
+    public PlayerPowerupChangeEvent(BombPlayer player, PowerUp powerUp) {
         this.player = player;
-        this.effect = effect;
+        this.powerUp = powerUp;
     }
 
     public static HandlerList getHandlerList() {
@@ -27,12 +28,11 @@ public class PlayerPowerupChangeEvent extends Event {
     }
 
     public PowerupEffect getEffect() {
-        return effect;
+        return powerUp != null ? powerUp.getEffect() : null;
     }
 
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLER_LIST;
     }
-
 }
