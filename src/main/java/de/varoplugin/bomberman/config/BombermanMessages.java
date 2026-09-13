@@ -25,6 +25,24 @@ public class BombermanMessages {
     private static final StandaloneSlams SLAMS = StandaloneSlams.of("de");
 
     private static final PlaceholderResolver PLACEHOLDERS;
+    static {
+        PlaceholderResolver.Builder builder = PlaceholderResolver.builder().builtIn();
+        BukkitPlaceholders.addBuiltIn(builder);
+        builder.variable("num_players", Bukkit.getOnlinePlayers()::size)
+                .contextual("num_alive", Bomberman.class, (plugin) -> plugin.getAlive().count())
+                .contextual("winner", Bomberman.class, (plugin) -> plugin.getAlive().map(player -> player.getPlayer().getName()).collect(Collectors.joining(", ")))
+                .variable("cooldown", () -> BombermanConfig.TNT_DELAY.getValue() / 20)
+                .contextual("event", RunningHeartbeat.class, (beat) -> beat.getEvent() == null ? "-" : beat.getEvent().getName())
+                .contextual("power_up", BombPlayer.class, (player) -> player.getPowerupEffect() == null ? "-" : player.getPowerupEffect().toString())
+                .contextual("min", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() / 60))
+                .contextual("sec", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() % 60))
+                .contextual("lobby_countdown", StartingHeartbeat.class, StartingHeartbeat::getCountdown)
+                .contextual("shutdown_countdown", EndingHeartbeat.class, EndingHeartbeat::getCountdown)
+                .contextual("powerUpCooldown", BombPlayer.class, (player) -> player.getPowerUp() == null ? 0 : (int) player.getPowerUp().calculateCooldownRemaining() / 1000 + 1)
+                .contextual("player", BombPlayer.class, p -> p.getPlayer().getName());
+        PLACEHOLDERS = builder.build();
+    }
+
     public static final BukkitMessage LOBBY_WAITING = BukkitMessage.of("lobby.waiting", SLAMS, PLACEHOLDERS);
     public static final BukkitMessage LOBBY_STARTING = BukkitMessage.of("lobby.starting", SLAMS, PLACEHOLDERS);
     public static final BukkitMessage LOBBY_COUNTDOWN = BukkitMessage.of("lobby.countdown", SLAMS, PLACEHOLDERS);
@@ -46,24 +64,6 @@ public class BombermanMessages {
     public static final StandaloneMessageArray2d SCOREBOARD_GAME = StandaloneMessageArray2d.of("scoreboard.game", SLAMS, PLACEHOLDERS);
     public static final StandaloneMessageArray2d SCOREBOARD_END = StandaloneMessageArray2d.of("scoreboard.end", SLAMS, PLACEHOLDERS);
     public static final StandaloneMessageArray2d SCOREBOARD_MAINTENANCE = StandaloneMessageArray2d.of("scoreboard.maintenance", SLAMS, PLACEHOLDERS);
-
-    static {
-        PlaceholderResolver.Builder builder = PlaceholderResolver.builder().builtIn();
-        BukkitPlaceholders.addBuiltIn(builder);
-        builder.variable("num_players", Bukkit.getOnlinePlayers()::size)
-                .contextual("num_alive", Bomberman.class, (plugin) -> plugin.getAlive().count())
-                .contextual("winner", Bomberman.class, (plugin) -> plugin.getAlive().map(player -> player.getPlayer().getName()).collect(Collectors.joining(", ")))
-                .variable("cooldown", () -> BombermanConfig.TNT_DELAY.getValue() / 20)
-                .contextual("event", RunningHeartbeat.class, (beat) -> beat.getEvent() == null ? "-" : beat.getEvent().getName())
-                .contextual("power_up", BombPlayer.class, (player) -> player.getPowerupEffect() == null ? "-" : player.getPowerupEffect().toString())
-                .contextual("min", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() / 60))
-                .contextual("sec", RunningHeartbeat.class, (beat) -> String.format("%02d", beat.getCountdown() % 60))
-                .contextual("lobby_countdown", StartingHeartbeat.class, StartingHeartbeat::getCountdown)
-                .contextual("shutdown_countdown", EndingHeartbeat.class, EndingHeartbeat::getCountdown)
-                .contextual("powerUpCooldown", BombPlayer.class, (player) -> player.getPowerUp() == null ? 0 : (int) player.getPowerUp().calculateCooldownRemaining() / 1000 + 1)
-                .contextual("player", BombPlayer.class, p -> p.getPlayer().getName());
-        PLACEHOLDERS = builder.build();
-    }
 
     public static void broadcast(BukkitMessage message, Bomberman plugin) {
         plugin.getPlayers().forEach(player -> {
