@@ -148,7 +148,7 @@ public class PowerupJob extends AbstractStateTimerJob {
             return;
 
         long players = this.plugin.getAlive().count();
-        if (Math.random() < 0.0416f * players && this.spawnedPowerups.size() < players * 2) {
+        if (Math.random() < 0.0300f * players && this.spawnedPowerups.size() < players * 2) {
             this.plugin.getServer().getScheduler().runTask(this.plugin, this::spawnRandomPowerup);
         }
     }

@@ -30,7 +30,7 @@ public class BullyPowerupJob extends AbstractPowerupJob {
 
         // Knockback the victim away from the damager
         var direction = victim.getLocation().toVector().subtract(damager.getLocation().toVector()).normalize();
-        victim.setVelocity(direction.multiply(3 + strength * 3).setY(1.5));
+        victim.setVelocity(direction.multiply(3 + strength * 3).setY(0.5));
 
         // Add extra damage to the victim
         event.setDamage((strength - 1) * 2);
