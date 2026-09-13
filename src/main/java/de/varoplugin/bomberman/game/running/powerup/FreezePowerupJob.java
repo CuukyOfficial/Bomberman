@@ -28,11 +28,10 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
         int particleAmount = (int) (10 + strength * 20);
         int duration = (int) (2 + strength * 5) * 20;
         int amplifier = (int) (1 + strength * 4);
-        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_SNOW_GOLEM_HURT, 1.0f, 1.0f);
         // Effects
         AtomicBoolean hit = new AtomicBoolean(false);
         player.getPlayer().getNearbyEntities(radius, radius, radius).forEach(entity -> {
-            if (!entity.equals(player.getPlayer()) && entity.getVelocity().length() > 0) {
+            if (!entity.equals(player.getPlayer()) && !entity.isInvulnerable()) {
                 entity.setVelocity(new Vector(0, 0, 0));
 
                 entity.getWorld().spawnParticle(Particle.SNOWFLAKE, entity.getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);
@@ -61,6 +60,10 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
                 }
             }
         });
+
+        if (hit.get()) {
+            player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_SNOW_GOLEM_HURT, 1.0f, 1.0f);
+        }
         return hit.get();
     }
 }

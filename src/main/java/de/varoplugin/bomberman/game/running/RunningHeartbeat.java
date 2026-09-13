@@ -35,7 +35,8 @@ public class RunningHeartbeat extends AbstractStateHeartbeat implements StateHea
                 new BombTimerJob(this.plugin),
                 new BombBounceJob(this.plugin),
                 new SpectatorListener(this.plugin),
-                new PowerupJob(this));
+                new PowerupJob(this),
+                new PlayerUiJob(this.plugin));
 
         this.events = new BombermanEvent[]{
                 new ZombieInvasionEvent(this)

@@ -51,9 +51,9 @@ public class PowerupJob extends AbstractStateTimerJob {
     @EventHandler
     public void onEntityDestroyed(EntityRemoveEvent event) {
         if (this.spawnedPowerups.containsKey(event.getEntity())) {
+            this.spawnedPowerups.remove(event.getEntity());
             PowerupItem powerup = this.spawnedPowerups.get(event.getEntity());
             powerup.remove();
-            this.spawnedPowerups.remove(event.getEntity());
         }
     }
 
@@ -108,10 +108,13 @@ public class PowerupJob extends AbstractStateTimerJob {
         if (location == null) return;
 
         String displayName = "§7§k|| §5POWER-UP §7§k||";
-        Hologram hologram = new Hologram(this.plugin, location.clone().add(0, 1.2, 0), displayName);
+        Location hologramLocation = location.clone().add(0, 1.2, 0);
+        Hologram hologram = new Hologram(this.plugin, hologramLocation, displayName);
+        hologram.findNameTag().orElseThrow().setInvulnerable(true);
 
         ItemDisplay display = (ItemDisplay) location.getWorld().spawnEntity(location.clone().add(0, 0.5, 0), EntityType.ITEM_DISPLAY);
         display.setItemStack(new ItemStack(Material.NETHER_STAR));
+        display.setInvulnerable(true);
 
         PowerupItem powerup = new PowerupItem(display, hologram, System.currentTimeMillis());
         this.spawnedPowerups.put(display, powerup);

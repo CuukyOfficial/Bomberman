@@ -14,6 +14,7 @@ public class PlayerThrowBombEvent extends Event implements Cancellable {
     private final Bomb bomb;
     private final ThrowSource throwSource;
     private boolean cancelled = false;
+
     public PlayerThrowBombEvent(BombPlayer player, ThrowSource throwSource, Bomb bomb) {
         this.player = player;
         this.throwSource = throwSource;

@@ -6,6 +6,7 @@ import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -63,6 +64,7 @@ public class DetonatorPowerupJob extends AbstractSneakPowerupJob {
         for (TNTPrimed tntPrimed : toDetonate) {
             tntPrimed.setFuseTicks(1);
         }
+        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_TNT_PRIMED, 1.0f, 1.0f);
         return true;
     }
 }

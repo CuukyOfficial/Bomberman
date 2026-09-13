@@ -24,10 +24,7 @@ public class ShockwavePowerupJob extends AbstractSneakPowerupJob {
         int particleAmount = (int) (5 + strength * 15);
 
         // Effects
-        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
-        player.getPlayer().getWorld().spawnParticle(Particle.WHITE_SMOKE, player.getPlayer().getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);
         boolean hit = false;
-
         for (Entity entity : player.getPlayer().getNearbyEntities(radius, radius, radius)) {
             if (entity.equals(player.getPlayer()) || entity.isInvulnerable()) continue;
 
@@ -43,6 +40,12 @@ public class ShockwavePowerupJob extends AbstractSneakPowerupJob {
                 entity.getWorld().playEffect(entity.getLocation(), Effect.DESTROY_BLOCK, 10);
             }
         }
+
+        if (hit) {
+            player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
+            player.getPlayer().getWorld().spawnParticle(Particle.WHITE_SMOKE, player.getPlayer().getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);
+        }
+
         return hit;
     }
 }

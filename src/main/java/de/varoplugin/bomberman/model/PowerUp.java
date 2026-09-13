@@ -28,6 +28,10 @@ public class PowerUp {
         return Math.max(remainingTime, 0);
     }
 
+    public long getDuration() {
+        return DEFAULT_DURATION;
+    }
+
     public PowerupEffect getEffect() {
         return effect;
     }

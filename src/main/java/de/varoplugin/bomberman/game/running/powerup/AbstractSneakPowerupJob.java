@@ -6,6 +6,7 @@ import de.varoplugin.bomberman.game.running.event.PlayerThrowBombEvent;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerAnimationEvent;
@@ -52,6 +53,8 @@ public abstract class AbstractSneakPowerupJob extends AbstractPowerupJob {
 
         if (this.power(player)) {
             player.getPowerUp().setCooldownUntil(System.currentTimeMillis() + this.cooldown * 1000L);
+        } else {
+            player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 0.5f);
         }
     }
 }
