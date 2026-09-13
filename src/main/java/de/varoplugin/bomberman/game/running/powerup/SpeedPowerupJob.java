@@ -2,7 +2,7 @@ package de.varoplugin.bomberman.game.running.powerup;
 
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.game.AbstractStateListenerJob;
-import de.varoplugin.bomberman.game.running.event.PowerupCollectEvent;
+import de.varoplugin.bomberman.game.running.event.PlayerPowerupChangeEvent;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.event.EventHandler;
 import org.bukkit.potion.PotionEffect;
@@ -15,7 +15,7 @@ public class SpeedPowerupJob extends AbstractStateListenerJob {
     }
 
     @EventHandler
-    public void onPowerupCollected(PowerupCollectEvent event) {
+    public void onPowerupCollected(PlayerPowerupChangeEvent event) {
         if (event.getEffect() != PowerupEffect.SPEED) {
             if (event.getPlayer().getPlayer().hasPotionEffect(PotionEffectType.SPEED)) {
                 event.getPlayer().getPlayer().removePotionEffect(PotionEffectType.SPEED);

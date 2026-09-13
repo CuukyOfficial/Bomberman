@@ -6,14 +6,14 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class PowerupCollectEvent extends Event {
+public class PlayerPowerupChangeEvent extends Event {
 
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
     private final BombPlayer player;
     private final PowerupEffect effect;
 
-    public PowerupCollectEvent(BombPlayer player, PowerupEffect effect) {
+    public PlayerPowerupChangeEvent(BombPlayer player, PowerupEffect effect) {
         this.player = player;
         this.effect = effect;
     }

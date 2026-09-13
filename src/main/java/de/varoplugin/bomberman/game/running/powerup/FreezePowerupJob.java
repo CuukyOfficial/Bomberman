@@ -29,7 +29,7 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
         // Effects
         player.getPlayer().getWorld().spawnParticle(Particle.SNOWFLAKE, player.getPlayer().getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);
         player.getPlayer().getNearbyEntities(radius, radius, radius).forEach(entity -> {
-            if (!entity.equals(player.getPlayer())) {
+            if (!entity.equals(player.getPlayer()) && entity.getVelocity().length() > 0) {
                 entity.setVelocity(new Vector(0, 0, 0));
 
                 entity.getWorld().spawnParticle(Particle.SNOWFLAKE, entity.getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);

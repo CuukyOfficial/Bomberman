@@ -37,6 +37,8 @@ public class BombBounceJob extends AbstractStateTimerJob {
             double currX = currentVelocity.getX();
             double prevZ = prevVelocity.getZ();
             double currZ = currentVelocity.getZ();
+            double prevY = prevVelocity.getY();
+            double currY = currentVelocity.getY();
 
             boolean bounced = false;
             double bounceFactor = 0.65;
@@ -47,6 +49,10 @@ public class BombBounceJob extends AbstractStateTimerJob {
             }
             if (Math.abs(prevZ) > 0.1 && Math.abs(currZ) < 0.01) {
                 currentVelocity.setZ(-prevZ * bounceFactor);
+                bounced = true;
+            }
+            if (Math.abs(prevY) > 0.1 && Math.abs(currY) < 0.01) {
+                currentVelocity.setY(-prevY * bounceFactor);
                 bounced = true;
             }
 

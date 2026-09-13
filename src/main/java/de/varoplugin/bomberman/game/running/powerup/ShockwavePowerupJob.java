@@ -3,11 +3,13 @@ package de.varoplugin.bomberman.game.running.powerup;
 import de.varoplugin.bomberman.Bomberman;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
+import org.bukkit.Effect;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.util.Vector;
 
 public class ShockwavePowerupJob extends AbstractSneakPowerupJob {
@@ -38,10 +40,7 @@ public class ShockwavePowerupJob extends AbstractSneakPowerupJob {
 
             if (entity instanceof LivingEntity livingEntity) {
                 livingEntity.damage(3 + strength * 4, player.getPlayer());
-
-                if (entity instanceof Player target) {
-                    target.playSound(entity.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F);
-                }
+                entity.getWorld().playEffect(entity.getLocation(), Effect.DESTROY_BLOCK, 10);
             }
         }
     }

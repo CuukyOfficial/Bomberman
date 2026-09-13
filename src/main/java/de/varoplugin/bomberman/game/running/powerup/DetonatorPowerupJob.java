@@ -1,12 +1,14 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.running.event.PlayerThrowBombEvent;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.event.EventHandler;
 import org.bukkit.util.RayTraceResult;
 
 import java.util.HashSet;
@@ -16,6 +18,14 @@ public class DetonatorPowerupJob extends AbstractSneakPowerupJob {
 
     protected DetonatorPowerupJob(Bomberman plugin) {
         super(plugin, PowerupEffect.DETONATOR, 6);
+    }
+
+    @EventHandler
+    public void onPlayerThrowBomb(PlayerThrowBombEvent event) {
+        BombPlayer player = event.getPlayer();
+        if (player.getPowerupEffect() != PowerupEffect.DETONATOR || !player.getPlayer().isSneaking()) return;
+
+        event.getBomb().getPrimed().setFuseTicks(80);
     }
 
     @Override
