@@ -1,6 +1,7 @@
 package de.varoplugin.bomberman.game.running.powerup;
 
 import de.varoplugin.bomberman.Bomberman;
+import de.varoplugin.bomberman.game.SynchronousTimerTask;
 import de.varoplugin.bomberman.model.BombPlayer;
 import de.varoplugin.bomberman.model.PowerupEffect;
 import org.bukkit.Particle;
@@ -40,6 +41,10 @@ public class FreezePowerupJob extends AbstractSneakPowerupJob {
                 if (entity instanceof LivingEntity lv) {
                     lv.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, duration, amplifier, false, false, false));
                     hit.set(true);
+
+                    this.plugin.getHeartbeat().startJobs(new SynchronousTimerTask(plugin, 5, () -> {
+                        lv.getWorld().spawnParticle(Particle.SNOWFLAKE, lv.getLocation().add(0, 1, 0), particleAmount, 0.5, 0.5, 0.5, 0);
+                    }));
 
                     if (lv instanceof Player p) {
                         p.playSound(entity.getLocation(), Sound.ENTITY_SNOW_GOLEM_HURT, 1.0f, 1.0f);
